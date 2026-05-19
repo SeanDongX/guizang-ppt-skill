@@ -35,6 +35,16 @@ For Swiss theme changes:
 node scripts/validate-swiss-deck.mjs path/to/index.html
 ```
 
+For Huawei Corporate theme changes:
+
+- Keep the H01-H26 layout system intact unless the change is explicitly discussed.
+- Preserve the red/grey corporate reporting language and top-right brand lockup.
+- Run the Huawei validator:
+
+```bash
+node scripts/validate-huawei-deck.mjs path/to/index.html
+```
+
 For template changes:
 
 - Verify at least one dense text slide.

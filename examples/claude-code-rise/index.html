@@ -1,0 +1,1397 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>洞察：Claude Code 是如何崛起的 · Huawei Corporate Deck</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    /* ============ Huawei corporate theme (default: classic red) ============
+       Switch theme: copy one :root block from references/themes-huawei.md and
+       replace the variables in this section only. */
+    --paper:#f7f8fa;
+    --paper-rgb:247,248,250;
+    --card:#ffffff;
+    --ink:#22252b;
+    --ink-rgb:34,37,43;
+    --muted:#6f7680;
+    --line:#dfe3e8;
+    --line-strong:#c7ccd4;
+    --brand-red:#c7000b;
+    --brand-red-rgb:199,0,11;
+    --brand-red-dark:#990008;
+    --brand-red-soft:#f5e5e7;
+    --brand-black:#111111;
+    --brand-grey:#f0f2f5;
+    --shadow:0 18px 46px rgba(15,23,42,.12);
+    --shadow-soft:0 10px 26px rgba(15,23,42,.10);
+
+    --sans:"Inter","Noto Sans SC","Microsoft YaHei UI",Arial,sans-serif;
+    --sans-zh:"Noto Sans SC","Microsoft YaHei UI",Arial,sans-serif;
+    --mono:"JetBrains Mono","SFMono-Regular",Consolas,monospace;
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{width:100%;height:100%;overflow:hidden}
+  body{
+    font-family:var(--sans);
+    color:var(--ink);
+    background:var(--paper);
+    -webkit-font-smoothing:antialiased;
+    text-rendering:geometricPrecision;
+  }
+  body.low-power *,body.low-power *::before,body.low-power *::after{
+    animation:none!important;
+    transition:none!important;
+    scroll-behavior:auto!important;
+  }
+
+  #deck{
+    display:flex;
+    width:100vw;
+    height:100vh;
+    transition:transform .72s cubic-bezier(.22,1,.36,1);
+  }
+  body.low-power #deck{transition:none!important}
+
+  .slide{
+    position:relative;
+    flex:0 0 100vw;
+    width:100vw;
+    height:100vh;
+    padding:7.2vh 7vw 7vh;
+    overflow:hidden;
+    background:
+      linear-gradient(180deg,rgba(255,255,255,.94),rgba(247,248,250,.96)),
+      radial-gradient(circle at 78% 12%,rgba(var(--brand-red-rgb),.08),transparent 22vw),
+      radial-gradient(circle at 12% 88%,rgba(17,17,17,.045),transparent 28vw);
+  }
+  .slide::before,
+  .slide::after{
+    content:"";
+    position:absolute;
+    pointer-events:none;
+    border-radius:999px;
+    z-index:0;
+  }
+  .slide::before{
+    width:13vw;
+    height:13vw;
+    right:6vw;
+    top:10vh;
+    background:linear-gradient(145deg,#fff,rgba(223,227,232,.95));
+    box-shadow:inset -12px -12px 22px rgba(255,255,255,.9),inset 10px 10px 26px rgba(111,118,128,.14),0 14px 28px rgba(15,23,42,.08);
+    opacity:.32;
+  }
+  .slide::after{
+    width:2.6vw;
+    height:2.6vw;
+    left:6.3vw;
+    bottom:8vh;
+    background:var(--brand-red);
+    box-shadow:13vw -72vh 0 -1.4vw rgba(var(--brand-red-rgb),.9),73vw -6vh 0 -1vw rgba(var(--brand-red-rgb),.85),82vw -78vh 0 -1.1vw rgba(var(--brand-red-rgb),.9);
+    opacity:.18;
+  }
+  .slide > *{position:relative;z-index:1}
+
+  .slide.dark{
+    color:#fff;
+    background:
+      linear-gradient(135deg,var(--brand-red-dark),var(--brand-red) 54%,#e34034),
+      radial-gradient(circle at 82% 18%,rgba(255,255,255,.22),transparent 22vw);
+  }
+  .slide.dark::before{
+    background:rgba(255,255,255,.14);
+    box-shadow:inset -10px -10px 18px rgba(255,255,255,.18),inset 10px 10px 26px rgba(0,0,0,.14);
+    opacity:.55;
+  }
+  .slide.dark::after{background:#fff;box-shadow:14vw -66vh 0 -1.5vw rgba(255,255,255,.72),72vw -7vh 0 -1vw rgba(255,255,255,.58);opacity:.24}
+
+  .brand-lockup{
+    position:absolute;
+    right:6.4vw;
+    top:4.6vh;
+    display:flex;
+    align-items:center;
+    gap:.58vw;
+    color:var(--brand-black);
+    font-weight:800;
+    letter-spacing:.01em;
+    font-size:1.08vw;
+    z-index:3;
+  }
+  .dark .brand-lockup{color:#fff}
+  .brand-mark{
+    width:1.62vw;
+    height:1.62vw;
+    flex:none;
+    color:var(--brand-red);
+    background:currentColor;
+    -webkit-mask:url("data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMjQgMjQiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTMuNjcgNi4xNFMxLjgyIDcuOTEgMS43MiA5Ljc4di4zNWMuMDggMS41MSAxLjIyIDIuNCAxLjIyIDIuNCAxLjgzIDEuNzkgNi4yNiA0LjA0IDcuMyA0LjU1IDAgMCAuMDYuMDMuMS0uMDFsLjAyLS4wNHYtLjA0QzcuNTIgMTAuOCAzLjY3IDYuMTQgMy42NyA2LjE0ek05LjY1IDE4LjZjLS4wMi0uMDgtLjEtLjA4LS4xLS4wOGwtNy4zOC4yNmMuOCAxLjQzIDIuMTUgMi41MyAzLjU2IDIuMi45Ni0uMjUgMy4xNi0xLjc4IDMuODgtMi4zLjA2LS4wNS4wNC0uMDkuMDQtLjA5em0uMDgtLjc4QzYuNDkgMTUuNjMuMjEgMTIuMjguMjEgMTIuMjhjLS4xNS40Ni0uMi45LS4yMSAxLjN2LjA3YzAgMS4wNy40IDEuODIuNCAxLjgyLjggMS42OSAyLjM0IDIuMiAyLjM0IDIuMi43LjMgMS40LjMxIDEuNC4zMS4xMi4wMiA0LjQgMCA1LjU0IDAgLjA1IDAgLjA4LS4wNS4wOC0uMDV2LS4wNmMwLS4wMy0uMDMtLjA1LS4wMy0uMDV6TTkuMDYgMy4xOWEzLjQyIDMuNDIgMCAwMC0yLjU3IDMuMTV2LjQxYy4wMy42LjE2IDEuMDUuMTYgMS4wNS42NiAyLjkgMy44NiA3LjY1IDQuNTUgOC42NS4wNS4wNS4xLjAzLjEuMDNhLjEuMSAwIDAwLjA2LS4xYzEuMDYtMTAuNi0xLjExLTEzLjQyLTEuMTEtMTMuNDItLjMyLjAyLTEuMTkuMjMtMS4xOS4yM3ptOC4yOTkgMi4yN3MtLjQ5LTEuOC0yLjQ0LTIuMjhjMCAwLS41Ny0uMTQtMS4xNy0uMjIgMCAwLTIuMTggMi44MS0xLjEyIDEzLjQzLjAxLjA3LjA2LjA4LjA2LjA4LjA3LjAzLjEtLjAzLjEtLjAzLjcyLTEuMDMgMy45LTUuNzYgNC41NS04LjY0IDAgMCAuMzYtMS40LjAyLTIuMzR6bS0yLjkyIDEzLjA3cy0uMDcgMC0uMDkuMDVjMCAwLS4wMS4wNy4wMy4xLjcuNTEgMi44NSAyIDMuODggMi4zIDAgMCAuMTYuMDUuNDMuMDZoLjE0Yy42OS0uMDIgMS45LS4zNyAzLTIuMjZsLTcuNC0uMjV6bTcuODMtOC40MWMuMTQtMi4wNi0xLjk0LTMuOTctMS45NC0zLjk4IDAgMC0zLjg1IDQuNjYtNi42NyAxMC44IDAgMC0uMDMuMDguMDIuMTNsLjA0LjAxaC4wNmMxLjA2LS41MyA1LjQ2LTIuNzcgNy4yOC00LjU0IDAgMCAxLjE1LS45MyAxLjIxLTIuNDJ6bTEuNTIgMi4xNHMtNi4yOCAzLjM3LTkuNTIgNS41NWMwIDAtLjA1LjA0LS4wMy4xMSAwIDAgLjAzLjA2LjA3LjA2IDEuMTYgMCA1LjU2IDAgNS42Ny0uMDIgMCAwIC41Ny0uMDIgMS4yNy0uMjkgMCAwIDEuNTYtLjUgMi4zNy0yLjI3IDAgMCAuNzMtMS40NS4xNy0zLjE0eiIvPjwvc3ZnPg==") center/contain no-repeat;
+    mask:url("data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMjQgMjQiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTMuNjcgNi4xNFMxLjgyIDcuOTEgMS43MiA5Ljc4di4zNWMuMDggMS41MSAxLjIyIDIuNCAxLjIyIDIuNCAxLjgzIDEuNzkgNi4yNiA0LjA0IDcuMyA0LjU1IDAgMCAuMDYuMDMuMS0uMDFsLjAyLS4wNHYtLjA0QzcuNTIgMTAuOCAzLjY3IDYuMTQgMy42NyA2LjE0ek05LjY1IDE4LjZjLS4wMi0uMDgtLjEtLjA4LS4xLS4wOGwtNy4zOC4yNmMuOCAxLjQzIDIuMTUgMi41MyAzLjU2IDIuMi45Ni0uMjUgMy4xNi0xLjc4IDMuODgtMi4zLjA2LS4wNS4wNC0uMDkuMDQtLjA5em0uMDgtLjc4QzYuNDkgMTUuNjMuMjEgMTIuMjguMjEgMTIuMjhjLS4xNS40Ni0uMi45LS4yMSAxLjN2LjA3YzAgMS4wNy40IDEuODIuNCAxLjgyLjggMS42OSAyLjM0IDIuMiAyLjM0IDIuMi43LjMgMS40LjMxIDEuNC4zMS4xMi4wMiA0LjQgMCA1LjU0IDAgLjA1IDAgLjA4LS4wNS4wOC0uMDV2LS4wNmMwLS4wMy0uMDMtLjA1LS4wMy0uMDV6TTkuMDYgMy4xOWEzLjQyIDMuNDIgMCAwMC0yLjU3IDMuMTV2LjQxYy4wMy42LjE2IDEuMDUuMTYgMS4wNS42NiAyLjkgMy44NiA3LjY1IDQuNTUgOC42NS4wNS4wNS4xLjAzLjEuMDNhLjEuMSAwIDAwLjA2LS4xYzEuMDYtMTAuNi0xLjExLTEzLjQyLTEuMTEtMTMuNDItLjMyLjAyLTEuMTkuMjMtMS4xOS4yM3ptOC4yOTkgMi4yN3MtLjQ5LTEuOC0yLjQ0LTIuMjhjMCAwLS41Ny0uMTQtMS4xNy0uMjIgMCAwLTIuMTggMi44MS0xLjEyIDEzLjQzLjAxLjA3LjA2LjA4LjA2LjA4LjA3LjAzLjEtLjAzLjEtLjAzLjcyLTEuMDMgMy45LTUuNzYgNC41NS04LjY0IDAgMCAuMzYtMS40LjAyLTIuMzR6bS0yLjkyIDEzLjA3cy0uMDcgMC0uMDkuMDVjMCAwLS4wMS4wNy4wMy4xLjcuNTEgMi44NSAyIDMuODggMi4zIDAgMCAuMTYuMDUuNDMuMDZoLjE0Yy42OS0uMDIgMS45LS4zNyAzLTIuMjZsLTcuNC0uMjV6bTcuODMtOC40MWMuMTQtMi4wNi0xLjk0LTMuOTctMS45NC0zLjk4IDAgMC0zLjg1IDQuNjYtNi42NyAxMC44IDAgMC0uMDMuMDguMDIuMTNsLjA0LjAxaC4wNmMxLjA2LS41MyA1LjQ2LTIuNzcgNy4yOC00LjU0IDAgMCAxLjE1LS45MyAxLjIxLTIuNDJ6bTEuNTIgMi4xNHMtNi4yOCAzLjM3LTkuNTIgNS41NWMwIDAtLjA1LjA0LS4wMy4xMSAwIDAgLjAzLjA2LjA3LjA2IDEuMTYgMCA1LjU2IDAgNS42Ny0uMDIgMCAwIC41Ny0uMDIgMS4yNy0uMjkgMCAwIDEuNTYtLjUgMi4zNy0yLjI3IDAgMCAuNzMtMS40NS4xNy0zLjE0eiIvPjwvc3ZnPg==") center/contain no-repeat;
+  }
+  .dark .brand-mark{color:#fff}
+
+  .chrome{
+    position:absolute;
+    left:6.4vw;
+    right:6.4vw;
+    top:4.6vh;
+    min-height:3.2vh;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    border-bottom:1px solid var(--line);
+    padding-bottom:1.1vh;
+    color:var(--muted);
+    font-size:.78vw;
+    letter-spacing:.02em;
+    z-index:2;
+  }
+  .dark .chrome{border-color:rgba(255,255,255,.28);color:rgba(255,255,255,.78)}
+  .chrome .l{
+    display:flex;
+    align-items:center;
+    gap:.72vw;
+    font-weight:600;
+    color:var(--ink);
+  }
+  .dark .chrome .l{color:#fff}
+  .chrome .square{
+    width:.9vw;
+    height:.9vw;
+    background:var(--brand-red);
+    box-shadow:-.38vw -.38vw 0 0 rgba(var(--brand-red-rgb),.16);
+    flex:none;
+  }
+  .dark .chrome .square{background:#fff;box-shadow:-.38vw -.38vw 0 0 rgba(255,255,255,.22)}
+
+  .kicker{
+    font-family:var(--mono);
+    font-size:.78vw;
+    line-height:1;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+    color:var(--brand-red);
+    font-weight:600;
+  }
+  .dark .kicker{color:rgba(255,255,255,.82)}
+  .h-hero{
+    font-family:var(--sans-zh);
+    font-size:min(5.8vw,10.3vh);
+    line-height:1.02;
+    letter-spacing:0;
+    font-weight:900;
+  }
+  .h-xl{
+    font-family:var(--sans-zh);
+    font-size:min(4vw,7.4vh);
+    line-height:1.08;
+    font-weight:800;
+    letter-spacing:0;
+  }
+  .h-md{
+    font-family:var(--sans-zh);
+    font-size:min(2.1vw,4.1vh);
+    line-height:1.2;
+    font-weight:800;
+  }
+  .lead{
+    font-size:1.34vw;
+    line-height:1.68;
+    color:var(--muted);
+    font-weight:400;
+  }
+  .dark .lead{color:rgba(255,255,255,.84)}
+  .body-copy{
+    font-size:1.1vw;
+    line-height:1.78;
+    color:#444b55;
+  }
+  .dark .body-copy{color:rgba(255,255,255,.78)}
+  .meta{
+    font-family:var(--mono);
+    font-size:.76vw;
+    color:var(--muted);
+    letter-spacing:.04em;
+  }
+
+  .red-rule{height:.52vh;background:var(--brand-red);width:100%}
+  .hairline{height:1px;background:var(--line);width:100%}
+  .dark .hairline{background:rgba(255,255,255,.22)}
+
+  .red-panel{
+    background:linear-gradient(90deg,var(--brand-red),#ef4a3d);
+    color:#fff;
+    padding:4.2vh 3.4vw;
+    min-height:32vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    box-shadow:var(--shadow-soft);
+  }
+  .red-panel .en{
+    font-family:var(--mono);
+    border:1px solid rgba(255,255,255,.42);
+    color:rgba(255,255,255,.9);
+    padding:.5vh .72vw;
+    width:max-content;
+    font-size:.86vw;
+    letter-spacing:.08em;
+  }
+
+  .cover-shell{
+    height:100%;
+    display:grid;
+    grid-template-columns:1.05fr .95fr;
+    align-items:center;
+    gap:5vw;
+  }
+  .cover-badge{
+    width:10.4vw;
+    height:10.4vw;
+    border-radius:999px;
+    background:linear-gradient(145deg,#fff,#e9edf2);
+    box-shadow:inset -16px -16px 28px rgba(255,255,255,.95),inset 12px 12px 24px rgba(111,118,128,.14),0 22px 46px rgba(15,23,42,.14);
+    display:grid;
+    place-items:center;
+    margin-bottom:3.4vh;
+  }
+  .cover-badge .brand-mark{
+    width:5.8vw;
+    height:5.8vw;
+    color:var(--brand-red);
+  }
+  .cover-title-wrap{display:flex;flex-direction:column;gap:2.6vh}
+  .cover-subtitle{max-width:46ch}
+  .cover-wave{
+    position:absolute;
+    left:0;
+    right:0;
+    bottom:0;
+    height:19vh;
+    background:
+      linear-gradient(8deg,var(--brand-red) 0 45%,transparent 46%),
+      linear-gradient(6deg,rgba(17,17,17,.14) 0 51%,transparent 52%);
+    opacity:.96;
+  }
+  .cover-meta{
+    position:absolute;
+    left:7vw;
+    bottom:5vh;
+    color:#fff;
+    display:grid;
+    gap:.86vh;
+    font-size:.88vw;
+    z-index:2;
+  }
+  .cover-visual{
+    min-height:48vh;
+    position:relative;
+  }
+  .orb{
+    position:absolute;
+    border-radius:50%;
+    background:linear-gradient(145deg,#fff,#e6eaef);
+    box-shadow:inset -10px -10px 20px rgba(255,255,255,.95),inset 8px 8px 20px rgba(111,118,128,.18),0 16px 28px rgba(15,23,42,.10);
+  }
+  .orb.red{background:linear-gradient(145deg,#f83230,var(--brand-red));box-shadow:0 12px 24px rgba(var(--brand-red-rgb),.26)}
+
+  .agenda-layout{
+    height:100%;
+    display:grid;
+    grid-template-columns:.72fr 1.28fr;
+    gap:5vw;
+    align-items:center;
+  }
+  .agenda-list{display:flex;flex-direction:column;gap:1.25vh}
+  .agenda-item{
+    display:grid;
+    grid-template-columns:3.6vw 1fr;
+    align-items:center;
+    min-height:6.2vh;
+    background:#e6e9ed;
+    color:#505965;
+  }
+  .agenda-item .idx{
+    height:100%;
+    display:grid;
+    place-items:center;
+    background:var(--brand-red);
+    color:#fff;
+    font-family:var(--mono);
+    font-weight:700;
+  }
+  .agenda-item.active{background:#fff;box-shadow:var(--shadow-soft);color:var(--ink)}
+  .agenda-item.active::before{
+    content:"";
+    width:0;
+    height:0;
+    border-top:.72vw solid transparent;
+    border-bottom:.72vw solid transparent;
+    border-left:1.05vw solid var(--brand-red);
+    margin-left:-2.1vw;
+    grid-row:1;
+    grid-column:1;
+  }
+  .agenda-item .txt{padding:0 1.25vw;font-size:1.02vw;font-weight:700}
+
+  .section-layout{
+    height:100%;
+    display:grid;
+    grid-template-columns:.82fr 1.18fr;
+    gap:4.5vw;
+    align-items:center;
+  }
+  .section-no{
+    width:8vw;
+    height:8vw;
+    border-radius:999px;
+    background:#fff;
+    box-shadow:var(--shadow);
+    display:grid;
+    place-items:center;
+    color:var(--brand-red);
+    font-family:var(--mono);
+    font-size:2.2vw;
+    font-weight:800;
+    margin-bottom:2.6vh;
+  }
+
+  .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:3vw}
+  .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:2vw}
+  .grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:1.4vw}
+  .grid-12{display:grid;grid-template-columns:repeat(12,1fr);gap:1vw}
+  .span-4{grid-column:span 4}.span-5{grid-column:span 5}.span-6{grid-column:span 6}.span-7{grid-column:span 7}.span-8{grid-column:span 8}
+
+  .content-stack{display:flex;flex-direction:column;gap:2.2vh}
+  .card{
+    background:var(--card);
+    border:1px solid var(--line);
+    box-shadow:var(--shadow-soft);
+    padding:3vh 2vw;
+  }
+  .card.flat{box-shadow:none;background:#fff}
+  .card-title{
+    font-size:1.24vw;
+    line-height:1.28;
+    font-weight:800;
+    color:var(--ink);
+    margin-bottom:1.1vh;
+  }
+  .card-body{font-size:.98vw;line-height:1.62;color:var(--muted)}
+  .num-pill{
+    display:inline-grid;
+    place-items:center;
+    min-width:2.4vw;
+    height:2.4vw;
+    border-radius:999px;
+    background:var(--brand-red);
+    color:#fff;
+    font-family:var(--mono);
+    font-weight:800;
+    margin-bottom:1.4vh;
+  }
+  .icon-disc{
+    width:4.4vw;
+    height:4.4vw;
+    border-radius:999px;
+    background:var(--brand-red);
+    color:#fff;
+    display:grid;
+    place-items:center;
+    margin-bottom:1.5vh;
+    box-shadow:0 14px 28px rgba(var(--brand-red-rgb),.22);
+  }
+  .icon-disc .lucide{width:2vw;height:2vw;stroke-width:1.8}
+
+  .timeline-v{display:grid;grid-template-columns:1fr 3vw 1fr;gap:2vw;align-items:start}
+  .tl-axis{position:relative;min-height:58vh}
+  .tl-axis::before{content:"";position:absolute;left:50%;top:0;bottom:0;width:1px;background:var(--line-strong)}
+  .tl-dot{
+    width:2.6vw;
+    height:2.6vw;
+    border-radius:999px;
+    background:var(--brand-red);
+    color:#fff;
+    display:grid;
+    place-items:center;
+    font-family:var(--mono);
+    font-weight:800;
+    margin:0 auto 6.5vh;
+    position:relative;
+    z-index:1;
+  }
+  .tl-card{min-height:10vh;border-top:3px solid var(--brand-red);padding-top:1.3vh;margin-bottom:5.4vh}
+  .tl-card .year{font-family:var(--mono);color:var(--brand-red);font-weight:800;margin-bottom:.6vh}
+
+  .bar-chart{display:flex;flex-direction:column;gap:1.35vh}
+  .bar-row{display:grid;grid-template-columns:7vw 1fr 4vw;gap:1vw;align-items:center;font-size:.9vw;color:var(--muted)}
+  .bar-track{height:2.2vh;background:#e7eaee;position:relative;overflow:hidden}
+  .bar-fill{height:100%;background:linear-gradient(90deg,var(--brand-red-dark),var(--brand-red));width:var(--v,50%)}
+  .bar-row strong{font-family:var(--mono);color:var(--ink)}
+  .stat-big{font-family:var(--mono);font-size:min(5.2vw,9vh);line-height:1;color:var(--brand-red);font-weight:800}
+
+  .process{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:0;
+    align-items:stretch;
+  }
+  .process-step{
+    position:relative;
+    background:#fff;
+    border:1px solid var(--line);
+    padding:3vh 1.6vw;
+    min-height:30vh;
+  }
+  .process-step:not(:last-child)::after{
+    content:"";
+    position:absolute;
+    right:-1.2vw;
+    top:50%;
+    transform:translateY(-50%);
+    width:0;
+    height:0;
+    border-top:1.5vw solid transparent;
+    border-bottom:1.5vw solid transparent;
+    border-left:1.2vw solid var(--brand-red);
+    z-index:2;
+  }
+
+  .arrow-timeline{
+    --axis-y:50%;
+    --line-left:4%;
+    --line-right:6.4%;
+    --line-h:5.2vh;
+    --head-right:1.5%;
+    --head-w:5vw;
+    --head-h:8vh;
+    position:relative;
+    margin-top:7vh;
+    height:36vh;
+  }
+  .arrow-timeline-line{
+    position:absolute;
+    left:var(--line-left);
+    right:var(--line-right);
+    top:var(--axis-y);
+    height:var(--line-h);
+    background:var(--brand-red);
+    transform:translateY(-50%);
+  }
+  .arrow-timeline-head{
+    position:absolute;
+    right:var(--head-right);
+    top:var(--axis-y);
+    width:var(--head-w);
+    height:var(--head-h);
+    background:var(--brand-red);
+    clip-path:polygon(0 0,100% 50%,0 100%);
+    transform:translateY(-50%);
+  }
+  .arrow-timeline-node{
+    position:absolute;
+    top:var(--axis-y);
+    width:1.8vw;
+    height:1.8vw;
+    border-radius:999px;
+    background:var(--brand-red);
+    box-shadow:0 0 0 .8vw rgba(var(--brand-red-rgb),.10);
+    transform:translate(-50%,-50%);
+    z-index:2;
+  }
+  .arrow-timeline-card{
+    position:absolute;
+    width:18vw;
+    z-index:3;
+  }
+  .arrow-timeline-card.top{top:0}
+  .arrow-timeline-card.bottom{bottom:0}
+
+  .image-frame{
+    background:#fff;
+    border:1px solid var(--line);
+    padding:.7vw;
+    box-shadow:var(--shadow-soft);
+  }
+  .image-frame img{
+    display:block;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+  }
+  .r-16x9{aspect-ratio:16/9}
+  .r-16x10{aspect-ratio:16/10}
+  .r-4x3{aspect-ratio:4/3}
+  .fit-contain img{object-fit:contain;background:#fff}
+  .caption{
+    margin-top:1vh;
+    font-size:.82vw;
+    color:var(--muted);
+    line-height:1.5;
+  }
+
+  .quote-band{
+    background:linear-gradient(90deg,var(--brand-red),var(--brand-red-dark));
+    color:#fff;
+    padding:3.4vh 3vw;
+    font-family:var(--sans-zh);
+    font-size:2.4vw;
+    line-height:1.24;
+    font-weight:900;
+  }
+
+  [data-anim]{
+    opacity:0;
+    transform:translateY(16px);
+    transition:opacity .56s ease,transform .56s cubic-bezier(.22,1,.36,1);
+  }
+  .slide.active [data-anim]{opacity:1;transform:none}
+  .slide.active [data-anim]:nth-child(2){transition-delay:.06s}
+  .slide.active [data-anim]:nth-child(3){transition-delay:.12s}
+  .slide.active [data-anim]:nth-child(4){transition-delay:.18s}
+  body.low-power [data-anim],#overview [data-anim]{opacity:1!important;transform:none!important}
+
+  #hint{
+    position:fixed;
+    right:1.5vw;
+    bottom:1.8vh;
+    z-index:20;
+    color:rgba(34,37,43,.56);
+    font-size:.72vw;
+    font-family:var(--mono);
+    letter-spacing:.02em;
+    user-select:none;
+  }
+  body.low-power #hint{color:var(--brand-red)}
+  .page-no{
+    position:absolute;
+    left:2.2vw;
+    bottom:2.2vh;
+    z-index:4;
+    font-family:var(--mono);
+    font-size:.86vw;
+    line-height:1;
+    letter-spacing:.08em;
+    color:rgba(34,37,43,.42);
+    pointer-events:none;
+  }
+  .dark .page-no{color:rgba(255,255,255,.72)}
+  .hw-cover .page-no{color:rgba(255,255,255,.74)}
+  #nav{
+    position:fixed;
+    left:50%;
+    bottom:2.1vh;
+    transform:translateX(-50%);
+    display:flex;
+    gap:.55vw;
+    z-index:20;
+  }
+  #nav button{
+    width:.55vw;
+    height:.55vw;
+    border:0;
+    border-radius:50%;
+    background:rgba(34,37,43,.2);
+    cursor:pointer;
+    padding:0;
+  }
+  #nav button.active{background:var(--brand-red);transform:scale(1.35)}
+  #overview{
+    position:fixed;
+    inset:0;
+    background:rgba(10,10,10,.88);
+    z-index:30;
+    display:none;
+    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+    gap:18px;
+    padding:24px;
+    overflow:auto;
+  }
+  body.overview #overview{display:grid}
+  .thumb{
+    position:relative;
+    aspect-ratio:16/9;
+    background:#fff;
+    overflow:hidden;
+    cursor:pointer;
+    border:1px solid rgba(255,255,255,.18);
+  }
+  .thumb .slide{
+    transform:scale(.25);
+    transform-origin:top left;
+    pointer-events:none;
+  }
+
+  @media (max-width:900px){
+    .slide{padding:8vh 6vw 8vh}
+    .cover-shell,.agenda-layout,.section-layout,.grid-2{grid-template-columns:1fr;gap:3vh}
+    .grid-3,.grid-4,.process{grid-template-columns:1fr 1fr}
+    .brand-lockup{font-size:2.8vw}
+    .brand-mark{width:3.4vw;height:3.4vw}
+    .h-hero{font-size:12vw}
+    .h-xl{font-size:8.8vw}
+    .lead{font-size:3.5vw}
+    .body-copy,.card-body{font-size:2.8vw}
+    .chrome{font-size:2.2vw}
+    #hint{font-size:2vw}
+    .page-no{font-size:2.2vw;left:3.5vw;bottom:2.8vh}
+  }
+</style>
+</head>
+<body>
+<div id="hint">← → 翻页 · B 静态 · ESC 索引</div>
+
+<div id="deck">
+<!-- ============================================================
+     SLIDES 插入区 · 在此处填充所有 <section class="slide ..."> 页面
+     页面骨架参考 references/layouts-huawei.md
+     主题色配置参考 references/themes-huawei.md
+     ============================================================ -->
+
+<section class="slide hw-cover" data-layout="H01" data-animate="cover">
+  <div class="brand-lockup">
+    <span class="brand-mark" aria-hidden="true"></span>
+    <span>HUAWEI</span>
+  </div>
+
+  <div class="cover-shell">
+    <div class="cover-title-wrap" data-anim>
+      <div class="cover-badge"><span class="brand-mark" aria-hidden="true"></span></div>
+      <div class="kicker">TECHNOLOGY INSIGHT / 2026</div>
+      <h1 class="h-hero">洞察：Claude Code<br>是如何崛起的</h1>
+      <p class="lead cover-subtitle">从命令行研究预览到工程组织级 agentic coding 系统的产品跃迁</p>
+    </div>
+    <div class="cover-visual" aria-hidden="true">
+      <span class="orb" style="width:11vw;height:11vw;left:14%;top:18%"></span>
+      <span class="orb red" style="width:7vw;height:7vw;right:20%;top:31%"></span>
+      <span class="orb" style="width:5vw;height:5vw;left:46%;top:42%"></span>
+      <span class="orb red" style="width:3.1vw;height:3.1vw;right:42%;bottom:27%"></span>
+      <div style="position:absolute;right:7%;bottom:14%;width:25vw;height:14vh;background:#fff;border:1px solid var(--line);box-shadow:var(--shadow-soft);padding:2vh 2vw">
+        <div class="kicker">AGENTIC CODING</div>
+        <div class="card-title" style="margin-top:1.4vh">从 autocomplete 到 autonomous loop</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cover-wave" aria-hidden="true"></div>
+  <div class="cover-meta">
+    <div>范围: 产品机制 / 采用路径 / 工程组织影响</div>
+    <div>日期: 2026-05-19</div>
+  </div>
+</section>
+
+<section class="slide" data-layout="H02" data-animate="agenda">
+  <div class="brand-lockup">
+    <span class="brand-mark" aria-hidden="true"></span>
+    <span>HUAWEI</span>
+  </div>
+
+  <div class="agenda-layout">
+    <div class="red-panel" data-anim>
+      <div class="kicker" style="color:rgba(255,255,255,.72)">CONTENT</div>
+      <h2 class="h-xl" style="margin-top:2vh">目录</h2>
+      <div class="en" style="margin-top:2vh">22 PAGES</div>
+    </div>
+
+    <div class="agenda-list">
+      <div class="agenda-item" data-anim><div class="idx">01</div><div class="txt">核心判断: Claude Code 崛起的本质</div></div>
+      <div class="agenda-item" data-anim><div class="idx">02</div><div class="txt">时间窗口: 从 Sonnet 到 Claude 4</div></div>
+      <div class="agenda-item" data-anim><div class="idx">03</div><div class="txt">产品机制: agentic loop 与工具链贴合</div></div>
+      <div class="agenda-item" data-anim><div class="idx">04</div><div class="txt">采用飞轮: 个人效率、团队扩散、企业治理</div></div>
+      <div class="agenda-item" data-anim><div class="idx">05</div><div class="txt">竞争启示: AI 编程工具的下一阶段</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-layout="H11" data-animate="foreword">
+  <div class="chrome">
+    <div class="l"><span class="square"></span><span>研究口径</span></div>
+    <div></div>
+  </div>
+  <div class="brand-lockup">
+    <span class="brand-mark" aria-hidden="true"></span>
+    <span>HUAWEI</span>
+  </div>
+
+  <div style="padding-top:8vh">
+    <div class="content-stack" data-anim>
+      <div class="kicker">RESEARCH SCOPE</div>
+      <h2 class="h-xl">这不是“又一个代码补全工具”的故事</h2>
+    </div>
+    <div class="card" style="margin-top:4vh;padding:5vh 5vw" data-anim>
+      <p class="body-copy">本报告关注 Claude Code 为什么能快速形成开发者心智,而不是评测“哪个模型写代码分数最高”。判断依据以 Anthropic 官方发布、Claude Code 产品页和官方文档为主,把重点放在产品形态、工作流嵌入、团队采用和治理边界。</p>
+      <p class="body-copy" style="margin-top:2vh">分析口径分三层: 第一,模型能力是否足以支撑多步工程任务;第二,产品入口是否贴近真实开发流程;第三,企业是否能在权限、审计、成本和质量责任上接受它。只有三层同时成立,AI coding 才会从个人尝鲜走向组织级基础设施。</p>
+      <p class="body-copy" style="margin-top:2vh">核心问题: 为什么一个终端里的 agent,能比传统 IDE copilot 更像“工程执行者”？答案不只在模型,也在工具调用、命令执行、上下文管理和验证闭环。</p>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-layout="H26" data-animate="metaphor">
+  <div class="chrome">
+    <div class="l"><span class="square"></span><span>核心判断</span></div>
+    <div></div>
+  </div>
+  <div class="brand-lockup">
+    <span class="brand-mark" aria-hidden="true"></span>
+    <span>HUAWEI</span>
+  </div>
+
+  <div class="grid-12" style="height:100%;align-items:center">
+    <div class="span-7 content-stack" data-anim>
+      <div class="kicker">KEY INSIGHT</div>
+      <h2 class="h-xl">Claude Code 的崛起,来自“任务级代理”替代“行级补全”</h2>
+      <p class="lead">它没有把开发者锁在一个新编辑器里,而是进入开发者已有的 terminal、git、test、CI 和 issue 工作流。价值单位从“建议下一行代码”升级为“交付一个可验证的工程任务”。这也是它崛起的关键:开发者不需要重学一套软件交付系统,只需要把已有工程环境开放给 agent 执行。</p>
+    </div>
+    <div class="span-5" data-anim>
+      <div class="quote-band">从会写代码<br>到会完成工程闭环</div>
+      <div class="grid-2" style="gap:1vw;margin-top:2vh">
+        <div class="card flat"><div class="card-title">Copilot 时代</div><p class="card-body">开发者主导每一步,AI 提供局部建议。价值主要体现在输入速度和局部样板代码生成。</p></div>
+        <div class="card flat"><div class="card-title">Agent 时代</div><p class="card-body">开发者定义目标,AI 搜索、修改、验证并迭代。价值主要体现在减少上下文切换和任务推进成本。</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-layout="H03" data-animate="section">
+  <div class="brand-lockup">
+    <span class="brand-mark" aria-hidden="true"></span>
+    <span>HUAWEI</span>
+  </div>
+  <div class="section-layout">
+    <div data-anim>
+      <div class="section-no">01</div>
+      <h2 class="h-xl">时间窗口</h2>
+    </div>
+    <div class="red-panel" data-anim>
+      <div class="kicker" style="color:rgba(255,255,255,.72)">LAUNCH WINDOW</div>
+      <h3 class="h-md" style="margin-top:2vh">模型能力、终端形态和工程痛点在 2025 年同时对齐</h3>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-layout="H06" data-animate="timeline">
+  <div class="chrome">
+    <div class="l"><span class="square"></span><span>发展时间线</span></div>
+    <div></div>
+  </div>
+  <div class="brand-lockup">
+    <span class="brand-mark" aria-hidden="true"></span>
+    <span>HUAWEI</span>
+  </div>
+
+  <div style="padding-top:8vh">
+    <div class="content-stack" data-anim>
+      <div class="kicker">TIMELINE</div>
+      <h2 class="h-xl">从研究预览到 GA,只用了一个关键产品周期</h2>
+    </div>
+
+    <div class="timeline-v" style="margin-top:5vh">
+      <div>
+        <div class="tl-card" data-anim><div class="year">2024</div><p class="card-body">Claude 3.5 Sonnet 建立开发者偏好,让 Anthropic 在“复杂代码理解”和“少废话执行”上获得早期口碑,为 agentic coding 预热。</p></div>
+        <div class="tl-card" data-anim><div class="year">2025-05</div><p class="card-body">Claude 4 发布,Claude Code 从 research preview 进入 general availability,并把 IDE、GitHub Actions 等入口纳入同一个产品叙事。</p></div>
+      </div>
+      <div class="tl-axis" data-anim>
+        <div class="tl-dot">01</div>
+        <div class="tl-dot">02</div>
+        <div class="tl-dot">03</div>
+      </div>
+      <div>
+        <div class="tl-card" data-anim><div class="year">2025-02</div><p class="card-body">Claude 3.7 Sonnet 与 Claude Code 同时发布,强调混合推理和终端内工程任务委派。此时产品仍是 research preview,但定位已经不是补全,而是“让 Claude 操作你的代码库”。</p></div>
+        <div class="tl-card" data-anim><div class="year">2025-2026</div><p class="card-body">形态扩展到 IDE、Web、Desktop、GitHub Actions、Slack 和 MCP 连接器。Claude Code 从单机 CLI 逐步变成工程协作网络中的执行节点。</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-layout="H18" data-animate="diagonal-roadmap">
+  <div class="chrome">
+    <div class="l"><span class="square"></span><span>代际跃迁</span></div>
+    <div></div>
+  </div>
+  <div class="brand-lockup">
+    <span class="brand-mark" aria-hidden="true"></span>
+    <span>HUAWEI</span>
+  </div>
+
+  <div style="padding-top:8vh">
+    <div class="content-stack" data-anim>
+      <div class="kicker">VALUE UNIT SHIFT</div>
+      <h2 class="h-xl">AI 编程工具的价值单位在上移</h2>
+    </div>
+    <div style="position:relative;height:46vh;margin-top:5vh" data-anim>
+      <div style="position:absolute;left:7%;bottom:14%;right:7%;height:1px;background:var(--line-strong);transform:rotate(-10deg);transform-origin:left center"></div>
+      <div style="position:absolute;left:7%;bottom:9%"><div class="icon-disc"><i data-lucide="text-cursor-input"></i></div><div class="card-title">Autocomplete</div><p class="card-body" style="width:14vw">预测下一行,减少输入成本。</p></div>
+      <div style="position:absolute;left:30%;bottom:20%"><div class="icon-disc"><i data-lucide="message-square-code"></i></div><div class="card-title">Chat with repo</div><p class="card-body" style="width:15vw">解释、问答、局部修改,但仍依赖人类把步骤串起来。</p></div>
+      <div style="position:absolute;left:54%;bottom:33%"><div class="icon-disc"><i data-lucide="terminal"></i></div><div class="card-title">Agent in terminal</div><p class="card-body" style="width:15vw">搜索、编辑、运行命令,能围绕一个目标连续推进。</p></div>
+      <div style="position:absolute;left:77%;bottom:47%"><div class="icon-disc"><i data-lucide="git-pull-request"></i></div><div class="card-title">Workflow automation</div><p class="card-body" style="width:15vw">PR、CI、review 和团队治理接入后,任务结果进入正式交付链路。</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-layout="H05" data-animate="cards">
+  <div class="chrome">
+    <div class="l"><span class="square"></span><span>模型助推</span></div>
+    <div></div>
+  </div>
+  <div class="brand-lockup">
+    <span class="brand-mark" aria-hidden="true"></span>
+    <span>HUAWEI</span>
+  </div>
+
+  <div style="padding-top:8vh">
+    <div class="content-stack" data-anim>
+      <div class="kicker">MODEL TAILWIND</div>
+      <h2 class="h-xl">Claude Code 吃到了“代码 + 推理 + 长任务”的模型红利</h2>
+    </div>
+
+    <div class="grid-3" style="margin-top:6vh">
+      <div class="card" data-anim>
+        <div class="icon-disc"><i data-lucide="brain"></i></div>
+        <div class="card-title">混合推理</div>
+        <p class="card-body">Claude 3.7 Sonnet 把快速响应和 extended thinking 合在一个模型里,更适合复杂工程判断。开发任务往往需要先理解约束,再选择是否重构、补测试或最小修复,这类判断比补全更依赖可控推理。</p>
+      </div>
+      <div class="card" data-anim>
+        <div class="icon-disc"><i data-lucide="code-2"></i></div>
+        <div class="card-title">代码能力</div>
+        <p class="card-body">Anthropic 把 Claude 4 定位为面向 coding、advanced reasoning 和 AI agents 的新一代模型。Claude Code 的 GA 节点与 Claude 4 同步,本质是在模型升级窗口把产品定位从工具扩成工作流入口。</p>
+      </div>
+      <div class="card" data-anim>
+        <div class="icon-disc"><i data-lucide="clock-4"></i></div>
+        <div class="card-title">长任务稳定性</div>
+        <p class="card-body">复杂重构、测试修复和多文件修改需要持续多步推理,这正是 agentic coding 的关键门槛。用户愿意交给 agent 的任务,通常不是写一个函数,而是“把这个问题推进到可 review 的状态”。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-layout="H03" data-animate="section">
+  <div class="brand-lockup">
+    <span class="brand-mark" aria-hidden="true"></span>
+    <span>HUAWEI</span>
+  </div>
+  <div class="section-layout">
+    <div data-anim>
+      <div class="section-no">02</div>
+      <h2 class="h-xl">产品机制</h2>
+    </div>
+    <div class="red-panel" data-anim>
+      <div class="kicker" style="color:rgba(255,255,255,.72)">PRODUCT MECHANISM</div>
+      <h3 class="h-md" style="margin-top:2vh">它不是聊天框,而是带工具、权限和反馈的执行循环</h3>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-layout="H17" data-animate="hub">
+  <div class="chrome">
+    <div class="l"><span class="square"></span><span>Agentic Loop</span></div>
+    <div></div>
+  </div>
+  <div class="brand-lockup">
+    <span class="brand-mark" aria-hidden="true"></span>
+    <span>HUAWEI</span>
+  </div>
+
+  <div style="padding-top:8vh">
+    <div class="content-stack" data-anim>
+      <div class="kicker">OPERATING LOOP</div>
+      <h2 class="h-xl">Claude Code 的产品内核: 上下文、行动、验证三段循环</h2>
+    </div>
+    <div style="position:relative;height:49vh;margin-top:2vh" data-anim>
+      <div style="position:absolute;left:42%;top:30%;width:12vw;height:12vw;border-radius:999px;background:var(--brand-red);color:#fff;display:grid;place-items:center;text-align:center;font-weight:900;box-shadow:var(--shadow)">Claude<br>Code</div>
+      <div class="card flat" style="position:absolute;left:8%;top:7%;width:23vw"><div class="card-title">Gather context</div><p class="card-body">读文件、搜索代码、理解依赖、读取错误输出。上下文不是一次性 prompt,而是在执行过程中动态补齐。</p></div>
+      <div class="card flat" style="position:absolute;right:8%;top:7%;width:23vw"><div class="card-title">Take action</div><p class="card-body">编辑文件、运行命令、创建分支、提交和发起 PR。工具调用让模型从建议者变成执行者。</p></div>
+      <div class="card flat" style="position:absolute;left:8%;bottom:7%;width:23vw"><div class="card-title">Verify result</div><p class="card-body">跑测试、看截图、检查 CI,失败后继续迭代。可验证输出是开发者愿意托付任务的信任基础。</p></div>
+      <div class="card flat" style="position:absolute;right:8%;bottom:7%;width:23vw"><div class="card-title">Human control</div><p class="card-body">用户可中断、改方向、审批命令和决定是否合入。Claude Code 的价值不是消灭人类审查,而是减少到达审查点之前的摩擦。</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-layout="H08" data-animate="process">
+  <div class="chrome">
+    <div class="l"><span class="square"></span><span>工作流贴合</span></div>
+    <div></div>
+  </div>
+  <div class="brand-lockup">
+    <span class="brand-mark" aria-hidden="true"></span>
+    <span>HUAWEI</span>
+  </div>
+
+  <div style="padding-top:8vh">
+    <div class="content-stack" data-anim>
+      <div class="kicker">WHY TERMINAL FIRST</div>
+      <h2 class="h-xl">终端是工程执行的真实入口</h2>
+    </div>
+
+    <div class="process" style="margin-top:7vh">
+      <div class="process-step" data-anim>
+        <div class="num-pill">01</div>
+        <div class="card-title">Codebase</div>
+        <p class="card-body">直接在 repo 内读取结构、搜索上下文和跨文件修改。真实问题经常跨目录、跨配置、跨测试,只看当前文件会失真。</p>
+      </div>
+      <div class="process-step" data-anim>
+        <div class="num-pill">02</div>
+        <div class="card-title">Shell</div>
+        <p class="card-body">能使用项目已有命令,包括 build、test、lint、git 和脚本。越贴近团队现有命令,越少需要重新定义工作流。</p>
+      </div>
+      <div class="process-step" data-anim>
+        <div class="num-pill">03</div>
+        <div class="card-title">Feedback</div>
+        <p class="card-body">错误输出、测试结果、截图和 CI 日志成为下一轮行动依据。反馈越机器可读,agent 的迭代越稳定。</p>
+      </div>
+      <div class="process-step" data-anim>
+        <div class="num-pill">04</div>
+        <div class="card-title">Review</div>
+        <p class="card-body">开发者最后审 diff、审风险、决定是否提交或合入。责任边界清楚,团队才敢把任务规模逐步放大。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-layout="H03" data-animate="section">
+  <div class="brand-lockup">
+    <span class="brand-mark" aria-hidden="true"></span>
+    <span>HUAWEI</span>
+  </div>
+  <div class="section-layout">
+    <div data-anim>
+      <div class="section-no">03</div>
+      <h2 class="h-xl">采用飞轮</h2>
+    </div>
+    <div class="red-panel" data-anim>
+      <div class="kicker" style="color:rgba(255,255,255,.72)">ADOPTION FLYWHEEL</div>
+      <h3 class="h-md" style="margin-top:2vh">先从个人刚需赢得信任,再进入团队流程和企业治理</h3>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-layout="H32" data-animate="kpi-loop">
+  <div class="chrome">
+    <div class="l"><span class="square"></span><span>采用证据</span></div>
+    <div></div>
+  </div>
+  <div class="brand-lockup">
+    <span class="brand-mark" aria-hidden="true"></span>
+    <span>HUAWEI</span>
+  </div>
+
+  <div class="grid-12" style="padding-top:9vh;align-items:center">
+    <div class="span-4 content-stack" data-anim>
+      <div class="kicker">ADOPTION SIGNALS</div>
+      <h2 class="h-md">官方客户案例显示: Claude Code 已进入企业工程流程</h2>
+      <p class="body-copy">这些案例共同指向同一件事:Claude Code 的扩散不是单点效率工具逻辑,而是从个人节省时间,进入团队迁移、事故响应、CI 修复和跨职能数据查询。</p>
+      <p class="caption">数据来自 Anthropic Claude Code product page 的客户案例描述。</p>
+    </div>
+    <div class="span-8" data-anim style="position:relative;height:50vh">
+      <div class="card flat" style="position:absolute;left:8%;top:5%;width:15vw;text-align:center;background:var(--brand-red);color:#fff"><div class="stat-big" style="font-size:2.8vw;color:#fff">1,370</div><p>Stripe engineers</p></div>
+      <div class="card flat" style="position:absolute;right:12%;top:5%;width:15vw;text-align:center;background:#dfe3e8"><div class="stat-big" style="font-size:2.8vw">24d → 5d</div><p>Rakuten delivery</p></div>
+      <div class="card flat" style="position:absolute;left:8%;bottom:5%;width:15vw;text-align:center;background:#dfe3e8"><div class="stat-big" style="font-size:2.8vw">-80%</div><p>Ramp manual ops</p></div>
+      <div class="card flat" style="position:absolute;right:12%;bottom:5%;width:15vw;text-align:center;background:var(--brand-red);color:#fff"><div class="stat-big" style="font-size:2.8vw;color:#fff">3 layers</div><p>Individual / team / enterprise</p></div>
+      <div style="position:absolute;left:37%;top:49%;width:18vw;height:1px;background:var(--line-strong)"></div>
+      <div style="position:absolute;left:50%;top:25%;width:1px;height:24vh;background:var(--line-strong)"></div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-layout="H23" data-animate="gear-process">
+  <div class="chrome">
+    <div class="l"><span class="square"></span><span>增长飞轮</span></div>
+    <div></div>
+  </div>
+  <div class="brand-lockup">
+    <span class="brand-mark" aria-hidden="true"></span>
+    <span>HUAWEI</span>
+  </div>
+
+  <div style="padding-top:8vh">
+    <div class="content-stack" data-anim>
+      <div class="kicker">GROWTH FLYWHEEL</div>
+      <h2 class="h-xl">崛起飞轮: 可验证任务越多,信任越容易积累</h2>
+    </div>
+    <div class="grid-4" style="margin-top:5vh">
+      <div class="card" data-anim>
+        <div class="icon-disc"><i data-lucide="target"></i></div>
+        <div class="card-title">Clear task</div>
+        <p class="card-body">从“帮我解释”转向“修复这个失败测试并提交 PR”。</p>
+      </div>
+      <div class="card" data-anim>
+        <div class="icon-disc"><i data-lucide="check-circle-2"></i></div>
+        <div class="card-title">Verification</div>
+        <p class="card-body">测试、构建、截图和 CI 让结果可验证,降低信任成本。</p>
+      </div>
+      <div class="card" data-anim>
+        <div class="icon-disc"><i data-lucide="repeat-2"></i></div>
+        <div class="card-title">Repeat usage</div>
+        <p class="card-body">低风险重复任务成为高频入口,积累项目记忆和团队习惯。</p>
+      </div>
+      <div class="card" data-anim>
+        <div class="icon-disc"><i data-lucide="building-2"></i></div>
+        <div class="card-title">Enterprise fit</div>
+        <p class="card-body">权限、审查、CI、GitHub Actions 和治理能力支撑组织级采用。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-layout="H20" data-animate="icon-matrix">
+  <div class="chrome">
+    <div class="l"><span class="square"></span><span>生态扩展</span></div>
+    <div></div>
+  </div>
+  <div class="brand-lockup">
+    <span class="brand-mark" aria-hidden="true"></span>
+    <span>HUAWEI</span>
+  </div>
+
+  <div style="padding-top:8vh">
+    <div class="content-stack" data-anim>
+      <div class="kicker">SURFACE EXPANSION</div>
+      <h2 class="h-xl">从终端单点,扩展为多入口工程系统</h2>
+    </div>
+    <div class="grid-4" style="margin-top:5vh">
+      <div class="card" data-anim><div class="icon-disc"><i data-lucide="terminal"></i></div><div class="card-title">Terminal</div><p class="card-body">CLI 是核心执行面。</p></div>
+      <div class="card" data-anim><div class="icon-disc"><i data-lucide="brackets"></i></div><div class="card-title">IDE</div><p class="card-body">VS Code / JetBrains 承接视觉 diff 和编辑上下文。</p></div>
+      <div class="card" data-anim><div class="icon-disc"><i data-lucide="cloud"></i></div><div class="card-title">Web / Desktop</div><p class="card-body">长任务、并行 session 和远程继续。</p></div>
+      <div class="card" data-anim><div class="icon-disc"><i data-lucide="workflow"></i></div><div class="card-title">CI / Chat</div><p class="card-body">GitHub Actions、Slack 和自动 code review。</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-layout="H17" data-animate="hub">
+  <div class="chrome">
+    <div class="l"><span class="square"></span><span>连接能力</span></div>
+    <div></div>
+  </div>
+  <div class="brand-lockup">
+    <span class="brand-mark" aria-hidden="true"></span>
+    <span>HUAWEI</span>
+  </div>
+
+  <div style="padding-top:8vh">
+    <div class="content-stack" data-anim>
+      <div class="kicker">MCP CONNECTIVITY</div>
+      <h2 class="h-xl">MCP 把 Claude Code 从 repo 扩展到企业工具图谱</h2>
+      <p class="body-copy">如果只停留在代码仓库,agent 的任务边界仍然偏窄。MCP 的意义在于把 issue tracker、监控、数据库、设计稿和聊天系统纳入同一个执行上下文。</p>
+    </div>
+    <div style="position:relative;height:46vh;margin-top:3vh" data-anim>
+      <div style="position:absolute;left:43%;top:28%;width:11vw;height:11vw;border-radius:999px;background:var(--brand-red);color:#fff;display:grid;place-items:center;text-align:center;font-weight:900;box-shadow:var(--shadow)">MCP<br>Tool Graph</div>
+      <div class="card flat" style="position:absolute;left:9%;top:5%;width:21vw"><div class="card-title">Issue / PR / CI</div><p class="card-body">让 agent 看到任务来源、代码变更和流水线反馈。</p></div>
+      <div class="card flat" style="position:absolute;right:9%;top:5%;width:21vw"><div class="card-title">Slack / Docs / Figma</div><p class="card-body">把沟通、文档和设计上下文接入开发判断。</p></div>
+      <div class="card flat" style="position:absolute;left:16%;bottom:4%;width:21vw"><div class="card-title">Database / Monitoring</div><p class="card-body">让排障、数据查询和线上指标成为可调用工具。</p></div>
+      <div class="card flat" style="position:absolute;right:16%;bottom:4%;width:21vw"><div class="card-title">Enterprise Boundary</div><p class="card-body">连接越多,越需要权限、审计和最小授权策略。</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-layout="H22" data-animate="staircase">
+  <div class="chrome">
+    <div class="l"><span class="square"></span><span>采用成熟度</span></div>
+    <div></div>
+  </div>
+  <div class="brand-lockup">
+    <span class="brand-mark" aria-hidden="true"></span>
+    <span>HUAWEI</span>
+  </div>
+
+  <div style="padding-top:8vh">
+    <div class="content-stack" data-anim>
+      <div class="kicker">MATURITY LADDER</div>
+      <h2 class="h-xl">组织采用通常会经历四级成熟度</h2>
+    </div>
+    <div style="height:46vh;margin-top:5vh;display:flex;align-items:end;gap:1.2vw" data-anim>
+      <div class="card flat" style="height:38%;width:21%"><div class="num-pill">01</div><div class="card-title">个人提效</div><p class="card-body">解释代码、写测试、修 bug。</p></div>
+      <div class="card flat" style="height:52%;width:24%"><div class="num-pill">02</div><div class="card-title">团队习惯</div><p class="card-body">CLAUDE.md、review 清单、统一命令。</p></div>
+      <div class="card flat" style="height:68%;width:25%"><div class="num-pill">03</div><div class="card-title">流程自动化</div><p class="card-body">CI 修复、issue 到 PR、定期维护。</p></div>
+      <div class="card flat" style="height:84%;width:28%"><div class="num-pill">04</div><div class="card-title">治理平台</div><p class="card-body">权限边界、审计、成本、安全和企业集成。</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="slide dark" data-layout="H34" data-animate="swot">
+  <div class="chrome">
+    <div class="l"><span class="square"></span><span>护城河判断</span></div>
+    <div></div>
+  </div>
+  <div class="brand-lockup">
+    <span class="brand-mark" aria-hidden="true"></span>
+    <span>HUAWEI</span>
+  </div>
+
+  <div style="padding-top:8vh">
+    <div class="content-stack" data-anim>
+      <div class="kicker">MOAT / SWOT</div>
+      <h2 class="h-xl">真正的护城河不是 CLI,而是可信执行闭环</h2>
+      <p class="lead">命令行入口可以复制,但“读懂项目、正确行动、可验证、可控、可审计”的工程闭环很难一次做全。</p>
+    </div>
+    <div class="grid-4" style="margin-top:5vh">
+      <div class="card flat" data-anim style="background:rgba(255,255,255,.10);color:#fff"><div class="card-title" style="color:#fff">S / Strength</div><p style="line-height:1.6">模型能力、终端位置、工具调用和验证反馈组合在一起,让 Claude Code 更像执行系统。</p></div>
+      <div class="card flat" data-anim style="background:rgba(255,255,255,.10);color:#fff"><div class="card-title" style="color:#fff">W / Weakness</div><p style="line-height:1.6">长上下文管理、权限审批、成本可控性和误操作恢复仍然需要工程纪律。</p></div>
+      <div class="card flat" data-anim style="background:rgba(255,255,255,.10);color:#fff"><div class="card-title" style="color:#fff">O / Opportunity</div><p style="line-height:1.6">CI 修复、issue 到 PR、迁移重构和跨工具数据查询,都可能成为高频团队入口。</p></div>
+      <div class="card flat" data-anim style="background:rgba(255,255,255,.10);color:#fff"><div class="card-title" style="color:#fff">T / Threat</div><p style="line-height:1.6">Cursor、GitHub、OpenAI 与本地 IDE 生态都能复制入口,竞争会转向执行闭环质量。</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-layout="H24" data-animate="arrow-timeline">
+  <div class="chrome">
+    <div class="l"><span class="square"></span><span>最佳实践</span></div>
+    <div></div>
+  </div>
+  <div class="brand-lockup">
+    <span class="brand-mark" aria-hidden="true"></span>
+    <span>HUAWEI</span>
+  </div>
+
+  <div style="padding-top:8vh">
+    <div class="content-stack" data-anim>
+      <div class="kicker">OPERATING DISCIPLINE</div>
+      <h2 class="h-xl">工具崛起以后,团队需要新的使用纪律</h2>
+    </div>
+    <div class="arrow-timeline" style="--line-left:9%;--line-right:10.2%;--line-h:.45vh;--head-right:8.2%;--head-w:2vw;--head-h:3vh;height:42vh;margin-top:5vh" data-anim>
+      <div class="arrow-timeline-line"></div>
+      <span class="arrow-timeline-node" style="left:20%"></span>
+      <span class="arrow-timeline-node" style="left:44%"></span>
+      <span class="arrow-timeline-node" style="left:68%"></span>
+      <div class="arrow-timeline-head"></div>
+      <div class="card flat arrow-timeline-card top" style="left:3%;width:21vw"><div class="num-pill">01</div><p class="card-body">给 Claude 可验证目标: tests / screenshots / expected output。</p></div>
+      <div class="card flat arrow-timeline-card bottom" style="left:27%;width:21vw"><div class="num-pill">02</div><p class="card-body">管理上下文,拆小任务,必要时 rewind 或 fork session。</p></div>
+      <div class="card flat arrow-timeline-card top" style="left:51%;width:21vw"><div class="num-pill">03</div><p class="card-body">用 subagents 和并行 session 处理探索型任务。</p></div>
+      <div class="card flat arrow-timeline-card bottom" style="left:75%;width:21vw"><div class="num-pill">04</div><p class="card-body">保持人类审查、权限边界和最终合入责任。</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-layout="H26" data-animate="metaphor">
+  <div class="chrome">
+    <div class="l"><span class="square"></span><span>战略启示</span></div>
+    <div></div>
+  </div>
+  <div class="brand-lockup">
+    <span class="brand-mark" aria-hidden="true"></span>
+    <span>HUAWEI</span>
+  </div>
+
+  <div class="grid-12" style="height:100%;align-items:center">
+    <div class="span-5 content-stack" data-anim>
+      <div class="kicker">STRATEGIC TAKEAWAY</div>
+      <h2 class="h-xl">AI 编程工具的竞争焦点正在从“会写”转向“会交付”</h2>
+      <p class="lead">下一阶段不是谁能生成更多代码,而是谁能更可靠地接入真实工程系统,完成可审查、可回滚、可度量的任务。</p>
+    </div>
+    <div class="span-7 grid-2" data-anim>
+      <div class="card" style="min-height:46vh">
+        <div class="icon-disc"><i data-lucide="wand-sparkles"></i></div>
+        <div class="card-title">AI as assistant</div>
+        <p class="card-body">围绕提示词、代码建议和编辑器体验优化,主要提升个人局部效率。</p>
+      </div>
+      <div class="card" style="min-height:46vh">
+        <div class="icon-disc"><i data-lucide="factory"></i></div>
+        <div class="card-title">AI as production line</div>
+        <p class="card-body">围绕任务分派、执行环境、验证、权限、审计和团队流程优化,影响软件交付系统。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-layout="H05" data-animate="cards">
+  <div class="chrome">
+    <div class="l"><span class="square"></span><span>资料来源</span></div>
+    <div></div>
+  </div>
+  <div class="brand-lockup">
+    <span class="brand-mark" aria-hidden="true"></span>
+    <span>HUAWEI</span>
+  </div>
+
+  <div style="padding-top:8vh">
+    <div class="content-stack" data-anim>
+      <div class="kicker">SOURCE NOTES</div>
+      <h2 class="h-xl">关键事实均落到 Anthropic 官方资料</h2>
+    </div>
+
+    <div class="grid-4" style="margin-top:4vh">
+      <div class="card flat" data-anim>
+        <div class="num-pill">01</div>
+        <div class="card-title">Claude 3.7 + Code</div>
+        <p class="card-body">Anthropic News, 2025-02-24: Claude Code limited research preview and terminal agentic coding.</p>
+      </div>
+      <div class="card flat" data-anim>
+        <div class="num-pill">02</div>
+        <div class="card-title">Claude 4 GA</div>
+        <p class="card-body">Anthropic News, 2025-05-22: Claude Code generally available, VS Code / JetBrains / GitHub Actions.</p>
+      </div>
+      <div class="card flat" data-anim>
+        <div class="num-pill">03</div>
+        <div class="card-title">Product Page</div>
+        <p class="card-body">Anthropic Claude Code product page: use cases, customer examples, team impact and safety framing.</p>
+      </div>
+      <div class="card flat" data-anim>
+        <div class="num-pill">04</div>
+        <div class="card-title">Docs Overview</div>
+        <p class="card-body">Claude Code Docs: terminal, IDE, desktop, web, CI/CD, Slack, MCP and Agent SDK surfaces.</p>
+      </div>
+      <div class="card flat" data-anim>
+        <div class="num-pill">05</div>
+        <div class="card-title">How It Works</div>
+        <p class="card-body">Claude Code Docs: gather context, take action, verify results, human interruption and steering.</p>
+      </div>
+      <div class="card flat" data-anim>
+        <div class="num-pill">06</div>
+        <div class="card-title">Best Practices</div>
+        <p class="card-body">Claude Code Docs: context management, verification, subagents, checkpoints and parallel sessions.</p>
+      </div>
+      <div class="card flat" data-anim>
+        <div class="num-pill">07</div>
+        <div class="card-title">GitHub Actions</div>
+        <p class="card-body">Claude Code Docs: @claude trigger, PR creation, issue implementation and workflow automation.</p>
+      </div>
+      <div class="card flat" data-anim>
+        <div class="num-pill">08</div>
+        <div class="card-title">MCP</div>
+        <p class="card-body">Claude Code Docs: connect issue trackers, monitoring, databases, design docs and chat systems.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="slide dark" data-layout="H10" data-animate="closing">
+  <div class="brand-lockup">
+    <span class="brand-mark" aria-hidden="true"></span>
+    <span>HUAWEI</span>
+  </div>
+  <div style="height:100%;display:grid;place-items:center;text-align:center">
+    <div class="content-stack" data-anim style="align-items:center">
+      <div class="kicker">FINAL INSIGHT</div>
+      <h2 class="h-hero">Claude Code 的崛起<br>不是 IDE 的胜利</h2>
+      <p class="lead" style="max-width:54ch;color:rgba(255,255,255,.84)">而是 AI 从“回答问题”走向“进入工作系统并完成闭环”的早期信号。</p>
+    </div>
+  </div>
+</section>
+
+</div>
+
+<div id="nav"></div>
+<div id="overview"></div>
+
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<script>
+(() => {
+  const deck = document.getElementById('deck');
+  const nav = document.getElementById('nav');
+  const overview = document.getElementById('overview');
+  const slides = [...document.querySelectorAll('.slide')];
+  const lowPowerKey = 'guizang-huawei-low-power';
+  let current = 0;
+  let wheelLock = false;
+
+  const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  window.__lowPowerMode = localStorage.getItem(lowPowerKey) === '1' || prefersReduced;
+  document.body.classList.toggle('low-power', window.__lowPowerMode);
+
+  function buildPageNumbers(){
+    const total = String(slides.length).padStart(2, '0');
+    slides.forEach((slide, i) => {
+      slide.querySelector('.page-no')?.remove();
+      const pageNo = document.createElement('div');
+      pageNo.className = 'page-no';
+      pageNo.textContent = `${String(i + 1).padStart(2, '0')} / ${total}`;
+      slide.appendChild(pageNo);
+    });
+  }
+
+  function buildNav(){
+    nav.innerHTML = '';
+    slides.forEach((_, i) => {
+      const dot = document.createElement('button');
+      dot.type = 'button';
+      dot.setAttribute('aria-label', `Go to slide ${i + 1}`);
+      dot.addEventListener('click', () => go(i));
+      nav.appendChild(dot);
+    });
+  }
+
+  function buildOverview(){
+    overview.innerHTML = '';
+    slides.forEach((slide, i) => {
+      const thumb = document.createElement('div');
+      thumb.className = 'thumb';
+      const clone = slide.cloneNode(true);
+      clone.classList.add('active');
+      thumb.appendChild(clone);
+      thumb.addEventListener('click', () => {
+        document.body.classList.remove('overview');
+        go(i);
+      });
+      overview.appendChild(thumb);
+    });
+  }
+
+  function updateTheme(){
+    document.body.classList.toggle('dark-bg', slides[current]?.classList.contains('dark'));
+  }
+
+  function go(i){
+    if (!slides.length) return;
+    current = Math.max(0, Math.min(i, slides.length - 1));
+    deck.style.transform = `translateX(${-current * 100}vw)`;
+    slides.forEach((slide, idx) => slide.classList.toggle('active', idx === current));
+    [...nav.children].forEach((dot, idx) => dot.classList.toggle('active', idx === current));
+    updateTheme();
+  }
+
+  function toggleLowPower(){
+    window.__lowPowerMode = !window.__lowPowerMode;
+    localStorage.setItem(lowPowerKey, window.__lowPowerMode ? '1' : '0');
+    document.body.classList.toggle('low-power', window.__lowPowerMode);
+  }
+
+  addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') {
+      event.preventDefault();
+      document.body.classList.toggle('overview');
+      return;
+    }
+    if (event.key === 'b' || event.key === 'B') {
+      event.preventDefault();
+      toggleLowPower();
+      return;
+    }
+    if (document.body.classList.contains('overview')) return;
+    if (event.key === 'ArrowRight' || event.key === 'PageDown' || event.key === ' ') {
+      event.preventDefault();
+      go(current + 1);
+    }
+    if (event.key === 'ArrowLeft' || event.key === 'PageUp') {
+      event.preventDefault();
+      go(current - 1);
+    }
+  });
+
+  addEventListener('wheel', (event) => {
+    if (document.body.classList.contains('overview') || wheelLock || Math.abs(event.deltaY) < 24) return;
+    wheelLock = true;
+    go(current + (event.deltaY > 0 ? 1 : -1));
+    setTimeout(() => { wheelLock = false; }, 620);
+  }, { passive: true });
+
+  let touchStartX = null;
+  addEventListener('touchstart', (event) => { touchStartX = event.touches[0]?.clientX ?? null; }, { passive: true });
+  addEventListener('touchend', (event) => {
+    if (touchStartX == null) return;
+    const dx = (event.changedTouches[0]?.clientX ?? touchStartX) - touchStartX;
+    if (Math.abs(dx) > 46) go(current + (dx < 0 ? 1 : -1));
+    touchStartX = null;
+  }, { passive: true });
+
+  buildPageNumbers();
+  buildNav();
+  buildOverview();
+  go(0);
+  if (window.lucide) window.lucide.createIcons();
+})();
+</script>
+</body>
+</html>

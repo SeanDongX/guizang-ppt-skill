@@ -1,0 +1,1659 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NV 技术发展洞察 · 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    /* ============ Huawei corporate theme (default: classic red) ============
+       Switch theme: copy one :root block from references/themes-huawei.md and
+       replace the variables in this section only. */
+    --paper:#f7f8fa;
+    --paper-rgb:247,248,250;
+    --card:#ffffff;
+    --ink:#22252b;
+    --ink-rgb:34,37,43;
+    --muted:#6f7680;
+    --line:#dfe3e8;
+    --line-strong:#c7ccd4;
+    --brand-red:#c7000b;
+    --brand-red-rgb:199,0,11;
+    --brand-red-dark:#990008;
+    --brand-red-soft:#f5e5e7;
+    --brand-black:#111111;
+    --brand-grey:#f0f2f5;
+    --shadow:0 18px 46px rgba(15,23,42,.12);
+    --shadow-soft:0 10px 26px rgba(15,23,42,.10);
+
+    --sans:"Inter","Noto Sans SC","Microsoft YaHei UI",Arial,sans-serif;
+    --sans-zh:"Noto Sans SC","Microsoft YaHei UI",Arial,sans-serif;
+    --mono:"JetBrains Mono","SFMono-Regular",Consolas,monospace;
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{width:100%;height:100%;overflow:hidden}
+  body{
+    font-family:var(--sans);
+    color:var(--ink);
+    background:var(--paper);
+    -webkit-font-smoothing:antialiased;
+    text-rendering:geometricPrecision;
+  }
+  body.low-power *,body.low-power *::before,body.low-power *::after{
+    animation:none!important;
+    transition:none!important;
+    scroll-behavior:auto!important;
+  }
+
+  #deck{
+    display:flex;
+    width:100vw;
+    height:100vh;
+    transition:transform .72s cubic-bezier(.22,1,.36,1);
+  }
+  body.low-power #deck{transition:none!important}
+
+  .slide{
+    position:relative;
+    flex:0 0 100vw;
+    width:100vw;
+    height:100vh;
+    padding:7.2vh 7vw 7vh;
+    overflow:hidden;
+    background:
+      linear-gradient(180deg,rgba(255,255,255,.94),rgba(247,248,250,.96)),
+      radial-gradient(circle at 78% 12%,rgba(var(--brand-red-rgb),.08),transparent 22vw),
+      radial-gradient(circle at 12% 88%,rgba(17,17,17,.045),transparent 28vw);
+  }
+  .slide::before,
+  .slide::after{
+    content:"";
+    position:absolute;
+    pointer-events:none;
+    border-radius:999px;
+    z-index:0;
+  }
+  .slide::before{
+    width:13vw;
+    height:13vw;
+    right:6vw;
+    top:10vh;
+    background:linear-gradient(145deg,#fff,rgba(223,227,232,.95));
+    box-shadow:inset -12px -12px 22px rgba(255,255,255,.9),inset 10px 10px 26px rgba(111,118,128,.14),0 14px 28px rgba(15,23,42,.08);
+    opacity:.32;
+  }
+  .slide::after{
+    width:2.6vw;
+    height:2.6vw;
+    left:6.3vw;
+    bottom:8vh;
+    background:var(--brand-red);
+    box-shadow:13vw -72vh 0 -1.4vw rgba(var(--brand-red-rgb),.9),73vw -6vh 0 -1vw rgba(var(--brand-red-rgb),.85),82vw -78vh 0 -1.1vw rgba(var(--brand-red-rgb),.9);
+    opacity:.18;
+  }
+  .slide > *{position:relative;z-index:1}
+
+  .slide.dark{
+    color:#fff;
+    background:
+      linear-gradient(135deg,var(--brand-red-dark),var(--brand-red) 54%,#e34034),
+      radial-gradient(circle at 82% 18%,rgba(255,255,255,.22),transparent 22vw);
+  }
+  .slide.dark::before{
+    background:rgba(255,255,255,.14);
+    box-shadow:inset -10px -10px 18px rgba(255,255,255,.18),inset 10px 10px 26px rgba(0,0,0,.14);
+    opacity:.55;
+  }
+  .slide.dark::after{background:#fff;box-shadow:14vw -66vh 0 -1.5vw rgba(255,255,255,.72),72vw -7vh 0 -1vw rgba(255,255,255,.58);opacity:.24}
+
+  .brand-lockup{
+    position:absolute;
+    right:6.4vw;
+    top:4.6vh;
+    display:flex;
+    align-items:center;
+    gap:.58vw;
+    color:var(--brand-black);
+    font-weight:800;
+    letter-spacing:.01em;
+    font-size:1.08vw;
+    z-index:3;
+  }
+  .dark .brand-lockup{color:#fff}
+  .brand-mark{
+    width:1.62vw;
+    height:1.62vw;
+    flex:none;
+    color:var(--brand-red);
+    background:currentColor;
+    -webkit-mask:url("data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMjQgMjQiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTMuNjcgNi4xNFMxLjgyIDcuOTEgMS43MiA5Ljc4di4zNWMuMDggMS41MSAxLjIyIDIuNCAxLjIyIDIuNCAxLjgzIDEuNzkgNi4yNiA0LjA0IDcuMyA0LjU1IDAgMCAuMDYuMDMuMS0uMDFsLjAyLS4wNHYtLjA0QzcuNTIgMTAuOCAzLjY3IDYuMTQgMy42NyA2LjE0ek05LjY1IDE4LjZjLS4wMi0uMDgtLjEtLjA4LS4xLS4wOGwtNy4zOC4yNmMuOCAxLjQzIDIuMTUgMi41MyAzLjU2IDIuMi45Ni0uMjUgMy4xNi0xLjc4IDMuODgtMi4zLjA2LS4wNS4wNC0uMDkuMDQtLjA5em0uMDgtLjc4QzYuNDkgMTUuNjMuMjEgMTIuMjguMjEgMTIuMjhjLS4xNS40Ni0uMi45LS4yMSAxLjN2LjA3YzAgMS4wNy40IDEuODIuNCAxLjgyLjggMS42OSAyLjM0IDIuMiAyLjM0IDIuMi43LjMgMS40LjMxIDEuNC4zMS4xMi4wMiA0LjQgMCA1LjU0IDAgLjA1IDAgLjA4LS4wNS4wOC0uMDV2LS4wNmMwLS4wMy0uMDMtLjA1LS4wMy0uMDV6TTkuMDYgMy4xOWEzLjQyIDMuNDIgMCAwMC0yLjU3IDMuMTV2LjQxYy4wMy42LjE2IDEuMDUuMTYgMS4wNS42NiAyLjkgMy44NiA3LjY1IDQuNTUgOC42NS4wNS4wNS4xLjAzLjEuMDNhLjEuMSAwIDAwLjA2LS4xYzEuMDYtMTAuNi0xLjExLTEzLjQyLTEuMTEtMTMuNDItLjMyLjAyLTEuMTkuMjMtMS4xOS4yM3ptOC4yOTkgMi4yN3MtLjQ5LTEuOC0yLjQ0LTIuMjhjMCAwLS41Ny0uMTQtMS4xNy0uMjIgMCAwLTIuMTggMi44MS0xLjEyIDEzLjQzLjAxLjA3LjA2LjA4LjA2LjA4LjA3LjAzLjEtLjAzLjEtLjAzLjcyLTEuMDMgMy45LTUuNzYgNC41NS04LjY0IDAgMCAuMzYtMS40LjAyLTIuMzR6bS0yLjkyIDEzLjA3cy0uMDcgMC0uMDkuMDVjMCAwLS4wMS4wNy4wMy4xLjcuNTEgMi44NSAyIDMuODggMi4zIDAgMCAuMTYuMDUuNDMuMDZoLjE0Yy42OS0uMDIgMS45LS4zNyAzLTIuMjZsLTcuNC0uMjV6bTcuODMtOC40MWMuMTQtMi4wNi0xLjk0LTMuOTctMS45NC0zLjk4IDAgMC0zLjg1IDQuNjYtNi42NyAxMC44IDAgMC0uMDMuMDguMDIuMTNsLjA0LjAxaC4wNmMxLjA2LS41MyA1LjQ2LTIuNzcgNy4yOC00LjU0IDAgMCAxLjE1LS45MyAxLjIxLTIuNDJ6bTEuNTIgMi4xNHMtNi4yOCAzLjM3LTkuNTIgNS41NWMwIDAtLjA1LjA0LS4wMy4xMSAwIDAgLjAzLjA2LjA3LjA2IDEuMTYgMCA1LjU2IDAgNS42Ny0uMDIgMCAwIC41Ny0uMDIgMS4yNy0uMjkgMCAwIDEuNTYtLjUgMi4zNy0yLjI3IDAgMCAuNzMtMS40NS4xNy0zLjE0eiIvPjwvc3ZnPg==") center/contain no-repeat;
+    mask:url("data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMjQgMjQiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTMuNjcgNi4xNFMxLjgyIDcuOTEgMS43MiA5Ljc4di4zNWMuMDggMS41MSAxLjIyIDIuNCAxLjIyIDIuNCAxLjgzIDEuNzkgNi4yNiA0LjA0IDcuMyA0LjU1IDAgMCAuMDYuMDMuMS0uMDFsLjAyLS4wNHYtLjA0QzcuNTIgMTAuOCAzLjY3IDYuMTQgMy42NyA2LjE0ek05LjY1IDE4LjZjLS4wMi0uMDgtLjEtLjA4LS4xLS4wOGwtNy4zOC4yNmMuOCAxLjQzIDIuMTUgMi41MyAzLjU2IDIuMi45Ni0uMjUgMy4xNi0xLjc4IDMuODgtMi4zLjA2LS4wNS4wNC0uMDkuMDQtLjA5em0uMDgtLjc4QzYuNDkgMTUuNjMuMjEgMTIuMjguMjEgMTIuMjhjLS4xNS40Ni0uMi45LS4yMSAxLjN2LjA3YzAgMS4wNy40IDEuODIuNCAxLjgyLjggMS42OSAyLjM0IDIuMiAyLjM0IDIuMi43LjMgMS40LjMxIDEuNC4zMS4xMi4wMiA0LjQgMCA1LjU0IDAgLjA1IDAgLjA4LS4wNS4wOC0uMDV2LS4wNmMwLS4wMy0uMDMtLjA1LS4wMy0uMDV6TTkuMDYgMy4xOWEzLjQyIDMuNDIgMCAwMC0yLjU3IDMuMTV2LjQxYy4wMy42LjE2IDEuMDUuMTYgMS4wNS42NiAyLjkgMy44NiA3LjY1IDQuNTUgOC42NS4wNS4wNS4xLjAzLjEuMDNhLjEuMSAwIDAwLjA2LS4xYzEuMDYtMTAuNi0xLjExLTEzLjQyLTEuMTEtMTMuNDItLjMyLjAyLTEuMTkuMjMtMS4xOS4yM3ptOC4yOTkgMi4yN3MtLjQ5LTEuOC0yLjQ0LTIuMjhjMCAwLS41Ny0uMTQtMS4xNy0uMjIgMCAwLTIuMTggMi44MS0xLjEyIDEzLjQzLjAxLjA3LjA2LjA4LjA2LjA4LjA3LjAzLjEtLjAzLjEtLjAzLjcyLTEuMDMgMy45LTUuNzYgNC41NS04LjY0IDAgMCAuMzYtMS40LjAyLTIuMzR6bS0yLjkyIDEzLjA3cy0uMDcgMC0uMDkuMDVjMCAwLS4wMS4wNy4wMy4xLjcuNTEgMi44NSAyIDMuODggMi4zIDAgMCAuMTYuMDUuNDMuMDZoLjE0Yy42OS0uMDIgMS45LS4zNyAzLTIuMjZsLTcuNC0uMjV6bTcuODMtOC40MWMuMTQtMi4wNi0xLjk0LTMuOTctMS45NC0zLjk4IDAgMC0zLjg1IDQuNjYtNi42NyAxMC44IDAgMC0uMDMuMDguMDIuMTNsLjA0LjAxaC4wNmMxLjA2LS41MyA1LjQ2LTIuNzcgNy4yOC00LjU0IDAgMCAxLjE1LS45MyAxLjIxLTIuNDJ6bTEuNTIgMi4xNHMtNi4yOCAzLjM3LTkuNTIgNS41NWMwIDAtLjA1LjA0LS4wMy4xMSAwIDAgLjAzLjA2LjA3LjA2IDEuMTYgMCA1LjU2IDAgNS42Ny0uMDIgMCAwIC41Ny0uMDIgMS4yNy0uMjkgMCAwIDEuNTYtLjUgMi4zNy0yLjI3IDAgMCAuNzMtMS40NS4xNy0zLjE0eiIvPjwvc3ZnPg==") center/contain no-repeat;
+  }
+  .dark .brand-mark{color:#fff}
+
+  .chrome{
+    position:absolute;
+    left:6.4vw;
+    right:6.4vw;
+    top:4.6vh;
+    min-height:3.2vh;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    border-bottom:1px solid var(--line);
+    padding-bottom:1.1vh;
+    color:var(--muted);
+    font-size:.78vw;
+    letter-spacing:.02em;
+    z-index:2;
+  }
+  .dark .chrome{border-color:rgba(255,255,255,.28);color:rgba(255,255,255,.78)}
+  .chrome .l{
+    display:flex;
+    align-items:center;
+    gap:.72vw;
+    font-weight:600;
+    color:var(--ink);
+  }
+  .dark .chrome .l{color:#fff}
+  .chrome .square{
+    width:.9vw;
+    height:.9vw;
+    background:var(--brand-red);
+    box-shadow:-.38vw -.38vw 0 0 rgba(var(--brand-red-rgb),.16);
+    flex:none;
+  }
+  .dark .chrome .square{background:#fff;box-shadow:-.38vw -.38vw 0 0 rgba(255,255,255,.22)}
+
+  .kicker{
+    font-family:var(--mono);
+    font-size:.78vw;
+    line-height:1;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+    color:var(--brand-red);
+    font-weight:600;
+  }
+  .dark .kicker{color:rgba(255,255,255,.82)}
+  .h-hero{
+    font-family:var(--sans-zh);
+    font-size:min(5.8vw,10.3vh);
+    line-height:1.02;
+    letter-spacing:0;
+    font-weight:900;
+  }
+  .h-xl{
+    font-family:var(--sans-zh);
+    font-size:min(4vw,7.4vh);
+    line-height:1.08;
+    font-weight:800;
+    letter-spacing:0;
+  }
+  .h-md{
+    font-family:var(--sans-zh);
+    font-size:min(2.1vw,4.1vh);
+    line-height:1.2;
+    font-weight:800;
+  }
+  .lead{
+    font-size:1.25vw;
+    line-height:1.72;
+    color:var(--muted);
+    font-weight:400;
+  }
+  .dark .lead{color:rgba(255,255,255,.84)}
+  .body-copy{
+    font-size:1vw;
+    line-height:1.82;
+    color:#444b55;
+  }
+  .dark .body-copy{color:rgba(255,255,255,.78)}
+  .meta{
+    font-family:var(--mono);
+    font-size:.76vw;
+    color:var(--muted);
+    letter-spacing:.04em;
+  }
+
+  .red-rule{height:.52vh;background:var(--brand-red);width:100%}
+  .hairline{height:1px;background:var(--line);width:100%}
+  .dark .hairline{background:rgba(255,255,255,.22)}
+
+  .red-panel{
+    background:linear-gradient(90deg,var(--brand-red),#ef4a3d);
+    color:#fff;
+    padding:4.2vh 3.4vw;
+    min-height:32vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    box-shadow:var(--shadow-soft);
+  }
+  .red-panel .en{
+    font-family:var(--mono);
+    border:1px solid rgba(255,255,255,.42);
+    color:rgba(255,255,255,.9);
+    padding:.5vh .72vw;
+    width:max-content;
+    font-size:.86vw;
+    letter-spacing:.08em;
+  }
+
+  .cover-shell{
+    height:100%;
+    display:grid;
+    grid-template-columns:1.05fr .95fr;
+    align-items:center;
+    gap:5vw;
+  }
+  .cover-badge{
+    width:10.4vw;
+    height:10.4vw;
+    border-radius:999px;
+    background:linear-gradient(145deg,#fff,#e9edf2);
+    box-shadow:inset -16px -16px 28px rgba(255,255,255,.95),inset 12px 12px 24px rgba(111,118,128,.14),0 22px 46px rgba(15,23,42,.14);
+    display:grid;
+    place-items:center;
+    margin-bottom:3.4vh;
+  }
+  .cover-badge .brand-mark{
+    width:5.8vw;
+    height:5.8vw;
+    color:var(--brand-red);
+  }
+  .cover-title-wrap{display:flex;flex-direction:column;gap:2.6vh}
+  .cover-subtitle{max-width:46ch}
+  .cover-wave{
+    position:absolute;
+    left:0;
+    right:0;
+    bottom:0;
+    height:19vh;
+    background:
+      linear-gradient(8deg,var(--brand-red) 0 45%,transparent 46%),
+      linear-gradient(6deg,rgba(17,17,17,.14) 0 51%,transparent 52%);
+    opacity:.96;
+  }
+  .cover-meta{
+    position:absolute;
+    left:7vw;
+    bottom:5vh;
+    color:#fff;
+    display:grid;
+    gap:.86vh;
+    font-size:.88vw;
+    z-index:2;
+  }
+  .cover-visual{
+    min-height:48vh;
+    position:relative;
+  }
+  .orb{
+    position:absolute;
+    border-radius:50%;
+    background:linear-gradient(145deg,#fff,#e6eaef);
+    box-shadow:inset -10px -10px 20px rgba(255,255,255,.95),inset 8px 8px 20px rgba(111,118,128,.18),0 16px 28px rgba(15,23,42,.10);
+  }
+  .orb.red{background:linear-gradient(145deg,#f83230,var(--brand-red));box-shadow:0 12px 24px rgba(var(--brand-red-rgb),.26)}
+
+  .agenda-layout{
+    height:100%;
+    display:grid;
+    grid-template-columns:.72fr 1.28fr;
+    gap:5vw;
+    align-items:center;
+  }
+  .agenda-list{display:flex;flex-direction:column;gap:1.25vh}
+  .agenda-item{
+    display:grid;
+    grid-template-columns:3.6vw 1fr;
+    align-items:center;
+    min-height:6.2vh;
+    background:#e6e9ed;
+    color:#505965;
+  }
+  .agenda-item .idx{
+    height:100%;
+    display:grid;
+    place-items:center;
+    background:var(--brand-red);
+    color:#fff;
+    font-family:var(--mono);
+    font-weight:700;
+  }
+  .agenda-item.active{background:#fff;box-shadow:var(--shadow-soft);color:var(--ink)}
+  .agenda-item.active::before{
+    content:"";
+    width:0;
+    height:0;
+    border-top:.72vw solid transparent;
+    border-bottom:.72vw solid transparent;
+    border-left:1.05vw solid var(--brand-red);
+    margin-left:-2.1vw;
+    grid-row:1;
+    grid-column:1;
+  }
+  .agenda-item .txt{padding:0 1.25vw;font-size:1.02vw;font-weight:700}
+
+  .section-layout{
+    height:100%;
+    display:grid;
+    grid-template-columns:.82fr 1.18fr;
+    gap:4.5vw;
+    align-items:center;
+  }
+  .section-no{
+    width:8vw;
+    height:8vw;
+    border-radius:999px;
+    background:#fff;
+    box-shadow:var(--shadow);
+    display:grid;
+    place-items:center;
+    color:var(--brand-red);
+    font-family:var(--mono);
+    font-size:2.2vw;
+    font-weight:800;
+    margin-bottom:2.6vh;
+  }
+
+  .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:3vw}
+  .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:2vw}
+  .grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:1.4vw}
+  .grid-12{display:grid;grid-template-columns:repeat(12,1fr);gap:1vw}
+  .span-4{grid-column:span 4}.span-5{grid-column:span 5}.span-6{grid-column:span 6}.span-7{grid-column:span 7}.span-8{grid-column:span 8}
+
+  .content-stack{display:flex;flex-direction:column;gap:2.2vh}
+  .card{
+    background:var(--card);
+    border:1px solid var(--line);
+    box-shadow:var(--shadow-soft);
+    padding:3vh 2vw;
+  }
+  .card.flat{box-shadow:none;background:#fff}
+  .card-title{
+    font-size:1.18vw;
+    line-height:1.28;
+    font-weight:800;
+    color:var(--ink);
+    margin-bottom:1.1vh;
+  }
+  .card-body{font-size:.9vw;line-height:1.65;color:var(--muted)}
+  .num-pill{
+    display:inline-grid;
+    place-items:center;
+    min-width:2.4vw;
+    height:2.4vw;
+    border-radius:999px;
+    background:var(--brand-red);
+    color:#fff;
+    font-family:var(--mono);
+    font-weight:800;
+    margin-bottom:1.4vh;
+  }
+  .icon-disc{
+    width:4.4vw;
+    height:4.4vw;
+    border-radius:999px;
+    background:var(--brand-red);
+    color:#fff;
+    display:grid;
+    place-items:center;
+    margin-bottom:1.5vh;
+    box-shadow:0 14px 28px rgba(var(--brand-red-rgb),.22);
+  }
+  .icon-disc .lucide{width:2vw;height:2vw;stroke-width:1.8}
+
+  .timeline-v{display:grid;grid-template-columns:1fr 3vw 1fr;gap:2vw;align-items:start}
+  .tl-axis{position:relative;min-height:58vh}
+  .tl-axis::before{content:"";position:absolute;left:50%;top:0;bottom:0;width:1px;background:var(--line-strong)}
+  .tl-dot{
+    width:2.6vw;
+    height:2.6vw;
+    border-radius:999px;
+    background:var(--brand-red);
+    color:#fff;
+    display:grid;
+    place-items:center;
+    font-family:var(--mono);
+    font-weight:800;
+    margin:0 auto 6.5vh;
+    position:relative;
+    z-index:1;
+  }
+  .tl-card{min-height:10vh;border-top:3px solid var(--brand-red);padding-top:1.3vh;margin-bottom:5.4vh}
+  .tl-card .year{font-family:var(--mono);color:var(--brand-red);font-weight:800;margin-bottom:.6vh}
+
+  .bar-chart{display:flex;flex-direction:column;gap:1.35vh}
+  .bar-row{display:grid;grid-template-columns:7vw 1fr 4vw;gap:1vw;align-items:center;font-size:.9vw;color:var(--muted)}
+  .bar-track{height:2.2vh;background:#e7eaee;position:relative;overflow:hidden}
+  .bar-fill{height:100%;background:linear-gradient(90deg,var(--brand-red-dark),var(--brand-red));width:var(--v,50%)}
+  .bar-row strong{font-family:var(--mono);color:var(--ink)}
+  .stat-big{font-family:var(--mono);font-size:min(5.2vw,9vh);line-height:1;color:var(--brand-red);font-weight:800}
+
+  .process{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:0;
+    align-items:stretch;
+  }
+  .process-step{
+    position:relative;
+    background:#fff;
+    border:1px solid var(--line);
+    padding:3vh 1.6vw;
+    min-height:30vh;
+  }
+  .process-step:not(:last-child)::after{
+    content:"";
+    position:absolute;
+    right:-1.2vw;
+    top:50%;
+    transform:translateY(-50%);
+    width:0;
+    height:0;
+    border-top:1.5vw solid transparent;
+    border-bottom:1.5vw solid transparent;
+    border-left:1.2vw solid var(--brand-red);
+    z-index:2;
+  }
+
+  .arrow-timeline{
+    --axis-y:50%;
+    --line-left:4%;
+    --line-right:6.4%;
+    --line-h:5.2vh;
+    --head-right:1.5%;
+    --head-w:5vw;
+    --head-h:8vh;
+    position:relative;
+    margin-top:7vh;
+    height:36vh;
+  }
+  .arrow-timeline-line{
+    position:absolute;
+    left:var(--line-left);
+    right:var(--line-right);
+    top:var(--axis-y);
+    height:var(--line-h);
+    background:var(--brand-red);
+    transform:translateY(-50%);
+  }
+  .arrow-timeline-head{
+    position:absolute;
+    right:var(--head-right);
+    top:var(--axis-y);
+    width:var(--head-w);
+    height:var(--head-h);
+    background:var(--brand-red);
+    clip-path:polygon(0 0,100% 50%,0 100%);
+    transform:translateY(-50%);
+  }
+  .arrow-timeline-node{
+    position:absolute;
+    top:var(--axis-y);
+    width:1.8vw;
+    height:1.8vw;
+    border-radius:999px;
+    background:var(--brand-red);
+    box-shadow:0 0 0 .8vw rgba(var(--brand-red-rgb),.10);
+    transform:translate(-50%,-50%);
+    z-index:2;
+  }
+  .arrow-timeline-card{
+    position:absolute;
+    width:18vw;
+    z-index:3;
+  }
+  .arrow-timeline-card.top{top:0}
+  .arrow-timeline-card.bottom{bottom:0}
+
+  .image-frame{
+    background:#fff;
+    border:1px solid var(--line);
+    padding:.7vw;
+    box-shadow:var(--shadow-soft);
+  }
+  .image-frame img{
+    display:block;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+  }
+  .r-16x9{aspect-ratio:16/9}
+  .r-16x10{aspect-ratio:16/10}
+  .r-4x3{aspect-ratio:4/3}
+  .fit-contain img{object-fit:contain;background:#fff}
+  .caption{
+    margin-top:1vh;
+    font-size:.76vw;
+    color:var(--muted);
+    line-height:1.5;
+  }
+
+  .quote-band{
+    background:linear-gradient(90deg,var(--brand-red),var(--brand-red-dark));
+    color:#fff;
+    padding:3.4vh 3vw;
+    font-family:var(--sans-zh);
+    font-size:2.4vw;
+    line-height:1.24;
+    font-weight:900;
+  }
+
+  [data-anim]{
+    opacity:0;
+    transform:translateY(16px);
+    transition:opacity .56s ease,transform .56s cubic-bezier(.22,1,.36,1);
+  }
+  .slide.active [data-anim]{opacity:1;transform:none}
+  .slide.active [data-anim]:nth-child(2){transition-delay:.06s}
+  .slide.active [data-anim]:nth-child(3){transition-delay:.12s}
+  .slide.active [data-anim]:nth-child(4){transition-delay:.18s}
+  body.low-power [data-anim],#overview [data-anim]{opacity:1!important;transform:none!important}
+
+  #hint{
+    position:fixed;
+    right:1.5vw;
+    bottom:1.8vh;
+    z-index:20;
+    color:rgba(34,37,43,.56);
+    font-size:.72vw;
+    font-family:var(--mono);
+    letter-spacing:.02em;
+    user-select:none;
+  }
+  body.low-power #hint{color:var(--brand-red)}
+  #nav{
+    position:fixed;
+    left:50%;
+    bottom:2.1vh;
+    transform:translateX(-50%);
+    display:flex;
+    gap:.55vw;
+    z-index:20;
+  }
+  #nav button{
+    width:.55vw;
+    height:.55vw;
+    border:0;
+    border-radius:50%;
+    background:rgba(34,37,43,.2);
+    cursor:pointer;
+    padding:0;
+  }
+  #nav button.active{background:var(--brand-red);transform:scale(1.35)}
+  #overview{
+    position:fixed;
+    inset:0;
+    background:rgba(10,10,10,.88);
+    z-index:30;
+    display:none;
+    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+    gap:18px;
+    padding:24px;
+    overflow:auto;
+  }
+  body.overview #overview{display:grid}
+  .thumb{
+    position:relative;
+    aspect-ratio:16/9;
+    background:#fff;
+    overflow:hidden;
+    cursor:pointer;
+    border:1px solid rgba(255,255,255,.18);
+  }
+  .thumb .slide{
+    transform:scale(.25);
+    transform-origin:top left;
+    pointer-events:none;
+  }
+
+  @media (max-width:900px){
+    .slide{padding:8vh 6vw 8vh}
+    .cover-shell,.agenda-layout,.section-layout,.grid-2{grid-template-columns:1fr;gap:3vh}
+    .grid-3,.grid-4,.process{grid-template-columns:1fr 1fr}
+    .brand-lockup{font-size:2.8vw}
+    .brand-mark{width:3.4vw;height:3.4vw}
+    .h-hero{font-size:12vw}
+    .h-xl{font-size:8.8vw}
+    .lead{font-size:3.5vw}
+    .body-copy,.card-body{font-size:2.8vw}
+    .chrome{font-size:2.2vw}
+    #hint{font-size:2vw}
+  }
+</style>
+</head>
+<body>
+<div id="hint">← → 翻页 · B 静态 · ESC 索引</div>
+
+<div id="deck">
+<!-- ============================================================
+     SLIDES 插入区 · 在此处填充所有 <section class="slide ..."> 页面
+     页面骨架参考 references/layouts-huawei.md
+     主题色配置参考 references/themes-huawei.md
+     ============================================================ -->
+
+<section class="slide hw-cover" data-layout="H01" data-animate="cover">
+  <div class="brand-lockup">
+    <span class="brand-mark" aria-hidden="true"></span>
+    <span>HUAWEI</span>
+  </div>
+
+  <div class="cover-shell">
+    <div class="cover-title-wrap">
+      <div class="cover-badge" data-anim>
+        <span class="brand-mark" aria-hidden="true" style="width:5.8vw;height:5.8vw"></span>
+      </div>
+      <div class="kicker" data-anim>TECHNOLOGY OUTLOOK / 2026</div>
+      <h1 class="h-hero" data-anim>NV 技术<br/>发展洞察</h1>
+      <p class="lead cover-subtitle" data-anim>NVIDIA 从 GPU 芯片公司走向 AI Factory 平台公司的技术路线判断</p>
+    </div>
+
+    <div class="cover-visual" aria-hidden="true">
+      <span class="orb red" style="width:6.2vw;height:6.2vw;right:11vw;top:3vh"></span>
+      <span class="orb" style="width:12.5vw;height:12.5vw;right:0;top:16vh"></span>
+      <span class="orb red" style="width:2.8vw;height:2.8vw;right:19vw;top:35vh"></span>
+      <span class="orb" style="width:5.2vw;height:5.2vw;right:27vw;top:8vh"></span>
+    </div>
+  </div>
+
+  <div class="cover-wave" aria-hidden="true"></div>
+  <div class="cover-meta">
+    <div>范围: 数据中心 AI / 推理软件 / 物理 AI</div>
+    <div>日期: 2026-05-19</div>
+  </div>
+</section>
+
+<section class="slide" data-layout="H02" data-animate="agenda">
+  <div class="brand-lockup">
+    <span class="brand-mark" aria-hidden="true"></span>
+    <span>HUAWEI</span>
+  </div>
+
+  <div class="agenda-layout">
+    <div class="red-panel" data-anim>
+      <div class="kicker" style="color:rgba(255,255,255,.72)">CONTENT</div>
+      <h2 class="h-xl" style="margin-top:2vh">目录</h2>
+      <div class="en" style="margin-top:2vh">28 PAGES</div>
+    </div>
+
+    <div class="agenda-list">
+      <div class="agenda-item" data-anim><div class="idx">01</div><div class="txt">结论与研究口径: AI Factory 是主线</div></div>
+      <div class="agenda-item" data-anim><div class="idx">02</div><div class="txt">平台路线: Blackwell Ultra / Rubin / CPX</div></div>
+      <div class="agenda-item" data-anim><div class="idx">03</div><div class="txt">数据中心: 算力、网络、存储、调度协同</div></div>
+      <div class="agenda-item" data-anim><div class="idx">04</div><div class="txt">推理系统: Dynamo 与 agentic workloads</div></div>
+      <div class="agenda-item" data-anim><div class="idx">05</div><div class="txt">物理 AI: 世界模型、仿真、机器人闭环</div></div>
+      <div class="agenda-item" data-anim><div class="idx">06</div><div class="txt">产业启示: 采购对象与能力建设上移</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-layout="H11" data-animate="foreword">
+  <div class="chrome">
+    <div class="l"><span class="square"></span><span>研究口径</span></div>
+    <div>NV / 2026</div>
+  </div>
+  <div class="brand-lockup">
+    <span class="brand-mark" aria-hidden="true"></span>
+    <span>HUAWEI</span>
+  </div>
+
+  <div style="padding-top:9vh;display:grid;gap:4vh">
+    <div class="content-stack" data-anim>
+      <div class="kicker">RESEARCH SCOPE</div>
+      <h2 class="h-xl">本报告只回答一个问题: NV 的技术路线为什么会从 GPU 走向 AI 工厂</h2>
+    </div>
+    <div class="card flat" data-anim style="position:relative;max-width:76vw;margin:auto;padding:4.8vh 5vw">
+      <span style="position:absolute;left:1.4vw;top:1.4vh;width:2.2vw;height:2px;background:var(--brand-red)"></span>
+      <span style="position:absolute;left:1.4vw;top:1.4vh;width:2px;height:2.2vw;background:var(--brand-red)"></span>
+      <span style="position:absolute;right:1.4vw;bottom:1.4vh;width:2.2vw;height:2px;background:var(--brand-red)"></span>
+      <span style="position:absolute;right:1.4vw;bottom:1.4vh;width:2px;height:2.2vw;background:var(--brand-red)"></span>
+      <p class="body-copy">分析范围聚焦数据中心 AI、推理服务、软件栈、物理 AI 与企业采用路径。判断依据以 NVIDIA 官方发布、Developer Blog、产品页和财报为主,不展开股票估值,也不把短期供需波动当作技术路线本身。</p>
+      <p class="body-copy" style="margin-top:2vh">核心观察: NV 的技术叙事正在从“卖更快芯片”升级为“交付可运营的 token / robot / simulation 工厂”。硬件代际仍重要,但真正的竞争单位已经上移到 rack、POD、推理调度、网络、能效和软件生态。</p>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-layout="H04" data-animate="body">
+  <div class="chrome">
+    <div class="l"><span class="square"></span><span>核心判断</span></div>
+    <div>NV / 2026</div>
+  </div>
+  <div class="brand-lockup">
+    <span class="brand-mark" aria-hidden="true"></span>
+    <span>HUAWEI</span>
+  </div>
+
+  <div style="height:100%;display:grid;grid-template-rows:auto 1fr;gap:4.8vh;padding-top:7vh">
+    <div class="content-stack" data-anim>
+      <div class="kicker">EXECUTIVE SUMMARY</div>
+      <h2 class="h-xl">NV 的下一阶段不是更快的 GPU,而是可运营的 AI 工厂</h2>
+      <div class="red-rule" style="width:8vw"></div>
+    </div>
+
+    <div class="grid-3" style="align-items:stretch">
+      <div class="card" data-anim>
+        <div class="num-pill">01</div>
+        <div class="card-title">竞争单元上移</div>
+        <p class="card-body">从单卡性能转向 rack / POD / AI factory。客户购买的核心对象变成吞吐、能效、上线速度和运维确定性。</p>
+      </div>
+      <div class="card" data-anim>
+        <div class="num-pill">02</div>
+        <div class="card-title">负载中心变化</div>
+        <p class="card-body">预训练仍重要,但 reasoning、agentic inference 和 test-time scaling 正在决定新增算力需求。</p>
+      </div>
+      <div class="card" data-anim>
+        <div class="num-pill">03</div>
+        <div class="card-title">护城河系统化</div>
+        <p class="card-body">GPU、CPU、NVLink、网络、DPU、推理框架和仿真平台共同构成闭环,不是单点硬件竞争。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-layout="H03" data-animate="section">
+  <div class="brand-lockup">
+    <span class="brand-mark" aria-hidden="true"></span>
+    <span>HUAWEI</span>
+  </div>
+
+  <div class="section-layout">
+    <div data-anim>
+      <div class="section-no">01</div>
+      <div class="kicker">PLATFORM ROADMAP</div>
+      <h2 class="h-xl" style="margin-top:1.8vh">从 Blackwell 到 Rubin</h2>
+      <p class="lead" style="margin-top:2vh">观察重点不是代际名称,而是系统边界如何从芯片扩展到 rack、POD 和 AI Factory。</p>
+    </div>
+
+    <div class="red-panel" data-anim>
+      <div class="kicker" style="color:rgba(255,255,255,.72)">KEY MESSAGE</div>
+      <h3 class="h-md" style="margin-top:2vh">NV 正在把路线图写成一套“年度 AI 工厂升级节奏”</h3>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-layout="H06" data-animate="timeline">
+  <div class="chrome">
+    <div class="l"><span class="square"></span><span>技术路线</span></div>
+    <div>NV / 2026</div>
+  </div>
+  <div class="brand-lockup">
+    <span class="brand-mark" aria-hidden="true"></span>
+    <span>HUAWEI</span>
+  </div>
+
+  <div style="padding-top:8vh">
+    <div class="content-stack" data-anim>
+      <div class="kicker">ROADMAP</div>
+      <h2 class="h-xl">2024-2026: 年度节奏推动系统代际迁移</h2>
+    </div>
+
+    <div class="timeline-v" style="margin-top:5vh">
+      <div>
+        <div class="tl-card" data-anim><div class="year">2024</div><p class="card-body">Blackwell 让大模型训练与推理平台进入 rack-scale 时代。</p></div>
+        <div class="tl-card" data-anim><div class="year">2026 CES</div><p class="card-body">Rubin 平台强调六芯片协同: Vera CPU、Rubin GPU、NVLink 6、ConnectX-9、BlueField-4、Spectrum-6。</p></div>
+      </div>
+      <div class="tl-axis" data-anim>
+        <div class="tl-dot">01</div>
+        <div class="tl-dot">02</div>
+        <div class="tl-dot">03</div>
+      </div>
+      <div>
+        <div class="tl-card" data-anim><div class="year">2025 GTC</div><p class="card-body">Blackwell Ultra / GB300 NVL72 聚焦 reasoning AI 与更高 AI factory 回报。</p></div>
+        <div class="tl-card" data-anim><div class="year">2026 GTC</div><p class="card-body">Vera Rubin 进入 agentic AI frontier,由七个新芯片和五类 rack 组成系统平台。</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-layout="H18" data-animate="diagonal-roadmap">
+  <div class="chrome">
+    <div class="l"><span class="square"></span><span>代际路线</span></div>
+    <div>NV / 2026</div>
+  </div>
+  <div class="brand-lockup">
+    <span class="brand-mark" aria-hidden="true"></span>
+    <span>HUAWEI</span>
+  </div>
+
+  <div style="padding-top:8vh">
+    <div class="content-stack" data-anim>
+      <div class="kicker">DIAGONAL ROADMAP</div>
+      <h2 class="h-xl">代际跃迁的主线: 从训练 GPU 到长上下文推理平台</h2>
+    </div>
+    <div style="position:relative;height:46vh;margin-top:5vh" data-anim>
+      <div style="position:absolute;left:8%;bottom:12%;right:7%;height:1px;background:var(--line-strong);transform:rotate(-12deg);transform-origin:left center"></div>
+      <div style="position:absolute;left:8%;bottom:8%"><div class="icon-disc"><i data-lucide="server"></i></div><div class="card-title">Blackwell</div><p class="card-body" style="width:14vw">rack-scale 基础</p></div>
+      <div style="position:absolute;left:30%;bottom:20%"><div class="icon-disc"><i data-lucide="zap"></i></div><div class="card-title">Blackwell Ultra</div><p class="card-body" style="width:15vw">reasoning / test-time scaling</p></div>
+      <div style="position:absolute;left:54%;bottom:34%"><div class="icon-disc"><i data-lucide="network"></i></div><div class="card-title">Vera Rubin</div><p class="card-body" style="width:15vw">七芯片 + 五类 rack</p></div>
+      <div style="position:absolute;left:77%;bottom:48%"><div class="icon-disc"><i data-lucide="braces"></i></div><div class="card-title">Rubin CPX</div><p class="card-body" style="width:15vw">million-token code / video inference</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-layout="H15" data-animate="kpi-dashboard">
+  <div class="chrome">
+    <div class="l"><span class="square"></span><span>经营信号</span></div>
+    <div>NV / 2026</div>
+  </div>
+  <div class="brand-lockup">
+    <span class="brand-mark" aria-hidden="true"></span>
+    <span>HUAWEI</span>
+  </div>
+
+  <div class="grid-12" style="padding-top:9vh;align-items:end">
+    <div class="span-7 card" data-anim>
+      <div class="kicker">FY2026 PERFORMANCE</div>
+      <div style="height:42vh;display:flex;align-items:end;gap:1.2vw;margin-top:4vh;border-bottom:1px solid var(--line)">
+        <div style="height:32%;width:4.4vw;background:#d8dde4;padding:.8vh;font-family:var(--mono)">Q4</div>
+        <div style="height:30%;width:4.4vw;background:var(--brand-red);color:#fff;padding:.8vh;font-family:var(--mono)">DC</div>
+        <div style="height:84%;width:4.4vw;background:#d8dde4;padding:.8vh;font-family:var(--mono)">FY</div>
+        <div style="height:76%;width:4.4vw;background:var(--brand-red);color:#fff;padding:.8vh;font-family:var(--mono)">FY DC</div>
+        <div style="height:58%;width:4.4vw;background:#cfd5dd;padding:.8vh;font-family:var(--mono)">GM</div>
+      </div>
+      <p class="caption">量级用于表达结构关系,不代表精确比例图。来源: NVIDIA FY2026 Q4 financial results。</p>
+    </div>
+    <div class="span-5 content-stack" data-anim>
+      <div class="stat-big">$215.9B</div>
+      <div class="card-title">FY2026 revenue</div>
+      <p class="lead">FY2026 收入达到 215.9B 美元,Data Center 全年 193.7B 美元。技术路线和经营结构正在相互验证:核心增长来自 AI 基础设施平台化。</p>
+      <div class="grid-2" style="gap:1vw">
+        <div class="card flat"><div class="card-title">$68.1B</div><p class="card-body">Q4 FY2026 revenue</p></div>
+        <div class="card flat"><div class="card-title">$62.3B</div><p class="card-body">Q4 Data Center</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-layout="H08" data-animate="process">
+  <div class="chrome">
+    <div class="l"><span class="square"></span><span>系统演进</span></div>
+    <div>NV / 2026</div>
+  </div>
+  <div class="brand-lockup">
+    <span class="brand-mark" aria-hidden="true"></span>
+    <span>HUAWEI</span>
+  </div>
+
+  <div style="padding-top:8vh">
+    <div class="content-stack" data-anim>
+      <div class="kicker">FROM CHIP TO FACTORY</div>
+      <h2 class="h-xl">技术竞争单元正在连续上移</h2>
+    </div>
+
+    <div class="process" style="margin-top:7vh">
+      <div class="process-step" data-anim>
+        <div class="num-pill">01</div>
+        <div class="card-title">GPU</div>
+        <p class="card-body">单芯片性能、HBM、tensor core 仍是基础,但已不是全部答案。</p>
+      </div>
+      <div class="process-step" data-anim>
+        <div class="num-pill">02</div>
+        <div class="card-title">Superchip</div>
+        <p class="card-body">CPU-GPU coherent fabric 让数据搬运、调度和低延迟协同成为关键。</p>
+      </div>
+      <div class="process-step" data-anim>
+        <div class="num-pill">03</div>
+        <div class="card-title">Rack / POD</div>
+        <p class="card-body">NVL72、NVLink switch、液冷和网络共同决定可交付算力。</p>
+      </div>
+      <div class="process-step" data-anim>
+        <div class="num-pill">04</div>
+        <div class="card-title">AI Factory</div>
+        <p class="card-body">客户最终需要的是可运营的 token 工厂:吞吐、成本、可用性、上线速度。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-layout="H05" data-animate="cards">
+  <div class="chrome">
+    <div class="l"><span class="square"></span><span>平台三支柱</span></div>
+    <div>NV / 2026</div>
+  </div>
+  <div class="brand-lockup">
+    <span class="brand-mark" aria-hidden="true"></span>
+    <span>HUAWEI</span>
+  </div>
+
+  <div style="padding-top:8vh">
+    <div class="content-stack" data-anim>
+      <div class="kicker">PLATFORM PILLARS</div>
+      <h2 class="h-xl">Blackwell Ultra、Vera Rubin、Dynamo 构成新增长叙事</h2>
+    </div>
+
+    <div class="grid-3" style="margin-top:6vh">
+      <div class="card" data-anim>
+        <div class="icon-disc"><i data-lucide="server"></i></div>
+        <div class="card-title">Blackwell Ultra</div>
+        <p class="card-body">GB300 NVL72 把 72 个 Blackwell Ultra GPU 和 36 个 Grace CPU 做成 rack-scale 单元,面向 test-time scaling。</p>
+      </div>
+      <div class="card" data-anim>
+        <div class="icon-disc"><i data-lucide="network"></i></div>
+        <div class="card-title">Vera Rubin</div>
+        <p class="card-body">从 GPU 平台扩展为多芯片系统工程:CPU、GPU、NVLink、NIC、DPU、Ethernet switch 一起设计。</p>
+      </div>
+      <div class="card" data-anim>
+        <div class="icon-disc"><i data-lucide="route"></i></div>
+        <div class="card-title">Dynamo</div>
+        <p class="card-body">推理服务框架把 prefill / decode 分离、动态调度和 LLM-aware routing 放到系统层解决。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-layout="H04" data-animate="body">
+  <div class="chrome">
+    <div class="l"><span class="square"></span><span>AI Factory 架构</span></div>
+    <div>NV / 2026</div>
+  </div>
+  <div class="brand-lockup">
+    <span class="brand-mark" aria-hidden="true"></span>
+    <span>HUAWEI</span>
+  </div>
+
+  <div style="height:100%;display:grid;grid-template-rows:auto 1fr;gap:4.5vh;padding-top:7vh">
+    <div class="content-stack" data-anim>
+      <div class="kicker">REFERENCE ARCHITECTURE</div>
+      <h2 class="h-xl">未来数据中心的核心不是 GPU 数量,而是系统级瓶颈消除</h2>
+    </div>
+
+    <div class="grid-4" style="align-items:stretch">
+      <div class="card" data-anim>
+        <div class="num-pill">C</div>
+        <div class="card-title">Compute</div>
+        <p class="card-body">训练、后训练、推理共享底层加速计算池。</p>
+      </div>
+      <div class="card" data-anim>
+        <div class="num-pill">N</div>
+        <div class="card-title">Network</div>
+        <p class="card-body">NVLink / Ethernet / SuperNIC 决定多机规模和尾延迟。</p>
+      </div>
+      <div class="card" data-anim>
+        <div class="num-pill">S</div>
+        <div class="card-title">Storage</div>
+        <p class="card-body">agentic workloads 需要上下文、检索、日志和状态高速进出。</p>
+      </div>
+      <div class="card" data-anim>
+        <div class="num-pill">O</div>
+        <div class="card-title">Orchestration</div>
+        <p class="card-body">调度系统把模型、工具、数据和验证流程组织成服务。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-layout="H17" data-animate="hub">
+  <div class="chrome">
+    <div class="l"><span class="square"></span><span>AI Factory 模型</span></div>
+    <div>NV / 2026</div>
+  </div>
+  <div class="brand-lockup">
+    <span class="brand-mark" aria-hidden="true"></span>
+    <span>HUAWEI</span>
+  </div>
+
+  <div style="padding-top:8vh">
+    <div class="content-stack" data-anim>
+      <div class="kicker">OPERATING MODEL</div>
+      <h2 class="h-xl">AI 工厂不是硬件堆叠,而是六个子系统的协同效率</h2>
+    </div>
+    <div style="position:relative;height:52vh;margin-top:2vh" data-anim>
+      <div style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:11vw;height:11vw;border-radius:999px;background:var(--brand-red);color:#fff;display:grid;place-items:center;font-weight:900;text-align:center">AI<br/>Factory</div>
+      <div style="position:absolute;left:8%;top:8%;width:21vw" class="card"><div class="card-title">Compute</div><p class="card-body">GPU / CPU / HBM / Grace Blackwell and Vera Rubin systems</p></div>
+      <div style="position:absolute;right:8%;top:8%;width:21vw" class="card"><div class="card-title">Network</div><p class="card-body">NVLink / InfiniBand / Ethernet / Spectrum-X</p></div>
+      <div style="position:absolute;left:8%;bottom:8%;width:21vw" class="card"><div class="card-title">Software</div><p class="card-body">CUDA / TensorRT-LLM / Dynamo / NIM</p></div>
+      <div style="position:absolute;right:8%;bottom:8%;width:21vw" class="card"><div class="card-title">Operations</div><p class="card-body">liquid cooling / telemetry / placement / utilization</p></div>
+      <div style="position:absolute;left:39%;top:4%;width:18vw" class="card"><div class="card-title">Data</div><p class="card-body">context, retrieval, logs and state</p></div>
+      <div style="position:absolute;left:39%;bottom:2%;width:18vw" class="card"><div class="card-title">Security</div><p class="card-body">governance, access, isolation</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-layout="H03" data-animate="section">
+  <div class="brand-lockup">
+    <span class="brand-mark" aria-hidden="true"></span>
+    <span>HUAWEI</span>
+  </div>
+
+  <div class="section-layout">
+    <div data-anim>
+      <div class="section-no">02</div>
+      <div class="kicker">INFERENCE SYSTEMS</div>
+      <h2 class="h-xl" style="margin-top:1.8vh">推理正在变成系统工程</h2>
+      <p class="lead" style="margin-top:2vh">reasoning、agent 和长上下文让推理服务从模型 serving 走向任务编排。</p>
+    </div>
+
+    <div class="red-panel" data-anim>
+      <div class="kicker" style="color:rgba(255,255,255,.72)">KEY MESSAGE</div>
+      <h3 class="h-md" style="margin-top:2vh">Dynamo 的意义在于把 token 产线拆成可调度、可复用、可观测的生产系统</h3>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-layout="H07" data-animate="data">
+  <div class="chrome">
+    <div class="l"><span class="square"></span><span>算力需求</span></div>
+    <div>NV / 2026</div>
+  </div>
+  <div class="brand-lockup">
+    <span class="brand-mark" aria-hidden="true"></span>
+    <span>HUAWEI</span>
+  </div>
+
+  <div style="padding-top:8vh">
+    <div class="grid-12" style="align-items:end">
+      <div class="span-5 content-stack" data-anim>
+        <div class="kicker">DEMAND SHIFT</div>
+        <h2 class="h-xl">AI 算力从“训练峰值”转向“持续推理现金流”</h2>
+        <p class="lead">reasoning 和 agents 让一次回答变成多步规划、工具调用、验证和回写,推理成本成为平台设计中心。</p>
+        <div>
+          <div class="stat-big">50x</div>
+          <div class="meta">NVIDIA 对 Hopper AI factory 收入机会对比的表述</div>
+        </div>
+      </div>
+
+      <div class="span-7 card" data-anim>
+        <div class="bar-chart">
+          <div class="bar-row"><span>预训练</span><div class="bar-track"><div class="bar-fill" style="--v:72%"></div></div><strong>高</strong></div>
+          <div class="bar-row"><span>后训练</span><div class="bar-track"><div class="bar-fill" style="--v:64%"></div></div><strong>上升</strong></div>
+          <div class="bar-row"><span>推理</span><div class="bar-track"><div class="bar-fill" style="--v:92%"></div></div><strong>核心</strong></div>
+          <div class="bar-row"><span>Agent</span><div class="bar-track"><div class="bar-fill" style="--v:88%"></div></div><strong>新增</strong></div>
+          <div class="bar-row"><span>物理 AI</span><div class="bar-track"><div class="bar-fill" style="--v:70%"></div></div><strong>扩展</strong></div>
+        </div>
+        <p class="caption">来源: NVIDIA Blackwell Ultra / Vera Rubin 官方发布材料。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-layout="H07" data-animate="data">
+  <div class="chrome">
+    <div class="l"><span class="square"></span><span>推理经济性</span></div>
+    <div>NV / 2026</div>
+  </div>
+  <div class="brand-lockup">
+    <span class="brand-mark" aria-hidden="true"></span>
+    <span>HUAWEI</span>
+  </div>
+
+  <div style="padding-top:8vh">
+    <div class="grid-12" style="align-items:end">
+      <div class="span-5 content-stack" data-anim>
+        <div class="kicker">INFERENCE ECONOMICS</div>
+        <h2 class="h-xl">Reasoning 模型让推理框架变成生产系统核心</h2>
+        <p class="lead">一次复杂推理请求会经历长上下文预填充、多轮 decode、工具调用和结果校验。系统需要按阶段拆解负载,而不是把请求当作单次 GPU job。</p>
+        <div>
+          <div class="stat-big">30x</div>
+          <div class="meta">Dynamo 博客披露的 DeepSeek-R1 请求服务提升上限</div>
+        </div>
+      </div>
+
+      <div class="span-7 card" data-anim>
+        <div class="bar-chart">
+          <div class="bar-row"><span>Prefill</span><div class="bar-track"><div class="bar-fill" style="--v:82%"></div></div><strong>显存</strong></div>
+          <div class="bar-row"><span>Decode</span><div class="bar-track"><div class="bar-fill" style="--v:76%"></div></div><strong>时延</strong></div>
+          <div class="bar-row"><span>Routing</span><div class="bar-track"><div class="bar-fill" style="--v:70%"></div></div><strong>调度</strong></div>
+          <div class="bar-row"><span>KV Cache</span><div class="bar-track"><div class="bar-fill" style="--v:88%"></div></div><strong>复用</strong></div>
+          <div class="bar-row"><span>Tool Use</span><div class="bar-track"><div class="bar-fill" style="--v:62%"></div></div><strong>编排</strong></div>
+        </div>
+        <p class="caption">来源: NVIDIA Dynamo developer blog, 2025-03-18。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-layout="H16" data-animate="combo-chart">
+  <div class="chrome">
+    <div class="l"><span class="square"></span><span>推理指标</span></div>
+    <div>NV / 2026</div>
+  </div>
+  <div class="brand-lockup">
+    <span class="brand-mark" aria-hidden="true"></span>
+    <span>HUAWEI</span>
+  </div>
+
+  <div style="padding-top:8vh">
+    <div class="content-stack" data-anim>
+      <div class="kicker">PERFORMANCE VECTOR</div>
+      <h2 class="h-xl">推理竞争的指标从“每卡 FLOPS”扩展为“每瓦 token 产出”</h2>
+    </div>
+    <div class="grid-12" style="margin-top:5vh;align-items:stretch">
+      <div class="span-8 card" data-anim>
+        <div style="height:42vh;display:grid;grid-template-columns:repeat(6,1fr);align-items:end;gap:1vw;border-bottom:1px solid var(--line);position:relative">
+          <span style="position:absolute;left:5%;right:4%;top:42%;border-top:3px solid var(--brand-red);transform:rotate(-9deg);transform-origin:left center"></span>
+          <span style="position:absolute;left:19%;top:47%;width:.9vw;height:.9vw;border-radius:999px;background:var(--brand-red)"></span>
+          <span style="position:absolute;left:50%;top:36%;width:.9vw;height:.9vw;border-radius:999px;background:var(--brand-red)"></span>
+          <span style="position:absolute;right:12%;top:30%;width:.9vw;height:.9vw;border-radius:999px;background:var(--brand-red)"></span>
+          <div style="height:36%;background:#d8dde4;padding:.8vh;font-family:var(--mono)">H100</div>
+          <div style="height:58%;background:#cfd5dd;padding:.8vh;font-family:var(--mono)">GB200</div>
+          <div style="height:72%;background:var(--brand-red);color:#fff;padding:.8vh;font-family:var(--mono)">GB300</div>
+          <div style="height:82%;background:var(--brand-red);color:#fff;padding:.8vh;font-family:var(--mono)">VR</div>
+          <div style="height:70%;background:#cfd5dd;padding:.8vh;font-family:var(--mono)">SW</div>
+          <div style="height:90%;background:var(--brand-red-dark);color:#fff;padding:.8vh;font-family:var(--mono)">CPX</div>
+        </div>
+        <p class="caption">示意图:硬件代际、推理框架、长上下文专用计算一起影响单位能耗产出。</p>
+      </div>
+      <div class="span-4 card" data-anim>
+        <div class="num-pill">01</div>
+        <div class="card-title">三类瓶颈变得同等重要</div>
+        <p class="card-body">HBM 容量决定上下文,网络决定并行与尾延迟,调度软件决定 GPU 是否被连续喂满。Rubin CPX 针对 million-token code / video inference,说明长上下文正在变成独立设计目标。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-layout="H24" data-animate="arrow-timeline">
+  <div class="chrome">
+    <div class="l"><span class="square"></span><span>Agent 推理链路</span></div>
+    <div>NV / 2026</div>
+  </div>
+  <div class="brand-lockup">
+    <span class="brand-mark" aria-hidden="true"></span>
+    <span>HUAWEI</span>
+  </div>
+
+  <div style="padding-top:8vh">
+    <div class="content-stack" data-anim>
+      <div class="kicker">SERVING CHAIN</div>
+      <h2 class="h-xl">Agentic inference 的系统链路比传统 chat serving 更长</h2>
+    </div>
+    <div class="arrow-timeline" data-anim>
+      <div class="arrow-timeline-line"></div>
+      <div class="arrow-timeline-head"></div>
+      <div class="card arrow-timeline-card top" style="left:4%;width:16vw"><div class="num-pill">01</div><p class="card-body">长上下文 prefill 与检索输入</p></div>
+      <div class="card arrow-timeline-card bottom" style="left:24%;width:16vw"><div class="num-pill">02</div><p class="card-body">KV cache 复用与请求路由</p></div>
+      <div class="card arrow-timeline-card top" style="left:44%;width:16vw"><div class="num-pill">03</div><p class="card-body">多轮 decode 与工具调用</p></div>
+      <div class="card arrow-timeline-card bottom" style="left:64%;width:16vw"><div class="num-pill">04</div><p class="card-body">验证、回写和安全控制</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-layout="H05" data-animate="cards">
+  <div class="chrome">
+    <div class="l"><span class="square"></span><span>软件护城河</span></div>
+    <div>NV / 2026</div>
+  </div>
+  <div class="brand-lockup">
+    <span class="brand-mark" aria-hidden="true"></span>
+    <span>HUAWEI</span>
+  </div>
+
+  <div style="padding-top:8vh">
+    <div class="content-stack" data-anim>
+      <div class="kicker">SOFTWARE MOAT</div>
+      <h2 class="h-xl">硬件领先需要软件把“峰值性能”变成“可用产能”</h2>
+    </div>
+
+    <div class="grid-3" style="margin-top:6vh">
+      <div class="card" data-anim>
+        <div class="icon-disc"><i data-lucide="cpu"></i></div>
+        <div class="card-title">CUDA / Libraries</div>
+        <p class="card-body">保住开发者迁移成本和生态黏性,让新硬件快速被框架消化。</p>
+      </div>
+      <div class="card" data-anim>
+        <div class="icon-disc"><i data-lucide="activity"></i></div>
+        <div class="card-title">Dynamo / TensorRT-LLM</div>
+        <p class="card-body">把推理服务的吞吐、延迟、KV cache 和调度问题系统化。</p>
+      </div>
+      <div class="card" data-anim>
+        <div class="icon-disc"><i data-lucide="boxes"></i></div>
+        <div class="card-title">Omniverse / Isaac</div>
+        <p class="card-body">把物理世界数据、仿真、机器人策略训练连接成长期 flywheel。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-layout="H20" data-animate="icon-matrix">
+  <div class="chrome">
+    <div class="l"><span class="square"></span><span>软件能力矩阵</span></div>
+    <div>NV / 2026</div>
+  </div>
+  <div class="brand-lockup">
+    <span class="brand-mark" aria-hidden="true"></span>
+    <span>HUAWEI</span>
+  </div>
+
+  <div style="padding-top:8vh">
+    <div class="content-stack" data-anim>
+      <div class="kicker">SOFTWARE STACK</div>
+      <h2 class="h-xl">软件矩阵把硬件能力转换成可交付产品</h2>
+    </div>
+    <div class="grid-4" style="margin-top:4vh">
+      <div class="card" data-anim style="padding:2vh 1.25vw"><div class="icon-disc" style="width:3.4vw;height:3.4vw"><i data-lucide="cpu"></i></div><div class="card-title">CUDA</div><p class="card-body">开发者生态与加速库。</p></div>
+      <div class="card" data-anim style="padding:2vh 1.25vw"><div class="icon-disc" style="width:3.4vw;height:3.4vw"><i data-lucide="activity"></i></div><div class="card-title">TensorRT-LLM</div><p class="card-body">推理优化与模型部署。</p></div>
+      <div class="card" data-anim style="padding:2vh 1.25vw"><div class="icon-disc" style="width:3.4vw;height:3.4vw"><i data-lucide="route"></i></div><div class="card-title">Dynamo</div><p class="card-body">分布式推理调度。</p></div>
+      <div class="card" data-anim style="padding:2vh 1.25vw"><div class="icon-disc" style="width:3.4vw;height:3.4vw"><i data-lucide="box"></i></div><div class="card-title">NIM</div><p class="card-body">企业模型服务封装。</p></div>
+      <div class="card" data-anim style="padding:2vh 1.25vw"><div class="icon-disc" style="width:3.4vw;height:3.4vw"><i data-lucide="brain"></i></div><div class="card-title">Nemotron</div><p class="card-body">开放推理模型与数据。</p></div>
+      <div class="card" data-anim style="padding:2vh 1.25vw"><div class="icon-disc" style="width:3.4vw;height:3.4vw"><i data-lucide="globe-2"></i></div><div class="card-title">Cosmos</div><p class="card-body">世界基础模型。</p></div>
+      <div class="card" data-anim style="padding:2vh 1.25vw"><div class="icon-disc" style="width:3.4vw;height:3.4vw"><i data-lucide="bot"></i></div><div class="card-title">Isaac / GR00T</div><p class="card-body">机器人训练与部署。</p></div>
+      <div class="card" data-anim style="padding:2vh 1.25vw"><div class="icon-disc" style="width:3.4vw;height:3.4vw"><i data-lucide="network"></i></div><div class="card-title">Spectrum-X</div><p class="card-body">AI Ethernet 网络平台。</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-layout="H21" data-animate="map">
+  <div class="chrome">
+    <div class="l"><span class="square"></span><span>生态落地</span></div>
+    <div>NV / 2026</div>
+  </div>
+  <div class="brand-lockup">
+    <span class="brand-mark" aria-hidden="true"></span>
+    <span>HUAWEI</span>
+  </div>
+
+  <div class="grid-12" style="padding-top:9vh;align-items:center">
+    <div class="span-8 card" data-anim style="height:54vh;position:relative;background:#f1f3f6;overflow:hidden">
+      <div style="position:absolute;left:11%;top:15%;right:11%;bottom:16%;background:#dfe3e8;clip-path:polygon(12% 40%,32% 18%,55% 24%,76% 35%,85% 60%,62% 77%,35% 69%,18% 58%)"></div>
+      <span style="position:absolute;left:33%;top:34%;width:1.6vw;height:1.6vw;border-radius:999px;background:var(--brand-red);box-shadow:0 0 0 1vw rgba(var(--brand-red-rgb),.12)"></span>
+      <span style="position:absolute;left:54%;top:40%;width:1.6vw;height:1.6vw;border-radius:999px;background:var(--brand-red);box-shadow:0 0 0 1vw rgba(var(--brand-red-rgb),.12)"></span>
+      <span style="position:absolute;left:48%;top:58%;width:1.6vw;height:1.6vw;border-radius:999px;background:var(--brand-red);box-shadow:0 0 0 1vw rgba(var(--brand-red-rgb),.12)"></span>
+      <div style="position:absolute;left:7%;bottom:5%;right:7%" class="caption">示意: Vera Rubin 等新平台的落地不只依赖 NVIDIA 自有系统,还依赖云厂商、OEM、网络与企业软件生态协同部署。</div>
+    </div>
+    <div class="span-4 content-stack" data-anim>
+      <div class="kicker">ECOSYSTEM DEPLOYMENT</div>
+      <h2 class="h-md">AI 工厂能力通过云与整机生态扩散</h2>
+      <div class="agenda-list">
+        <div class="agenda-item"><div class="idx">01</div><div class="txt">Cloud: AWS / Azure / Google Cloud / OCI</div></div>
+        <div class="agenda-item"><div class="idx">02</div><div class="txt">OEM: rack-scale server integration</div></div>
+        <div class="agenda-item"><div class="idx">03</div><div class="txt">Enterprise: NIM / NeMo / AI Enterprise</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-layout="H03" data-animate="section">
+  <div class="brand-lockup">
+    <span class="brand-mark" aria-hidden="true"></span>
+    <span>HUAWEI</span>
+  </div>
+
+  <div class="section-layout">
+    <div data-anim>
+      <div class="section-no">03</div>
+      <div class="kicker">PHYSICAL AI</div>
+      <h2 class="h-xl" style="margin-top:1.8vh">从数字智能到物理智能</h2>
+      <p class="lead" style="margin-top:2vh">机器人、自动驾驶和工业自动化把数据生成、仿真、训练、部署连成新飞轮。</p>
+    </div>
+
+    <div class="red-panel" data-anim>
+      <div class="kicker" style="color:rgba(255,255,255,.72)">KEY MESSAGE</div>
+      <h3 class="h-md" style="margin-top:2vh">Physical AI 是 NV 把 GPU 需求扩展到真实世界场景的第二增长曲线</h3>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-layout="H08" data-animate="process">
+  <div class="chrome">
+    <div class="l"><span class="square"></span><span>物理 AI</span></div>
+    <div>NV / 2026</div>
+  </div>
+  <div class="brand-lockup">
+    <span class="brand-mark" aria-hidden="true"></span>
+    <span>HUAWEI</span>
+  </div>
+
+  <div style="padding-top:8vh">
+    <div class="content-stack" data-anim>
+      <div class="kicker">PHYSICAL AI</div>
+      <h2 class="h-xl">机器人和自动驾驶把 NVIDIA 带到“世界模型 + 仿真 + 边缘计算”</h2>
+    </div>
+
+    <div class="process" style="margin-top:7vh">
+      <div class="process-step" data-anim>
+        <div class="num-pill">01</div>
+        <div class="card-title">World Foundation Models</div>
+        <p class="card-body">Cosmos 一类世界基础模型用于生成多样化训练数据。</p>
+      </div>
+      <div class="process-step" data-anim>
+        <div class="num-pill">02</div>
+        <div class="card-title">Simulation</div>
+        <p class="card-body">Omniverse / Isaac Lab / Newton 提供物理仿真和数据生成闭环。</p>
+      </div>
+      <div class="process-step" data-anim>
+        <div class="num-pill">03</div>
+        <div class="card-title">Foundation Policy</div>
+        <p class="card-body">GR00T 系列面向 humanoid reasoning 与技能迁移。</p>
+      </div>
+      <div class="process-step" data-anim>
+        <div class="num-pill">04</div>
+        <div class="card-title">Edge Deployment</div>
+        <p class="card-body">Jetson / IGX / Thor 等边缘平台承接真实世界推理。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-layout="H23" data-animate="gear-process">
+  <div class="chrome">
+    <div class="l"><span class="square"></span><span>物理 AI 飞轮</span></div>
+    <div>NV / 2026</div>
+  </div>
+  <div class="brand-lockup">
+    <span class="brand-mark" aria-hidden="true"></span>
+    <span>HUAWEI</span>
+  </div>
+
+  <div style="padding-top:8vh">
+    <div class="content-stack" data-anim>
+      <div class="kicker">DATA FLYWHEEL</div>
+      <h2 class="h-xl">物理 AI 的核心资产不是单个模型,而是可持续生成训练数据的闭环</h2>
+    </div>
+    <div class="grid-4" style="margin-top:6vh;align-items:stretch">
+      <div class="card" data-anim>
+        <div class="icon-disc"><i data-lucide="box"></i></div>
+        <div class="card-title">World Model</div>
+        <p class="card-body">Cosmos 生成世界状态与场景变化,补足真实数据稀缺。</p>
+      </div>
+      <div class="card" data-anim>
+        <div class="icon-disc"><i data-lucide="orbit"></i></div>
+        <div class="card-title">Simulation</div>
+        <p class="card-body">Omniverse / Newton / Isaac Lab 提供可控、可重复的物理仿真。</p>
+      </div>
+      <div class="card" data-anim>
+        <div class="icon-disc"><i data-lucide="bot"></i></div>
+        <div class="card-title">Policy Training</div>
+        <p class="card-body">GR00T 等模型把多模态感知和动作策略迁移到机器人。</p>
+      </div>
+      <div class="card" data-anim>
+        <div class="icon-disc"><i data-lucide="refresh-cw"></i></div>
+        <div class="card-title">Fleet Feedback</div>
+        <p class="card-body">边缘部署持续回收失败案例,反哺仿真和训练数据。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-layout="H22" data-animate="staircase">
+  <div class="chrome">
+    <div class="l"><span class="square"></span><span>物理 AI 成熟度</span></div>
+    <div>NV / 2026</div>
+  </div>
+  <div class="brand-lockup">
+    <span class="brand-mark" aria-hidden="true"></span>
+    <span>HUAWEI</span>
+  </div>
+
+  <div style="padding-top:8vh">
+    <div class="content-stack" data-anim>
+      <div class="kicker">MATURITY PATH</div>
+      <h2 class="h-xl">从感知模型到规模化机器人,每一层都需要不同算力形态</h2>
+    </div>
+    <div style="display:flex;align-items:end;gap:1vw;height:46vh;margin-top:5vh" data-anim>
+      <div style="height:28%;width:13vw;background:#dfe3e8;padding:1.4vh"><strong>感知</strong><p class="card-body">视觉 / 语音 / 传感器融合</p></div>
+      <div style="height:42%;width:13vw;background:#cfd5dd;padding:1.4vh"><strong>推理</strong><p class="card-body">任务规划 / 场景理解</p></div>
+      <div style="height:58%;width:13vw;background:#b7c0ca;padding:1.4vh"><strong>动作</strong><p class="card-body">策略学习 / 控制闭环</p></div>
+      <div style="height:74%;width:13vw;background:var(--brand-red);color:#fff;padding:1.4vh"><strong>仿真</strong><p style="font-size:.8vw;line-height:1.5;margin-top:1vh">合成数据 / 数字孪生</p></div>
+      <div style="height:88%;width:13vw;background:var(--brand-red-dark);color:#fff;padding:1.4vh"><strong>部署</strong><p style="font-size:.8vw;line-height:1.5;margin-top:1vh">边缘推理 / fleet learning</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-layout="H04" data-animate="body">
+  <div class="chrome">
+    <div class="l"><span class="square"></span><span>产业启示</span></div>
+    <div>NV / 2026</div>
+  </div>
+  <div class="brand-lockup">
+    <span class="brand-mark" aria-hidden="true"></span>
+    <span>HUAWEI</span>
+  </div>
+
+  <div style="height:100%;display:grid;grid-template-rows:auto 1fr;gap:4.8vh;padding-top:7vh">
+    <div class="content-stack" data-anim>
+      <div class="kicker">IMPLICATIONS</div>
+      <h2 class="h-xl">企业采用 AI 基础设施时,决策对象也要上移</h2>
+      <div class="red-rule" style="width:8vw"></div>
+    </div>
+
+    <div class="grid-2" style="align-items:start">
+      <div class="card flat" data-anim>
+        <p class="body-copy">如果仍按“采购 GPU 卡”来规划 AI 能力,会低估网络、存储、调度、推理服务和运维体系的总成本。NV 的技术路线说明:未来 AI 基础设施更像一条产线,而不是一批服务器。</p>
+        <p class="body-copy" style="margin-top:2vh">评估供应商时,应同时看硬件代际、软件栈成熟度、生态兼容性、能耗/液冷方案和推理服务成本。</p>
+      </div>
+      <div class="card" data-anim>
+        <div class="card-title">建议关注的 4 个指标</div>
+        <div class="bar-chart" style="margin-top:2vh">
+          <div class="bar-row"><span>Token 成本</span><div class="bar-track"><div class="bar-fill" style="--v:92%"></div></div><strong>P0</strong></div>
+          <div class="bar-row"><span>尾延迟</span><div class="bar-track"><div class="bar-fill" style="--v:84%"></div></div><strong>P0</strong></div>
+          <div class="bar-row"><span>上线速度</span><div class="bar-track"><div class="bar-fill" style="--v:78%"></div></div><strong>P1</strong></div>
+          <div class="bar-row"><span>运维能效</span><div class="bar-track"><div class="bar-fill" style="--v:76%"></div></div><strong>P1</strong></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-layout="H26" data-animate="metaphor">
+  <div class="chrome">
+    <div class="l"><span class="square"></span><span>战略选择</span></div>
+    <div>NV / 2026</div>
+  </div>
+  <div class="brand-lockup">
+    <span class="brand-mark" aria-hidden="true"></span>
+    <span>HUAWEI</span>
+  </div>
+
+  <div style="padding-top:8vh">
+    <div class="content-stack" data-anim>
+      <div class="kicker">BUILD OR BUY</div>
+      <h2 class="h-xl">企业的分叉点: 买 GPU,还是建设可运营的 AI 产线</h2>
+    </div>
+    <div class="grid-2" style="margin-top:5vh;align-items:end">
+      <div class="card" data-anim style="text-align:center">
+        <div style="height:28vh;display:flex;align-items:end;justify-content:center;gap:.6vw">
+          <span style="height:76%;width:3vw;background:var(--brand-red)"></span>
+          <span style="height:42%;width:3vw;background:#cfd5dd"></span>
+          <span style="height:28%;width:3vw;background:#dfe3e8"></span>
+        </div>
+        <div class="card-title">设备采购逻辑</div>
+        <p class="card-body">先看单卡性能和硬件折扣,容易忽视网络、软件、能耗、调度和模型上线速度。短期可启动,长期容易被利用率和尾延迟拖住。</p>
+      </div>
+      <div class="card" data-anim style="text-align:center">
+        <div style="height:28vh;display:flex;align-items:end;justify-content:center;gap:.6vw">
+          <span style="height:36%;width:3vw;background:#dfe3e8"></span>
+          <span style="height:62%;width:3vw;background:#cfd5dd"></span>
+          <span style="height:88%;width:3vw;background:var(--brand-red)"></span>
+        </div>
+        <div class="card-title">AI 工厂逻辑</div>
+        <p class="card-body">以 token 成本、吞吐、SLA、能效和运维闭环为目标,统一规划硬件、网络、推理框架、模型服务和组织流程。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-layout="H05" data-animate="cards">
+  <div class="chrome">
+    <div class="l"><span class="square"></span><span>资料来源</span></div>
+    <div>NV / 2026</div>
+  </div>
+  <div class="brand-lockup">
+    <span class="brand-mark" aria-hidden="true"></span>
+    <span>HUAWEI</span>
+  </div>
+
+  <div style="padding-top:8vh">
+    <div class="content-stack" data-anim>
+      <div class="kicker">SOURCE NOTES</div>
+      <h2 class="h-xl">关键事实均落到 NVIDIA 官方资料</h2>
+    </div>
+
+    <div class="grid-4" style="margin-top:4vh">
+      <div class="card" data-anim>
+        <div class="num-pill">01</div>
+        <div class="card-title">FY2026 Results</div>
+        <p class="card-body">NVIDIA Newsroom, 2026-02-25: Q4 revenue, FY revenue and Data Center revenue.</p>
+      </div>
+      <div class="card" data-anim>
+        <div class="num-pill">02</div>
+        <div class="card-title">Blackwell Ultra</div>
+        <p class="card-body">NVIDIA Newsroom, 2025-03-18: Blackwell Ultra AI Factory Platform and reasoning AI positioning.</p>
+      </div>
+      <div class="card" data-anim>
+        <div class="num-pill">03</div>
+        <div class="card-title">GB300 NVL72</div>
+        <p class="card-body">NVIDIA Data Center product page: GB300 NVL72, reasoning performance and rack-scale specs.</p>
+      </div>
+      <div class="card" data-anim>
+        <div class="num-pill">04</div>
+        <div class="card-title">Vera Rubin</div>
+        <p class="card-body">NVIDIA Newsroom / Developer Blog, 2026-01 and 2026-03: Rubin and Vera Rubin POD.</p>
+      </div>
+      <div class="card" data-anim>
+        <div class="num-pill">05</div>
+        <div class="card-title">Rubin CPX</div>
+        <p class="card-body">NVIDIA Newsroom, 2025-09-09: long-context inference, NVL144 CPX and CPX system claims.</p>
+      </div>
+      <div class="card" data-anim>
+        <div class="num-pill">06</div>
+        <div class="card-title">Vera Rubin Cloud</div>
+        <p class="card-body">NVIDIA Newsroom, 2026-03-16: Vera Rubin platform, hyperscale and enterprise ecosystem.</p>
+      </div>
+      <div class="card" data-anim>
+        <div class="num-pill">07</div>
+        <div class="card-title">Dynamo & Physical AI</div>
+        <p class="card-body">NVIDIA Developer Blog and Newsroom: Dynamo, Cosmos, Isaac GR00T, Omniverse libraries.</p>
+      </div>
+      <div class="card" data-anim>
+        <div class="num-pill">08</div>
+        <div class="card-title">Open Models</div>
+        <p class="card-body">NVIDIA Newsroom, 2026-03-16: Nemotron reasoning models, Cosmos Predict and curated datasets.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="slide dark" data-layout="H10" data-animate="closing">
+  <div class="brand-lockup">
+    <span class="brand-mark" aria-hidden="true"></span>
+    <span>HUAWEI</span>
+  </div>
+
+  <div style="height:100%;display:grid;align-content:center;gap:3vh;max-width:68vw">
+    <div class="cover-badge" data-anim>
+      <span class="brand-mark" aria-hidden="true" style="width:5.8vw;height:5.8vw"></span>
+    </div>
+    <div class="kicker" data-anim>FINAL TAKEAWAY</div>
+    <h2 class="h-hero" data-anim>下一轮竞争<br/>是 AI 工厂效率</h2>
+    <p class="lead" data-anim>从芯片性能看 NV,只能看到一半;从系统、软件和应用飞轮看,才能看见完整技术路线。</p>
+  </div>
+</section>
+
+</div>
+
+<div id="nav"></div>
+<div id="overview"></div>
+
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<script>
+(() => {
+  const deck = document.getElementById('deck');
+  const nav = document.getElementById('nav');
+  const overview = document.getElementById('overview');
+  const slides = [...document.querySelectorAll('.slide')];
+  const lowPowerKey = 'guizang-huawei-low-power';
+  let current = 0;
+  let wheelLock = false;
+
+  const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  window.__lowPowerMode = localStorage.getItem(lowPowerKey) === '1' || prefersReduced;
+  document.body.classList.toggle('low-power', window.__lowPowerMode);
+
+  function buildNav(){
+    nav.innerHTML = '';
+    slides.forEach((_, i) => {
+      const dot = document.createElement('button');
+      dot.type = 'button';
+      dot.setAttribute('aria-label', `Go to slide ${i + 1}`);
+      dot.addEventListener('click', () => go(i));
+      nav.appendChild(dot);
+    });
+  }
+
+  function buildOverview(){
+    overview.innerHTML = '';
+    slides.forEach((slide, i) => {
+      const thumb = document.createElement('div');
+      thumb.className = 'thumb';
+      const clone = slide.cloneNode(true);
+      clone.classList.add('active');
+      thumb.appendChild(clone);
+      thumb.addEventListener('click', () => {
+        document.body.classList.remove('overview');
+        go(i);
+      });
+      overview.appendChild(thumb);
+    });
+  }
+
+  function updateTheme(){
+    document.body.classList.toggle('dark-bg', slides[current]?.classList.contains('dark'));
+  }
+
+  function go(i){
+    if (!slides.length) return;
+    current = Math.max(0, Math.min(i, slides.length - 1));
+    deck.style.transform = `translateX(${-current * 100}vw)`;
+    slides.forEach((slide, idx) => slide.classList.toggle('active', idx === current));
+    [...nav.children].forEach((dot, idx) => dot.classList.toggle('active', idx === current));
+    updateTheme();
+  }
+
+  function toggleLowPower(){
+    window.__lowPowerMode = !window.__lowPowerMode;
+    localStorage.setItem(lowPowerKey, window.__lowPowerMode ? '1' : '0');
+    document.body.classList.toggle('low-power', window.__lowPowerMode);
+  }
+
+  addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') {
+      event.preventDefault();
+      document.body.classList.toggle('overview');
+      return;
+    }
+    if (event.key === 'b' || event.key === 'B') {
+      event.preventDefault();
+      toggleLowPower();
+      return;
+    }
+    if (document.body.classList.contains('overview')) return;
+    if (event.key === 'ArrowRight' || event.key === 'PageDown' || event.key === ' ') {
+      event.preventDefault();
+      go(current + 1);
+    }
+    if (event.key === 'ArrowLeft' || event.key === 'PageUp') {
+      event.preventDefault();
+      go(current - 1);
+    }
+  });
+
+  addEventListener('wheel', (event) => {
+    if (document.body.classList.contains('overview') || wheelLock || Math.abs(event.deltaY) < 24) return;
+    wheelLock = true;
+    go(current + (event.deltaY > 0 ? 1 : -1));
+    setTimeout(() => { wheelLock = false; }, 620);
+  }, { passive: true });
+
+  let touchStartX = null;
+  addEventListener('touchstart', (event) => { touchStartX = event.touches[0]?.clientX ?? null; }, { passive: true });
+  addEventListener('touchend', (event) => {
+    if (touchStartX == null) return;
+    const dx = (event.changedTouches[0]?.clientX ?? touchStartX) - touchStartX;
+    if (Math.abs(dx) > 46) go(current + (dx < 0 ? 1 : -1));
+    touchStartX = null;
+  }, { passive: true });
+
+  buildNav();
+  buildOverview();
+  go(0);
+  if (window.lucide) window.lucide.createIcons();
+})();
+</script>
+</body>
+</html>

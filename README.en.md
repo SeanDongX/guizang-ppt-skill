@@ -10,10 +10,11 @@
 
 An agent skill for Claude Code, Codex, and similar coding-agent environments. It generates **single-file HTML horizontal-swipe decks**, deck visuals, and social cover pages.
 
-It ships with two visual systems:
+It ships with three visual systems:
 
 - **Style A: editorial magazine × electronic ink**. Picture *Monocle* with code stitched in. Best for narrative talks, opinions, salons, and personal voice.
 - **Style B: Swiss International Typographic Style**. Grid-first, one high-saturation anchor color, sharp rectangles, hairline rules, and extreme type contrast. Best for facts, products, analysis, and frameworks.
+- **Style C: Huawei Corporate**. White/grey canvas, Huawei red, top-right brand lockup, agenda red rail, process arrows, and data bars. Best for corporate summaries, work plans, and business reports.
 
 > Distilled by [Guizang](https://x.com/op7418) from offline talks like "One-Person Company: Organizations Folded by AI" and "A New Way of Working." Every pitfall hit during those decks is logged in `checklist.md`.
 
@@ -53,17 +54,19 @@ Other useful prompts:
 
 ```text
 Turn this Markdown file into an editorial magazine-style presentation.
+Create a 10-slide company summary deck in the Huawei corporate report style.
 Create a 21:9 social cover from the core idea of this deck.
 Redesign this product screenshot as a 16:10 slide visual.
 ```
 
 ## What you get
 
-- 🖋 **Two visual systems**: editorial storytelling for Style A, factual Swiss structure for Style B
+- 🖋 **Three visual systems**: editorial storytelling for Style A, factual Swiss structure for Style B, red/grey corporate reporting for Style C
 - 📐 **Horizontal swipe navigation**: ← → arrows / scroll wheel / touch swipe / bottom dots / ESC for index
 - 🧩 **Style A 10 layouts**: cover, divider, big numbers, image/text, image grid, pipeline, comparison, and more
 - 🧱 **Style B 22 locked layouts**: Cover, Statement, KPI Tower, Loop Diagram, Duo Compare, Image Hero, Closing Manifesto, and more
-- 🎨 **Curated theme presets**: 5 electronic-ink themes for Style A, 4 Swiss anchor-color themes for Style B
+- 🧾 **Style C 36 corporate-report / business-plan layouts**: Huawei Cover, Agenda, Section, Timeline, Data Bars, Process Arrow, Image Grid, KPI Dashboard, Map Locations, Photo Quote, Market Size, Pricing Table, SWOT, Gantt, and more
+- 🎨 **Curated theme presets**: 5 electronic-ink themes for Style A, 4 Swiss anchor-color themes for Style B, 3 Huawei corporate red/grey themes for Style C
 - 🖼 **Optional Codex image flow**: generate documentary photos, infographics, flow diagrams, system maps, and UI scenes with GPT-Image 2.0 / GPT-M 2.0, then insert them at template-safe ratios
 - 📰 **Social covers**: generate 21:9 WeChat cover images, 1:1 share cards, 3:4 Xiaohongshu covers, video thumbnails, and related variants
 - 📴 **Low-power static mode**: press `B` to turn WebGL / canvas animation into static visuals
@@ -81,6 +84,7 @@ Redesign this product screenshot as a 16:10 slide visual.
 |------|------------------|
 | Long article to talk deck | Extract the core argument, then build a 6-10 slide rhythm |
 | Framework / product analysis | Use Style B Swiss with locked layouts and 21:9 hero visuals |
+| Company summary / work plan / business report | Use Style C Huawei Corporate with H01-H36 corporate / business-plan layouts |
 | Personal talk / opinion piece | Use Style A editorial magazine for stronger narrative rhythm |
 | Deck visuals | In Codex, generate photos, infographics, flow diagrams, system maps, or UI scenes |
 | Social covers | Generate 21:9 main covers, 1:1 share cards, 3:4 vertical covers, and video thumbnails from the same idea |
@@ -91,7 +95,7 @@ Redesign this product screenshot as a 16:10 slide visual.
 - **Agent-native editing**: HTML / CSS is plain text, so agents can read, edit, and validate it directly.
 - **Higher visual density than Markdown**: precise layout, positioning, motion, interactivity, and cover formats.
 - **Lightweight delivery**: one HTML file can be opened, presented, sent, screenshotted, or recorded.
-- **Better quality gates**: the Swiss validator can catch layout drift, unsafe image placement, centered body titles, and SVG text traps.
+- **Better quality gates**: Swiss and Huawei Corporate validators catch layout drift, unsafe image placement, brand-slot issues, centered body titles, and SVG text traps.
 - **One visual system across outputs**: decks, generated visuals, covers, and screenshot redesigns can share the same style rules.
 
 ## Platform support
@@ -145,12 +149,12 @@ Once installed, Claude Code auto-detects the skill. Trigger phrases:
 
 The skill is a structured workflow; the agent walks you through each step:
 
-1. **Choose style** — Style A editorial magazine, or Style B Swiss International
+1. **Choose style** — Style A editorial magazine, Style B Swiss International, or Style C Huawei Corporate
 2. **Clarify intent** — 7-question checklist: style, audience, duration, source material, images/screenshots, theme, hard constraints
-3. **Copy template** — Style A uses `assets/template.html`; Style B uses `assets/template-swiss.html`
+3. **Copy template** — Style A uses `assets/template.html`; Style B uses `assets/template-swiss.html`; Style C uses `assets/template-huawei.html`
 4. **Fill content** — create a rhythm plan, then choose and adapt the matching layout skeletons
 5. **Optional image generation** — in Codex, ask whether to use GPT-Image 2.0 / GPT-M 2.0 images, then insert them at page-appropriate ratios
-6. **Self-check** — match against `references/checklist.md`; P0 issues must all pass; Swiss decks must also pass the layout validator
+6. **Self-check** — match against `references/checklist.md`; P0 issues must all pass; Swiss and Huawei Corporate decks must also pass their layout validators
 7. **Preview** — open the HTML in a browser
 8. **Iterate** — use inline styles to tune font size, height, spacing
 
@@ -234,16 +238,20 @@ guizang-ppt-skill/
 ├── assets/
 │   ├── template.html         ← Style A editorial magazine template
 │   ├── template-swiss.html   ← Style B Swiss template
+│   ├── template-huawei.html  ← Style C Huawei Corporate template
 │   └── screenshot-backgrounds/ ← bundled WebP screenshot backgrounds: 5 style-a / 4 style-b
 ├── scripts/
-│   └── validate-swiss-deck.mjs ← Swiss layout validator
+│   ├── validate-swiss-deck.mjs ← Swiss layout validator
+│   └── validate-huawei-deck.mjs ← Huawei Corporate layout validator
 └── references/
     ├── components.md     ← component catalog (type, color, grid, icons, callout, stat, pipeline)
     ├── layouts.md        ← 10 layout skeletons (paste-ready)
     ├── layouts-swiss.md  ← 22 locked Swiss layouts
+    ├── layouts-huawei.md ← 36 Huawei Corporate / business-plan layouts
     ├── swiss-layout-lock.md ← Swiss fidelity and layout hard rules
     ├── themes.md         ← 5 theme presets (pick, don't customize)
     ├── themes-swiss.md   ← 4 Swiss anchor-color themes
+    ├── themes-huawei.md  ← 3 Huawei Corporate red/grey themes
     ├── image-prompts.md  ← GPT-Image 2.0 / GPT-M 2.0 image types, ratios, and base prompts
     ├── screenshot-framing.md ← CleanShot X-style screenshot framing semantics
     └── checklist.md      ← quality checklist (P0 / P1 / P2 / P3 tiers)
@@ -251,7 +259,7 @@ guizang-ppt-skill/
 
 ## Theme presets
 
-Pick from `references/themes.md`. **Custom hex values are not allowed** — protecting the aesthetic matters more than freedom of choice.
+Pick from the theme file that matches the selected style. **Custom hex values are not allowed** — protecting the aesthetic matters more than freedom of choice.
 
 ### Style A Editorial Themes
 
@@ -278,6 +286,18 @@ Pick from `references/themes-swiss.md`. **Custom hex values are not allowed** he
 
 If the user asks for a Swiss-style deck without specifying color, default to International Klein Blue.
 
+### Style C Huawei Corporate Themes
+
+Pick from `references/themes-huawei.md`. **Custom hex values are not allowed** here either.
+
+| Theme | Core color and best for |
+|-------|--------------------------|
+| **Classic Red** | `#c7000b`. Default Huawei red/grey corporate reports, company summaries, work plans, and business decks. |
+| **Deep Executive** | `#b00010`. More restrained; best for executive, strategy, and business-plan material. |
+| **Cloud Tech** | `#d20a2e`. Cooler and more modern; best for ICT, cloud, AI, and R&D summaries. |
+
+If the user asks for a "Huawei PPT" or a red/grey corporate template without specifying a theme, default to Classic Red.
+
 ## Core design principles
 
 1. **Restraint over flash** — WebGL backgrounds only bleed through on hero pages
@@ -288,12 +308,14 @@ If the user asks for a Swiss-style deck without specifying color, default to Int
 6. **Dynamic effects must be optional** — `B` toggles static mode so animation never becomes a reading burden
 7. **Terms stay consistent** — Skills is Skills; no mix-and-match translations
 8. **Swiss layouts stay locked** — Style B should restore and reuse the original 22-page layout system instead of inventing unrelated pages
+9. **Huawei Corporate stays red/grey and report-like** — Style C uses red, black, grey, and white as the primary visual system; body slides should not overuse full-screen red.
 
 ## Visual references
 
 - [*Monocle*](https://monocle.com) magazine layouts
 - YC Garry Tan — "Thin Harness, Fat Skills"
 - Massimo Vignelli / Helvetica Forever / Swiss International Typographic Style
+- Huawei corporate-report, technology-summary, and red/grey business-report visual language
 - Guizang's offline talk deck series
 
 ## Roadmap
@@ -330,7 +352,7 @@ Bugs, layout issues, new layout requests — Issues and PRs welcome. Prioritize:
 - When changing `template-swiss.html`, update `layouts-swiss.md` and `swiss-layout-lock.md` together
 - When adding Swiss rules, update `scripts/validate-swiss-deck.mjs`
 - Log pitfalls into `checklist.md` at the matching P0 / P1 / P2 / P3 tier
-- New theme colors go into `themes.md` with a recommended use case
+- New theme colors go into the matching `themes*.md` file with a recommended use case
 
 ## License
 
