@@ -1,0 +1,1596 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026-2029 年主要编程代理竞争趋势分析 · Huawei Corporate Deck</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    /* ============ Huawei corporate theme (default: classic red) ============
+       Switch theme: copy one :root block from references/themes-huawei.md and
+       replace the variables in this section only. */
+    --paper:#f7f8fa;
+    --paper-rgb:247,248,250;
+    --card:#ffffff;
+    --ink:#22252b;
+    --ink-rgb:34,37,43;
+    --muted:#6f7680;
+    --line:#dfe3e8;
+    --line-strong:#c7ccd4;
+    --brand-red:#c7000b;
+    --brand-red-rgb:199,0,11;
+    --brand-red-dark:#990008;
+    --brand-red-soft:#f5e5e7;
+    --brand-black:#111111;
+    --brand-grey:#f0f2f5;
+    --shadow:0 18px 46px rgba(15,23,42,.12);
+    --shadow-soft:0 10px 26px rgba(15,23,42,.10);
+
+    --sans:"Inter","Noto Sans SC","Microsoft YaHei UI",Arial,sans-serif;
+    --sans-zh:"Noto Sans SC","Microsoft YaHei UI",Arial,sans-serif;
+    --mono:"JetBrains Mono","SFMono-Regular",Consolas,monospace;
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{width:100%;height:100%;overflow:hidden}
+  body{
+    font-family:var(--sans);
+    color:var(--ink);
+    background:var(--paper);
+    -webkit-font-smoothing:antialiased;
+    text-rendering:geometricPrecision;
+  }
+  body.low-power *,body.low-power *::before,body.low-power *::after{
+    animation:none!important;
+    transition:none!important;
+    scroll-behavior:auto!important;
+  }
+
+  #deck{
+    display:flex;
+    width:100vw;
+    height:100vh;
+    transition:transform .72s cubic-bezier(.22,1,.36,1);
+  }
+  body.low-power #deck{transition:none!important}
+
+  .slide{
+    position:relative;
+    flex:0 0 100vw;
+    width:100vw;
+    height:100vh;
+    padding:7.2vh 7vw 7vh;
+    overflow:hidden;
+    background:
+      linear-gradient(180deg,rgba(255,255,255,.94),rgba(247,248,250,.96)),
+      radial-gradient(circle at 78% 12%,rgba(var(--brand-red-rgb),.08),transparent 22vw),
+      radial-gradient(circle at 12% 88%,rgba(17,17,17,.045),transparent 28vw);
+  }
+  .slide::before,
+  .slide::after{
+    content:"";
+    position:absolute;
+    pointer-events:none;
+    border-radius:999px;
+    z-index:0;
+  }
+  .slide::before{
+    width:13vw;
+    height:13vw;
+    right:6vw;
+    top:10vh;
+    background:linear-gradient(145deg,#fff,rgba(223,227,232,.95));
+    box-shadow:inset -12px -12px 22px rgba(255,255,255,.9),inset 10px 10px 26px rgba(111,118,128,.14),0 14px 28px rgba(15,23,42,.08);
+    opacity:.32;
+  }
+  .slide::after{
+    width:2.6vw;
+    height:2.6vw;
+    left:6.3vw;
+    bottom:8vh;
+    background:var(--brand-red);
+    box-shadow:13vw -72vh 0 -1.4vw rgba(var(--brand-red-rgb),.9),73vw -6vh 0 -1vw rgba(var(--brand-red-rgb),.85),82vw -78vh 0 -1.1vw rgba(var(--brand-red-rgb),.9);
+    opacity:.18;
+  }
+  .slide > *{position:relative;z-index:1}
+
+  .slide.dark{
+    color:#fff;
+    background:
+      linear-gradient(135deg,var(--brand-red-dark),var(--brand-red) 54%,#e34034),
+      radial-gradient(circle at 82% 18%,rgba(255,255,255,.22),transparent 22vw);
+  }
+  .slide.dark::before{
+    background:rgba(255,255,255,.14);
+    box-shadow:inset -10px -10px 18px rgba(255,255,255,.18),inset 10px 10px 26px rgba(0,0,0,.14);
+    opacity:.55;
+  }
+  .slide.dark::after{background:#fff;box-shadow:14vw -66vh 0 -1.5vw rgba(255,255,255,.72),72vw -7vh 0 -1vw rgba(255,255,255,.58);opacity:.24}
+
+  .brand-lockup{
+    position:absolute;
+    right:6.4vw;
+    top:4.6vh;
+    display:flex;
+    align-items:center;
+    gap:.58vw;
+    color:var(--brand-black);
+    font-weight:800;
+    letter-spacing:.01em;
+    font-size:1.08vw;
+    z-index:3;
+  }
+  .dark .brand-lockup{color:#fff}
+  .brand-mark{
+    width:1.62vw;
+    height:1.62vw;
+    flex:none;
+    color:var(--brand-red);
+    background:currentColor;
+    -webkit-mask:url("data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMjQgMjQiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTMuNjcgNi4xNFMxLjgyIDcuOTEgMS43MiA5Ljc4di4zNWMuMDggMS41MSAxLjIyIDIuNCAxLjIyIDIuNCAxLjgzIDEuNzkgNi4yNiA0LjA0IDcuMyA0LjU1IDAgMCAuMDYuMDMuMS0uMDFsLjAyLS4wNHYtLjA0QzcuNTIgMTAuOCAzLjY3IDYuMTQgMy42NyA2LjE0ek05LjY1IDE4LjZjLS4wMi0uMDgtLjEtLjA4LS4xLS4wOGwtNy4zOC4yNmMuOCAxLjQzIDIuMTUgMi41MyAzLjU2IDIuMi45Ni0uMjUgMy4xNi0xLjc4IDMuODgtMi4zLjA2LS4wNS4wNC0uMDkuMDQtLjA5em0uMDgtLjc4QzYuNDkgMTUuNjMuMjEgMTIuMjguMjEgMTIuMjhjLS4xNS40Ni0uMi45LS4yMSAxLjN2LjA3YzAgMS4wNy40IDEuODIuNCAxLjgyLjggMS42OSAyLjM0IDIuMiAyLjM0IDIuMi43LjMgMS40LjMxIDEuNC4zMS4xMi4wMiA0LjQgMCA1LjU0IDAgLjA1IDAgLjA4LS4wNS4wOC0uMDV2LS4wNmMwLS4wMy0uMDMtLjA1LS4wMy0uMDV6TTkuMDYgMy4xOWEzLjQyIDMuNDIgMCAwMC0yLjU3IDMuMTV2LjQxYy4wMy42LjE2IDEuMDUuMTYgMS4wNS42NiAyLjkgMy44NiA3LjY1IDQuNTUgOC42NS4wNS4wNS4xLjAzLjEuMDNhLjEuMSAwIDAwLjA2LS4xYzEuMDYtMTAuNi0xLjExLTEzLjQyLTEuMTEtMTMuNDItLjMyLjAyLTEuMTkuMjMtMS4xOS4yM3ptOC4yOTkgMi4yN3MtLjQ5LTEuOC0yLjQ0LTIuMjhjMCAwLS41Ny0uMTQtMS4xNy0uMjIgMCAwLTIuMTggMi44MS0xLjEyIDEzLjQzLjAxLjA3LjA2LjA4LjA2LjA4LjA3LjAzLjEtLjAzLjEtLjAzLjcyLTEuMDMgMy45LTUuNzYgNC41NS04LjY0IDAgMCAuMzYtMS40LjAyLTIuMzR6bS0yLjkyIDEzLjA3cy0uMDcgMC0uMDkuMDVjMCAwLS4wMS4wNy4wMy4xLjcuNTEgMi44NSAyIDMuODggMi4zIDAgMCAuMTYuMDUuNDMuMDZoLjE0Yy42OS0uMDIgMS45LS4zNyAzLTIuMjZsLTcuNC0uMjV6bTcuODMtOC40MWMuMTQtMi4wNi0xLjk0LTMuOTctMS45NC0zLjk4IDAgMC0zLjg1IDQuNjYtNi42NyAxMC44IDAgMC0uMDMuMDguMDIuMTNsLjA0LjAxaC4wNmMxLjA2LS41MyA1LjQ2LTIuNzcgNy4yOC00LjU0IDAgMCAxLjE1LS45MyAxLjIxLTIuNDJ6bTEuNTIgMi4xNHMtNi4yOCAzLjM3LTkuNTIgNS41NWMwIDAtLjA1LjA0LS4wMy4xMSAwIDAgLjAzLjA2LjA3LjA2IDEuMTYgMCA1LjU2IDAgNS42Ny0uMDIgMCAwIC41Ny0uMDIgMS4yNy0uMjkgMCAwIDEuNTYtLjUgMi4zNy0yLjI3IDAgMCAuNzMtMS40NS4xNy0zLjE0eiIvPjwvc3ZnPg==") center/contain no-repeat;
+    mask:url("data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMjQgMjQiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTMuNjcgNi4xNFMxLjgyIDcuOTEgMS43MiA5Ljc4di4zNWMuMDggMS41MSAxLjIyIDIuNCAxLjIyIDIuNCAxLjgzIDEuNzkgNi4yNiA0LjA0IDcuMyA0LjU1IDAgMCAuMDYuMDMuMS0uMDFsLjAyLS4wNHYtLjA0QzcuNTIgMTAuOCAzLjY3IDYuMTQgMy42NyA2LjE0ek05LjY1IDE4LjZjLS4wMi0uMDgtLjEtLjA4LS4xLS4wOGwtNy4zOC4yNmMuOCAxLjQzIDIuMTUgMi41MyAzLjU2IDIuMi45Ni0uMjUgMy4xNi0xLjc4IDMuODgtMi4zLjA2LS4wNS4wNC0uMDkuMDQtLjA5em0uMDgtLjc4QzYuNDkgMTUuNjMuMjEgMTIuMjguMjEgMTIuMjhjLS4xNS40Ni0uMi45LS4yMSAxLjN2LjA3YzAgMS4wNy40IDEuODIuNCAxLjgyLjggMS42OSAyLjM0IDIuMiAyLjM0IDIuMi43LjMgMS40LjMxIDEuNC4zMS4xMi4wMiA0LjQgMCA1LjU0IDAgLjA1IDAgLjA4LS4wNS4wOC0uMDV2LS4wNmMwLS4wMy0uMDMtLjA1LS4wMy0uMDV6TTkuMDYgMy4xOWEzLjQyIDMuNDIgMCAwMC0yLjU3IDMuMTV2LjQxYy4wMy42LjE2IDEuMDUuMTYgMS4wNS42NiAyLjkgMy44NiA3LjY1IDQuNTUgOC42NS4wNS4wNS4xLjAzLjEuMDNhLjEuMSAwIDAwLjA2LS4xYzEuMDYtMTAuNi0xLjExLTEzLjQyLTEuMTEtMTMuNDItLjMyLjAyLTEuMTkuMjMtMS4xOS4yM3ptOC4yOTkgMi4yN3MtLjQ5LTEuOC0yLjQ0LTIuMjhjMCAwLS41Ny0uMTQtMS4xNy0uMjIgMCAwLTIuMTggMi44MS0xLjEyIDEzLjQzLjAxLjA3LjA2LjA4LjA2LjA4LjA3LjAzLjEtLjAzLjEtLjAzLjcyLTEuMDMgMy45LTUuNzYgNC41NS04LjY0IDAgMCAuMzYtMS40LjAyLTIuMzR6bS0yLjkyIDEzLjA3cy0uMDcgMC0uMDkuMDVjMCAwLS4wMS4wNy4wMy4xLjcuNTEgMi44NSAyIDMuODggMi4zIDAgMCAuMTYuMDUuNDMuMDZoLjE0Yy42OS0uMDIgMS45LS4zNyAzLTIuMjZsLTcuNC0uMjV6bTcuODMtOC40MWMuMTQtMi4wNi0xLjk0LTMuOTctMS45NC0zLjk4IDAgMC0zLjg1IDQuNjYtNi42NyAxMC44IDAgMC0uMDMuMDguMDIuMTNsLjA0LjAxaC4wNmMxLjA2LS41MyA1LjQ2LTIuNzcgNy4yOC00LjU0IDAgMCAxLjE1LS45MyAxLjIxLTIuNDJ6bTEuNTIgMi4xNHMtNi4yOCAzLjM3LTkuNTIgNS41NWMwIDAtLjA1LjA0LS4wMy4xMSAwIDAgLjAzLjA2LjA3LjA2IDEuMTYgMCA1LjU2IDAgNS42Ny0uMDIgMCAwIC41Ny0uMDIgMS4yNy0uMjkgMCAwIDEuNTYtLjUgMi4zNy0yLjI3IDAgMCAuNzMtMS40NS4xNy0zLjE0eiIvPjwvc3ZnPg==") center/contain no-repeat;
+  }
+  .dark .brand-mark{color:#fff}
+
+  .chrome{
+    position:absolute;
+    left:6.4vw;
+    right:6.4vw;
+    top:4.6vh;
+    min-height:3.2vh;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    border-bottom:1px solid var(--line);
+    padding-bottom:1.1vh;
+    color:var(--muted);
+    font-size:.78vw;
+    letter-spacing:.02em;
+    z-index:2;
+  }
+  .dark .chrome{border-color:rgba(255,255,255,.28);color:rgba(255,255,255,.78)}
+  .chrome .l{
+    display:flex;
+    align-items:center;
+    gap:.72vw;
+    font-weight:600;
+    color:var(--ink);
+  }
+  .dark .chrome .l{color:#fff}
+  .chrome .square{
+    width:.9vw;
+    height:.9vw;
+    background:var(--brand-red);
+    box-shadow:-.38vw -.38vw 0 0 rgba(var(--brand-red-rgb),.16);
+    flex:none;
+  }
+  .dark .chrome .square{background:#fff;box-shadow:-.38vw -.38vw 0 0 rgba(255,255,255,.22)}
+
+  .kicker{
+    font-family:var(--mono);
+    font-size:.78vw;
+    line-height:1;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+    color:var(--brand-red);
+    font-weight:600;
+  }
+  .dark .kicker{color:rgba(255,255,255,.82)}
+  .h-hero{
+    font-family:var(--sans-zh);
+    font-size:min(5.8vw,10.3vh);
+    line-height:1.02;
+    letter-spacing:0;
+    font-weight:900;
+  }
+  .h-xl{
+    font-family:var(--sans-zh);
+    font-size:min(4vw,7.4vh);
+    line-height:1.08;
+    font-weight:800;
+    letter-spacing:0;
+  }
+  .h-md{
+    font-family:var(--sans-zh);
+    font-size:min(2.1vw,4.1vh);
+    line-height:1.2;
+    font-weight:800;
+  }
+  .lead{
+    font-size:1.25vw;
+    line-height:1.72;
+    color:var(--muted);
+    font-weight:400;
+  }
+  .dark .lead{color:rgba(255,255,255,.84)}
+  .body-copy{
+    font-size:1vw;
+    line-height:1.82;
+    color:#444b55;
+  }
+  .dark .body-copy{color:rgba(255,255,255,.78)}
+  .meta{
+    font-family:var(--mono);
+    font-size:.76vw;
+    color:var(--muted);
+    letter-spacing:.04em;
+  }
+
+  .red-rule{height:.52vh;background:var(--brand-red);width:100%}
+  .hairline{height:1px;background:var(--line);width:100%}
+  .dark .hairline{background:rgba(255,255,255,.22)}
+
+  .red-panel{
+    background:linear-gradient(90deg,var(--brand-red),#ef4a3d);
+    color:#fff;
+    padding:4.2vh 3.4vw;
+    min-height:32vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    box-shadow:var(--shadow-soft);
+  }
+  .red-panel .en{
+    font-family:var(--mono);
+    border:1px solid rgba(255,255,255,.42);
+    color:rgba(255,255,255,.9);
+    padding:.5vh .72vw;
+    width:max-content;
+    font-size:.86vw;
+    letter-spacing:.08em;
+  }
+
+  .cover-shell{
+    height:100%;
+    display:grid;
+    grid-template-columns:1.05fr .95fr;
+    align-items:center;
+    gap:5vw;
+  }
+  .cover-badge{
+    width:10.4vw;
+    height:10.4vw;
+    border-radius:999px;
+    background:linear-gradient(145deg,#fff,#e9edf2);
+    box-shadow:inset -16px -16px 28px rgba(255,255,255,.95),inset 12px 12px 24px rgba(111,118,128,.14),0 22px 46px rgba(15,23,42,.14);
+    display:grid;
+    place-items:center;
+    margin-bottom:3.4vh;
+  }
+  .cover-badge .brand-mark{
+    width:5.8vw;
+    height:5.8vw;
+    color:var(--brand-red);
+  }
+  .cover-title-wrap{display:flex;flex-direction:column;gap:2.6vh}
+  .cover-subtitle{max-width:46ch}
+  .cover-wave{
+    position:absolute;
+    left:0;
+    right:0;
+    bottom:0;
+    height:19vh;
+    background:
+      linear-gradient(8deg,var(--brand-red) 0 45%,transparent 46%),
+      linear-gradient(6deg,rgba(17,17,17,.14) 0 51%,transparent 52%);
+    opacity:.96;
+  }
+  .cover-meta{
+    position:absolute;
+    left:7vw;
+    bottom:5vh;
+    color:#fff;
+    display:grid;
+    gap:.86vh;
+    font-size:.88vw;
+    z-index:2;
+  }
+  .cover-visual{
+    min-height:48vh;
+    position:relative;
+  }
+  .orb{
+    position:absolute;
+    border-radius:50%;
+    background:linear-gradient(145deg,#fff,#e6eaef);
+    box-shadow:inset -10px -10px 20px rgba(255,255,255,.95),inset 8px 8px 20px rgba(111,118,128,.18),0 16px 28px rgba(15,23,42,.10);
+  }
+  .orb.red{background:linear-gradient(145deg,#f83230,var(--brand-red));box-shadow:0 12px 24px rgba(var(--brand-red-rgb),.26)}
+
+  .agenda-layout{
+    height:100%;
+    display:grid;
+    grid-template-columns:.72fr 1.28fr;
+    gap:5vw;
+    align-items:center;
+  }
+  .agenda-list{display:flex;flex-direction:column;gap:1.25vh}
+  .agenda-item{
+    display:grid;
+    grid-template-columns:3.6vw 1fr;
+    align-items:center;
+    min-height:6.2vh;
+    background:#e6e9ed;
+    color:#505965;
+  }
+  .agenda-item .idx{
+    height:100%;
+    display:grid;
+    place-items:center;
+    background:var(--brand-red);
+    color:#fff;
+    font-family:var(--mono);
+    font-weight:700;
+  }
+  .agenda-item.active{background:#fff;box-shadow:var(--shadow-soft);color:var(--ink)}
+  .agenda-item.active::before{
+    content:"";
+    width:0;
+    height:0;
+    border-top:.72vw solid transparent;
+    border-bottom:.72vw solid transparent;
+    border-left:1.05vw solid var(--brand-red);
+    margin-left:-2.1vw;
+    grid-row:1;
+    grid-column:1;
+  }
+  .agenda-item .txt{padding:0 1.25vw;font-size:1.02vw;font-weight:700}
+
+  .section-layout{
+    height:100%;
+    display:grid;
+    grid-template-columns:.82fr 1.18fr;
+    gap:4.5vw;
+    align-items:center;
+  }
+  .section-no{
+    width:8vw;
+    height:8vw;
+    border-radius:999px;
+    background:#fff;
+    box-shadow:var(--shadow);
+    display:grid;
+    place-items:center;
+    color:var(--brand-red);
+    font-family:var(--mono);
+    font-size:2.2vw;
+    font-weight:800;
+    margin-bottom:2.6vh;
+  }
+
+  .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:3vw}
+  .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:2vw}
+  .grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:1.4vw}
+  .grid-12{display:grid;grid-template-columns:repeat(12,1fr);gap:1vw}
+  .span-4{grid-column:span 4}.span-5{grid-column:span 5}.span-6{grid-column:span 6}.span-7{grid-column:span 7}.span-8{grid-column:span 8}
+
+  .content-stack{display:flex;flex-direction:column;gap:2.2vh}
+  .card{
+    background:var(--card);
+    border:1px solid var(--line);
+    box-shadow:var(--shadow-soft);
+    padding:3vh 2vw;
+  }
+  .card.flat{box-shadow:none;background:#fff}
+  .card-title{
+    font-size:1.18vw;
+    line-height:1.28;
+    font-weight:800;
+    color:var(--ink);
+    margin-bottom:1.1vh;
+  }
+  .card-body{font-size:.9vw;line-height:1.65;color:var(--muted)}
+  .num-pill{
+    display:inline-grid;
+    place-items:center;
+    min-width:2.4vw;
+    height:2.4vw;
+    border-radius:999px;
+    background:var(--brand-red);
+    color:#fff;
+    font-family:var(--mono);
+    font-weight:800;
+    margin-bottom:1.4vh;
+  }
+  .icon-disc{
+    width:4.4vw;
+    height:4.4vw;
+    border-radius:999px;
+    background:var(--brand-red);
+    color:#fff;
+    display:grid;
+    place-items:center;
+    margin-bottom:1.5vh;
+    box-shadow:0 14px 28px rgba(var(--brand-red-rgb),.22);
+  }
+  .icon-disc .lucide{width:2vw;height:2vw;stroke-width:1.8}
+
+  .timeline-v{display:grid;grid-template-columns:1fr 3vw 1fr;gap:2vw;align-items:start}
+  .tl-axis{position:relative;min-height:58vh}
+  .tl-axis::before{content:"";position:absolute;left:50%;top:0;bottom:0;width:1px;background:var(--line-strong)}
+  .tl-dot{
+    width:2.6vw;
+    height:2.6vw;
+    border-radius:999px;
+    background:var(--brand-red);
+    color:#fff;
+    display:grid;
+    place-items:center;
+    font-family:var(--mono);
+    font-weight:800;
+    margin:0 auto 6.5vh;
+    position:relative;
+    z-index:1;
+  }
+  .tl-card{min-height:10vh;border-top:3px solid var(--brand-red);padding-top:1.3vh;margin-bottom:5.4vh}
+  .tl-card .year{font-family:var(--mono);color:var(--brand-red);font-weight:800;margin-bottom:.6vh}
+
+  .bar-chart{display:flex;flex-direction:column;gap:1.35vh}
+  .bar-row{display:grid;grid-template-columns:7vw 1fr 4vw;gap:1vw;align-items:center;font-size:.9vw;color:var(--muted)}
+  .bar-track{height:2.2vh;background:#e7eaee;position:relative;overflow:hidden}
+  .bar-fill{height:100%;background:linear-gradient(90deg,var(--brand-red-dark),var(--brand-red));width:var(--v,50%)}
+  .bar-row strong{font-family:var(--mono);color:var(--ink)}
+  .stat-big{font-family:var(--mono);font-size:min(5.2vw,9vh);line-height:1;color:var(--brand-red);font-weight:800}
+
+  .process{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:0;
+    align-items:stretch;
+  }
+  .process-step{
+    position:relative;
+    background:#fff;
+    border:1px solid var(--line);
+    padding:3vh 1.6vw;
+    min-height:30vh;
+  }
+  .process-step:not(:last-child)::after{
+    content:"";
+    position:absolute;
+    right:-1.2vw;
+    top:50%;
+    transform:translateY(-50%);
+    width:0;
+    height:0;
+    border-top:1.5vw solid transparent;
+    border-bottom:1.5vw solid transparent;
+    border-left:1.2vw solid var(--brand-red);
+    z-index:2;
+  }
+
+  .arrow-timeline{
+    --axis-y:50%;
+    --line-left:4%;
+    --line-right:6.4%;
+    --line-h:5.2vh;
+    --head-right:1.5%;
+    --head-w:5vw;
+    --head-h:8vh;
+    position:relative;
+    margin-top:7vh;
+    height:36vh;
+  }
+  .arrow-timeline-line{
+    position:absolute;
+    left:var(--line-left);
+    right:var(--line-right);
+    top:var(--axis-y);
+    height:var(--line-h);
+    background:var(--brand-red);
+    transform:translateY(-50%);
+  }
+  .arrow-timeline-head{
+    position:absolute;
+    right:var(--head-right);
+    top:var(--axis-y);
+    width:var(--head-w);
+    height:var(--head-h);
+    background:var(--brand-red);
+    clip-path:polygon(0 0,100% 50%,0 100%);
+    transform:translateY(-50%);
+  }
+  .arrow-timeline-node{
+    position:absolute;
+    top:var(--axis-y);
+    width:1.8vw;
+    height:1.8vw;
+    border-radius:999px;
+    background:var(--brand-red);
+    box-shadow:0 0 0 .8vw rgba(var(--brand-red-rgb),.10);
+    transform:translate(-50%,-50%);
+    z-index:2;
+  }
+  .arrow-timeline-card{
+    position:absolute;
+    width:18vw;
+    z-index:3;
+  }
+  .arrow-timeline-card.top{top:0}
+  .arrow-timeline-card.bottom{bottom:0}
+
+  .image-frame{
+    background:#fff;
+    border:1px solid var(--line);
+    padding:.7vw;
+    box-shadow:var(--shadow-soft);
+  }
+  .image-frame img{
+    display:block;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+  }
+  .r-16x9{aspect-ratio:16/9}
+  .r-16x10{aspect-ratio:16/10}
+  .r-4x3{aspect-ratio:4/3}
+  .fit-contain img{object-fit:contain;background:#fff}
+  .caption{
+    margin-top:1vh;
+    font-size:.76vw;
+    color:var(--muted);
+    line-height:1.5;
+  }
+
+  .quote-band{
+    background:linear-gradient(90deg,var(--brand-red),var(--brand-red-dark));
+    color:#fff;
+    padding:3.4vh 3vw;
+    font-family:var(--sans-zh);
+    font-size:2.4vw;
+    line-height:1.24;
+    font-weight:900;
+  }
+
+  [data-anim]{
+    opacity:0;
+    transform:translateY(16px);
+    transition:opacity .56s ease,transform .56s cubic-bezier(.22,1,.36,1);
+  }
+  .slide.active [data-anim]{opacity:1;transform:none}
+  .slide.active [data-anim]:nth-child(2){transition-delay:.06s}
+  .slide.active [data-anim]:nth-child(3){transition-delay:.12s}
+  .slide.active [data-anim]:nth-child(4){transition-delay:.18s}
+  body.low-power [data-anim],#overview [data-anim]{opacity:1!important;transform:none!important}
+
+  #hint{
+    position:fixed;
+    right:1.5vw;
+    bottom:1.8vh;
+    z-index:20;
+    color:rgba(34,37,43,.56);
+    font-size:.72vw;
+    font-family:var(--mono);
+    letter-spacing:.02em;
+    user-select:none;
+  }
+  body.low-power #hint{color:var(--brand-red)}
+  .page-no{
+    position:absolute;
+    left:2.2vw;
+    bottom:2.2vh;
+    z-index:4;
+    font-family:var(--mono);
+    font-size:.86vw;
+    line-height:1;
+    letter-spacing:.08em;
+    color:rgba(34,37,43,.42);
+    pointer-events:none;
+  }
+  .dark .page-no{color:rgba(255,255,255,.72)}
+  .hw-cover .page-no{color:rgba(255,255,255,.74)}
+  .dense-grid{display:grid;gap:1.15vw}
+  .dense-2{grid-template-columns:1fr 1fr}
+  .dense-3{grid-template-columns:repeat(3,1fr)}
+  .dense-4{grid-template-columns:repeat(4,1fr)}
+  .mini-card{
+    background:#fff;
+    border:1px solid var(--line);
+    padding:1.55vh 1.15vw;
+    box-shadow:0 8px 18px rgba(15,23,42,.06);
+  }
+  .mini-card.red{
+    background:linear-gradient(135deg,var(--brand-red-dark),var(--brand-red));
+    color:#fff;
+    border-color:rgba(255,255,255,.18);
+  }
+  .mini-card.gray{background:#eef1f5}
+  .mini-title{font-size:.94vw;font-weight:800;line-height:1.25;color:var(--ink);margin-bottom:.72vh}
+  .mini-card.red .mini-title{color:#fff}
+  .mini-body{font-size:.78vw;line-height:1.55;color:var(--muted)}
+  .mini-card.red .mini-body{color:rgba(255,255,255,.86)}
+  .metric-row{display:grid;grid-template-columns:repeat(5,1fr);gap:1vw}
+  .metric-card{
+    background:#fff;
+    border-top:.36vh solid var(--brand-red);
+    padding:1.9vh 1.05vw;
+    box-shadow:var(--shadow-soft);
+    min-height:18vh;
+  }
+  .metric-card .value{font-family:var(--mono);font-size:2.2vw;line-height:1;color:var(--brand-red);font-weight:800}
+  .metric-card .label{font-size:.86vw;line-height:1.35;color:var(--ink);font-weight:800;margin-top:1vh}
+  .metric-card .desc{font-size:.72vw;line-height:1.45;color:var(--muted);margin-top:.7vh}
+  .dense-table{
+    width:100%;
+    border-collapse:collapse;
+    background:#fff;
+    border:1px solid var(--line);
+    box-shadow:var(--shadow-soft);
+  }
+  .dense-table th{
+    background:var(--brand-red);
+    color:#fff;
+    font-size:.74vw;
+    line-height:1.3;
+    text-align:left;
+    padding:1.1vh .82vw;
+    font-weight:800;
+  }
+  .dense-table td{
+    border-top:1px solid var(--line);
+    border-right:1px solid var(--line);
+    padding:1.02vh .82vw;
+    font-size:.76vw;
+    line-height:1.42;
+    color:#4b5563;
+    vertical-align:top;
+  }
+  .dense-table td:first-child{font-weight:800;color:var(--ink)}
+  .dense-table .red-text{color:var(--brand-red);font-weight:800}
+  .chip-row{display:flex;flex-wrap:wrap;gap:.6vh .55vw}
+  .chip{
+    display:inline-flex;
+    align-items:center;
+    gap:.35vw;
+    border:1px solid var(--line);
+    background:#fff;
+    color:#4b5563;
+    padding:.55vh .72vw;
+    font-size:.72vw;
+    line-height:1;
+    font-weight:700;
+  }
+  .chip.red{background:var(--brand-red);border-color:var(--brand-red);color:#fff}
+  .dark-panel{
+    background:rgba(255,255,255,.1);
+    border:1px solid rgba(255,255,255,.16);
+    color:#fff;
+    padding:2vh 1.25vw;
+  }
+  .dark-panel .mini-title{color:#fff}
+  .dark-panel .mini-body{color:rgba(255,255,255,.82)}
+  .matrix{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:1.2vw;
+  }
+  .quadrant{
+    min-height:21vh;
+    padding:2.1vh 1.35vw;
+    background:#fff;
+    border:1px solid var(--line);
+    box-shadow:var(--shadow-soft);
+  }
+  .quadrant .q-head{display:flex;align-items:center;gap:.8vw;font-weight:900;font-size:1vw;color:var(--ink)}
+  .quadrant .q-head .num-pill{margin-bottom:0;min-width:2.1vw;height:2.1vw}
+  .quadrant p{margin-top:1vh;font-size:.78vw;line-height:1.58;color:var(--muted)}
+  .tight-list{display:grid;gap:.72vh}
+  .tight-list li{font-size:.78vw;line-height:1.48;color:#4b5563;margin-left:1.05vw}
+  .dark .tight-list li{color:rgba(255,255,255,.84)}
+  .flow-label{
+    font-family:var(--mono);
+    font-size:.68vw;
+    letter-spacing:.08em;
+    color:var(--brand-red);
+    font-weight:800;
+    text-transform:uppercase;
+  }
+  #nav{
+    position:fixed;
+    left:50%;
+    bottom:2.1vh;
+    transform:translateX(-50%);
+    display:flex;
+    gap:.55vw;
+    z-index:20;
+  }
+  #nav button{
+    width:.55vw;
+    height:.55vw;
+    border:0;
+    border-radius:50%;
+    background:rgba(34,37,43,.2);
+    cursor:pointer;
+    padding:0;
+  }
+  #nav button.active{background:var(--brand-red);transform:scale(1.35)}
+  #overview{
+    position:fixed;
+    inset:0;
+    background:rgba(10,10,10,.88);
+    z-index:30;
+    display:none;
+    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+    gap:18px;
+    padding:24px;
+    overflow:auto;
+  }
+  body.overview #overview{display:grid}
+  .thumb{
+    position:relative;
+    aspect-ratio:16/9;
+    background:#fff;
+    overflow:hidden;
+    cursor:pointer;
+    border:1px solid rgba(255,255,255,.18);
+  }
+  .thumb .slide{
+    transform:scale(.25);
+    transform-origin:top left;
+    pointer-events:none;
+  }
+
+  @media (max-width:900px){
+    .slide{padding:8vh 6vw 8vh}
+    .cover-shell,.agenda-layout,.section-layout,.grid-2{grid-template-columns:1fr;gap:3vh}
+    .grid-3,.grid-4,.process{grid-template-columns:1fr 1fr}
+    .brand-lockup{font-size:2.8vw}
+    .brand-mark{width:3.4vw;height:3.4vw}
+    .h-hero{font-size:12vw}
+    .h-xl{font-size:8.8vw}
+    .lead{font-size:3.5vw}
+    .body-copy,.card-body{font-size:2.8vw}
+    .chrome{font-size:2.2vw}
+    #hint{font-size:2vw}
+    .page-no{font-size:2.2vw;left:3.5vw;bottom:2.8vh}
+  }
+</style>
+</head>
+<body>
+<div id="hint">← → 翻页 · B 静态 · ESC 索引</div>
+
+<div id="deck">
+<!-- ============================================================
+     SLIDES 插入区 · 在此处填充所有 <section class="slide ..."> 页面
+     页面骨架参考 references/layouts-huawei.md
+     主题色配置参考 references/themes-huawei.md
+     ============================================================ -->
+
+<section class="slide hw-cover" data-layout="H01" data-animate="cover">
+  <div class="brand-lockup">
+    <span class="brand-mark" aria-hidden="true"></span>
+    <span>HUAWEI</span>
+  </div>
+
+  <div class="cover-shell">
+    <div class="cover-title-wrap">
+      <div class="cover-badge" data-anim>
+        <span class="brand-mark" aria-hidden="true"></span>
+      </div>
+      <div class="kicker" data-anim>RESEARCH REPORT / 2026-2029</div>
+      <h1 class="h-hero" data-anim>主要编程代理<br>竞争趋势分析</h1>
+      <p class="lead cover-subtitle" data-anim>融合自主编程智能体深度研究：聚焦 Codex、Claude Code、OpenCode、Antigravity 四类代表产品，研判从代码补全到 Agentic SDLC 的代际跃迁。</p>
+    </div>
+
+    <div class="cover-visual" aria-hidden="true">
+      <span class="orb red" style="width:6vw;height:6vw;right:8vw;top:4vh"></span>
+      <span class="orb" style="width:14vw;height:14vw;right:0;top:14vh"></span>
+      <span class="orb red" style="width:3vw;height:3vw;right:23vw;top:38vh"></span>
+      <span class="orb" style="width:5.6vw;height:5.6vw;right:28vw;top:8vh"></span>
+      <span class="orb red" style="width:2.2vw;height:2.2vw;right:3vw;top:39vh"></span>
+    </div>
+  </div>
+
+  <div class="cover-wave" aria-hidden="true"></div>
+  <div class="cover-meta">
+    <div>研究对象: Codex / Claude Code / OpenCode / Antigravity</div>
+    <div>研究区间: 2026.05 - 2029.05</div>
+  </div>
+</section>
+
+<section class="slide" data-layout="H02" data-animate="agenda">
+  <div class="brand-lockup">
+    <span class="brand-mark" aria-hidden="true"></span>
+    <span>HUAWEI</span>
+  </div>
+
+  <div class="agenda-layout">
+    <div class="red-panel" data-anim>
+      <div class="kicker" style="color:rgba(255,255,255,.72)">CONTENT</div>
+      <h2 class="h-xl" style="margin-top:2vh">目录</h2>
+      <div class="en" style="margin-top:2vh">COMPETITIVE TREND</div>
+    </div>
+
+    <div class="agenda-list">
+      <div class="agenda-item" data-anim><div class="idx">01</div><div class="txt">市场底座与核心判断</div></div>
+      <div class="agenda-item" data-anim><div class="idx">02</div><div class="txt">四类代表产品基准对比</div></div>
+      <div class="agenda-item" data-anim><div class="idx">03</div><div class="txt">工作流分化、上下文工程与长程记忆</div></div>
+      <div class="agenda-item" data-anim><div class="idx">04</div><div class="txt">用户规模、社区生态与协议之战</div></div>
+      <div class="agenda-item" data-anim><div class="idx">05</div><div class="txt">商业模式、安全信任与风险治理</div></div>
+      <div class="agenda-item" data-anim><div class="idx">06</div><div class="txt">Agentic SDLC 行动计划</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-layout="H15" data-animate="kpi-dashboard">
+  <div class="chrome">
+    <div class="l"><span class="square"></span><span>市场底座</span></div>
+    <div></div>
+  </div>
+  <div class="brand-lockup">
+    <span class="brand-mark" aria-hidden="true"></span>
+    <span>HUAWEI</span>
+  </div>
+
+  <div style="padding-top:8vh">
+    <div class="content-stack" data-anim>
+      <div class="kicker">MARKET BASELINE</div>
+      <h2 class="h-xl">编程代理已从代码补全进入自主执行时代</h2>
+      <p class="body-copy" style="max-width:84ch">2026 年的核心矛盾不是“开发者是否使用 AI 编程工具”，而是“能否信任代理进入真实工程流程”。工作流正在从“编写-测试-调试”转向“定义目标-智能体执行-人类评审”的三层结构。</p>
+    </div>
+
+    <div class="metric-row" style="margin-top:5vh" data-anim>
+      <div class="metric-card"><div class="value">$12.8B</div><div class="label">全球 AI 编程工具市场</div><div class="desc">市场已经形成明确预算池，代理工作流开始重塑开发方式。</div></div>
+      <div class="metric-card"><div class="value">&gt;85%</div><div class="label">开发者采用率</div><div class="desc">工具使用进入主流，但深度使用与组织级采用仍在爬坡。</div></div>
+      <div class="metric-card"><div class="value">84%</div><div class="label">使用或计划使用</div><div class="desc">潜在用户池接近饱和，后续增长来自活跃度和付费深度。</div></div>
+      <div class="metric-card"><div class="value">33%</div><div class="label">明确表示信任</div><div class="desc">信任水平显著落后于采用意愿，质量保障成为关键变量。</div></div>
+      <div class="metric-card"><div class="value">51pp</div><div class="label">采用 - 信任差距</div><div class="desc">未来三年最重要的市场空间，来自可验证交付与治理能力。</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-layout="H27" data-animate="problem-overview">
+  <div class="chrome">
+    <div class="l"><span class="square"></span><span>核心判断</span></div>
+    <div></div>
+  </div>
+  <div class="brand-lockup">
+    <span class="brand-mark" aria-hidden="true"></span>
+    <span>HUAWEI</span>
+  </div>
+
+  <div style="padding-top:8vh">
+    <div class="content-stack" data-anim>
+      <div class="kicker">THESIS</div>
+      <h2 class="h-xl">竞争重心正在从“补全代码”转向“完成工程任务”</h2>
+    </div>
+    <div class="matrix" style="margin-top:4.8vh" data-anim>
+      <div class="quadrant">
+        <div class="q-head"><div class="num-pill">01</div><span>阶段迁移</span></div>
+        <p>2022-2024 年是代码助手阶段，2025 年进入 vibe coding，2026 年开始形成 Agentic Engineering。工具不再只给建议，而是具备规划、推理、环境感知、工具调用和闭环验证能力。</p>
+      </div>
+      <div class="quadrant">
+        <div class="q-head"><div class="num-pill">02</div><span>阵营分化</span></div>
+        <p>市场分成 AI 原生 IDE、IDE 插件扩展、终端/CLI 编程代理三大阵营。入口不同，决定上下文来源、执行权限、团队集成方式和商业化节奏。</p>
+      </div>
+      <div class="quadrant">
+        <div class="q-head"><div class="num-pill">03</div><span>护城河变化</span></div>
+        <p>模型分数会继续收敛，真正拉开差距的是上下文工程、长程记忆、多智能体协作、协议标准、安全沙盒、可验证交付和企业权限审计。</p>
+      </div>
+      <div class="quadrant">
+        <div class="q-head"><div class="num-pill">04</div><span>三年推演</span></div>
+        <p>2027 年视觉到代码和多模型编排进入主流，2028 年多代理协作成为标配，2029 年竞争进入开放生态、企业治理和行业解决方案的综合较量。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-layout="H33" data-animate="pricing-table">
+  <div class="chrome">
+    <div class="l"><span class="square"></span><span>产品基准</span></div>
+    <div></div>
+  </div>
+  <div class="brand-lockup">
+    <span class="brand-mark" aria-hidden="true"></span>
+    <span>HUAWEI</span>
+  </div>
+
+  <div style="padding-top:8vh">
+    <div class="content-stack" data-anim>
+      <div class="kicker">PRODUCT BASELINE / INTEGRATED VIEW</div>
+      <h2 class="h-xl">四个代表产品已经形成不同的“数字工程师”定位</h2>
+    </div>
+    <table class="dense-table" style="margin-top:4.2vh" data-anim>
+      <thead>
+        <tr>
+          <th>产品</th>
+          <th>底层模型 / 上下文</th>
+          <th>架构与交互入口</th>
+          <th>2026 表现信号</th>
+          <th>差异化优势</th>
+          <th>主要约束</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Codex</td>
+          <td>GPT-5.3/5.5 Codex<br>云端沙盒状态</td>
+          <td>以 `/goal` 为核心的委托式工作流，全自动执行 shell、依赖安装、代码修改、测试和自修复。</td>
+          <td><span class="red-text">Terminal-Bench 2.0 82.7%</span><br>SWE-bench Pro 58.6%，企业 WAU 超 400 万。</td>
+          <td>高频工具交互、终端/DevOps 可靠性、云沙盒和异步任务委托。</td>
+          <td>模型与平台绑定较强；深度推理任务仍需和 Claude 拉开差异。</td>
+        </tr>
+        <tr>
+          <td>Claude Code</td>
+          <td>Claude Opus 4.7<br>1M tokens</td>
+          <td>终端原生精确架构师，依靠 CLAUDE.md、自主记忆和 Agent Teams 管理长期项目规范。</td>
+          <td><span class="red-text">Verified 87.6% / Pro 64.3%</span><br>Stripe、Ramp、Wiz 等企业案例证明跨语言迁移和事故分析能力。</td>
+          <td>架构推理、上下文利用效率、多文件重构、领队-队员多智能体协作。</td>
+          <td>Claude-only；高权限操作需要严格审批和成本边界。</td>
+        </tr>
+        <tr>
+          <td>OpenCode</td>
+          <td>75+ providers<br>本地/闭源均可</td>
+          <td>Plan/Build 双智能体，支持 ACP、多编辑器、Docker 沙箱和 BYOK。</td>
+          <td><span class="red-text">160K+ GitHub stars</span><br>750 万 MAU，Go / Zen / Black 三层商业服务。</td>
+          <td>供应商不可知、低成本、本地模型、开源扩展和编辑器协议兼容。</td>
+          <td>体验一致性、企业级 SLA、模型质量路由和安全治理仍需成熟。</td>
+        </tr>
+        <tr>
+          <td>Antigravity</td>
+          <td>Gemini 3.5 Flash<br>1M+ native window</td>
+          <td>Antigravity 2.0 任务指挥部，动态子智能体、异步执行、Scheduled Tasks、`/grill-me`。</td>
+          <td><span class="red-text">289 tok/sec 输出吞吐</span><br>深度串联 AI Studio、Firebase、Google Play 与 Google Cloud。</td>
+          <td>全栈集成、多模态、并行任务调度和 Google 生态闭环。</td>
+          <td>额度复杂、服务器忙、强绑定 Gemini/Google 生态引发社区顾虑。</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="slide" data-layout="H05" data-animate="cards">
+  <div class="chrome">
+    <div class="l"><span class="square"></span><span>产品路线分化</span></div>
+    <div></div>
+  </div>
+  <div class="brand-lockup">
+    <span class="brand-mark" aria-hidden="true"></span>
+    <span>HUAWEI</span>
+  </div>
+
+  <div style="padding-top:8vh">
+    <div class="content-stack" data-anim>
+      <div class="kicker">OPERATING MODEL</div>
+      <h2 class="h-xl">四家竞争的不是同一种工具，而是四种工程组织方式</h2>
+      <p class="body-copy" style="max-width:84ch">新增报告强调：编程智能体的竞争焦点已经从生成速度，转向任务成功率、架构理解深度、环境掌控力和人与智能体的协作结构。</p>
+    </div>
+    <div class="grid-4" style="margin-top:4.6vh" data-anim>
+      <div class="card">
+        <div class="icon-disc"><i data-lucide="terminal"></i></div>
+        <div class="card-title">Claude Code：终端原生精确主义</div>
+        <p class="card-body">通过 Unix 风格工作流、CLAUDE.md、自主记忆和 Agent Teams，把智能体嵌入已有工程命令体系，强调对架构与代码库的精确干预。</p>
+      </div>
+      <div class="card">
+        <div class="icon-disc"><i data-lucide="send"></i></div>
+        <div class="card-title">Codex：全自动任务委托中枢</div>
+        <p class="card-body">围绕 `/goal` 把自然语言目标拆成计划、命令、代码、测试和修复循环，开发者从实现者转向工程经理式的目标定义与验收。</p>
+      </div>
+      <div class="card">
+        <div class="icon-disc"><i data-lucide="git-branch"></i></div>
+        <div class="card-title">OpenCode：开放生态守望者</div>
+        <p class="card-body">用 Plan/Build 双智能体、ACP、多编辑器和 75+ 模型提供商构建反锁定路线，核心价值是选择权、可扩展性和成本控制。</p>
+      </div>
+      <div class="card">
+        <div class="icon-disc"><i data-lucide="layout-dashboard"></i></div>
+        <div class="card-title">Antigravity：任务指挥部</div>
+        <p class="card-body">以智能体编排为中心，支持动态子智能体、异步执行、计划任务和 Google 云生态串联，试图把 IDE 改造成控制中心。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-layout="H30" data-animate="market-share">
+  <div class="chrome">
+    <div class="l"><span class="square"></span><span>能力与规模信号</span></div>
+    <div></div>
+  </div>
+  <div class="brand-lockup">
+    <span class="brand-mark" aria-hidden="true"></span>
+    <span>HUAWEI</span>
+  </div>
+
+  <div class="grid-12" style="padding-top:8vh;align-items:start">
+    <div class="span-4 content-stack" data-anim>
+      <div class="kicker">EVIDENCE BOARD</div>
+      <h2 class="h-md">2026 年的领先信号由三类指标共同构成</h2>
+      <p class="body-copy">单一 benchmark 不足以说明产品竞争力。需要同时看标准任务分数、专业任务分数、社区规模、活跃用户、入口位置和企业集成能力。</p>
+      <div class="chip-row">
+        <span class="chip red">Benchmark</span>
+        <span class="chip">Context</span>
+        <span class="chip">Stars</span>
+        <span class="chip">MAU / WAU</span>
+        <span class="chip">Workflow</span>
+        <span class="chip">Trust</span>
+      </div>
+    </div>
+    <div class="span-8 dense-grid dense-2" data-anim>
+      <div class="card flat">
+        <div class="card-title">模型与任务能力</div>
+        <div class="bar-chart">
+          <div class="bar-row"><span>Claude Verified</span><div class="bar-track"><div class="bar-fill" style="--v:87.6%"></div></div><strong>87.6%</strong></div>
+          <div class="bar-row"><span>Claude Pro</span><div class="bar-track"><div class="bar-fill" style="--v:64.3%"></div></div><strong>64.3%</strong></div>
+          <div class="bar-row"><span>Codex Terminal</span><div class="bar-track"><div class="bar-fill" style="--v:82.7%"></div></div><strong>82.7%</strong></div>
+          <div class="bar-row"><span>Codex SWE Pro</span><div class="bar-track"><div class="bar-fill" style="--v:58.6%"></div></div><strong>58.6%</strong></div>
+        </div>
+        <p class="caption">Claude 在架构推理和复杂工程任务领先，Codex 在终端操控和全自动执行上形成高地。</p>
+      </div>
+      <div class="card flat">
+        <div class="card-title">社区与使用规模</div>
+        <div class="bar-chart">
+          <div class="bar-row"><span>OpenCode stars</span><div class="bar-track"><div class="bar-fill" style="--v:100%"></div></div><strong>160K+</strong></div>
+          <div class="bar-row"><span>OpenCode MAU</span><div class="bar-track"><div class="bar-fill" style="--v:75%"></div></div><strong>7.5M</strong></div>
+          <div class="bar-row"><span>Codex WAU</span><div class="bar-track"><div class="bar-fill" style="--v:53%"></div></div><strong>4M+</strong></div>
+          <div class="bar-row"><span>MCP downloads</span><div class="bar-track"><div class="bar-fill" style="--v:97%"></div></div><strong>97M</strong></div>
+        </div>
+        <p class="caption">开源工具和协议层正在变成独立变量，未来会反向塑造闭源平台的入口与定价。</p>
+      </div>
+      <div class="mini-card gray"><div class="mini-title">企业案例信号</div><p class="mini-body">Stripe、Ramp、Wiz 案例说明代理已能承担迁移、事故调查和跨语言重构。</p></div>
+      <div class="mini-card gray"><div class="mini-title">吞吐与体验信号</div><p class="mini-body">Gemini 3.5 Flash 289 tok/sec 与 Codex 高速沙盒推动更高频的工具交互。</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-layout="H06" data-animate="timeline">
+  <div class="chrome">
+    <div class="l"><span class="square"></span><span>范式演进</span></div>
+    <div></div>
+  </div>
+  <div class="brand-lockup">
+    <span class="brand-mark" aria-hidden="true"></span>
+    <span>HUAWEI</span>
+  </div>
+
+  <div style="padding-top:8vh">
+    <div class="content-stack" data-anim>
+      <div class="kicker">PARADIGM SHIFT</div>
+      <h2 class="h-xl">2022-2029 年: 从代码补全走向自主 SDLC</h2>
+    </div>
+
+    <div class="timeline-v" style="margin-top:4.6vh" data-anim>
+      <div>
+        <div class="tl-card"><div class="year">2022-2024</div><p class="card-body">代码助手阶段：补全、解释、生成片段；核心价值是提升局部编码速度。</p></div>
+        <div class="tl-card"><div class="year">2026</div><p class="card-body">代理工程阶段：读仓库、改文件、跑命令、验证结果；工具开始进入真实工程闭环。</p></div>
+        <div class="tl-card"><div class="year">2028</div><p class="card-body">多代理协作成为主流：代码、审查、测试、文档、知识代理分工协作。</p></div>
+      </div>
+      <div class="tl-axis">
+        <div class="tl-dot">01</div>
+        <div class="tl-dot">02</div>
+        <div class="tl-dot">03</div>
+      </div>
+      <div>
+        <div class="tl-card"><div class="year">2025</div><p class="card-body">vibe coding 阶段：自然语言驱动原型和应用构建，降低从想法到代码的门槛。</p></div>
+        <div class="tl-card"><div class="year">2027</div><p class="card-body">多模态代码生成：从 UI 设计、线框图、流程图、数据图表直接生成代码。</p></div>
+        <div class="tl-card"><div class="year">2029</div><p class="card-body">语义级开发：代理理解业务意图、架构约束和运行环境，生成接近专家水平的方案。</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-layout="H20" data-animate="icon-matrix">
+  <div class="chrome">
+    <div class="l"><span class="square"></span><span>技术路径</span></div>
+    <div></div>
+  </div>
+  <div class="brand-lockup">
+    <span class="brand-mark" aria-hidden="true"></span>
+    <span>HUAWEI</span>
+  </div>
+
+  <div style="padding-top:8vh">
+    <div class="content-stack" data-anim>
+      <div class="kicker">TECHNOLOGY VECTOR</div>
+      <h2 class="h-xl">未来三年代码生成能力的八个演进方向</h2>
+    </div>
+    <div class="dense-grid dense-4" style="margin-top:4.8vh" data-anim>
+      <div class="mini-card"><div class="icon-disc" style="width:3.4vw;height:3.4vw"><i data-lucide="image"></i></div><div class="mini-title">多模态代码生成</div><p class="mini-body">从设计原型、线框图、手绘草图、流程图直接生成前端或业务代码。</p></div>
+      <div class="mini-card"><div class="icon-disc" style="width:3.4vw;height:3.4vw"><i data-lucide="scan-search"></i></div><div class="mini-title">上下文利用效率</div><p class="mini-body">从 1M 走向 10M-50M tokens，但重点转向压缩、检索和长期记忆。</p></div>
+      <div class="mini-card"><div class="icon-disc" style="width:3.4vw;height:3.4vw"><i data-lucide="brain"></i></div><div class="mini-title">代码认知</div><p class="mini-body">理解功能意图、架构设计、业务逻辑、设计模式和代码异味。</p></div>
+      <div class="mini-card"><div class="icon-disc" style="width:3.4vw;height:3.4vw"><i data-lucide="network"></i></div><div class="mini-title">多代理协作</div><p class="mini-body">任务拆解给代码、审查、文档、测试、知识代理，提高复杂任务完成度。</p></div>
+      <div class="mini-card"><div class="icon-disc" style="width:3.4vw;height:3.4vw"><i data-lucide="gauge"></i></div><div class="mini-title">性能感知生成</div><p class="mini-body">从“功能正确”走向“功能正确 + 运行高效 + 适配环境”。</p></div>
+      <div class="mini-card"><div class="icon-disc" style="width:3.4vw;height:3.4vw"><i data-lucide="blocks"></i></div><div class="mini-title">语言范围扩展</div><p class="mini-body">从主流语言扩展到 COBOL、Fortran、Solidity、TeX、ABAP 和 DSL。</p></div>
+      <div class="mini-card"><div class="icon-disc" style="width:3.4vw;height:3.4vw"><i data-lucide="server-cog"></i></div><div class="mini-title">DevOps / IaC</div><p class="mini-body">自动生成 Terraform、Kubernetes、CI/CD 脚本，并参与 SRE 排障。</p></div>
+      <div class="mini-card"><div class="icon-disc" style="width:3.4vw;height:3.4vw"><i data-lucide="cloud"></i></div><div class="mini-title">云原生全栈</div><p class="mini-body">理解容器、微服务、前后端、移动端和云基础设施，形成统一体验。</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-layout="H17" data-animate="hub">
+  <div class="chrome">
+    <div class="l"><span class="square"></span><span>上下文工程</span></div>
+    <div></div>
+  </div>
+  <div class="brand-lockup">
+    <span class="brand-mark" aria-hidden="true"></span>
+    <span>HUAWEI</span>
+  </div>
+
+  <div style="padding-top:8vh">
+    <div class="content-stack" data-anim>
+      <div class="kicker">CONTEXT ENGINEERING</div>
+      <h2 class="h-xl">长上下文不是终点，真正的胜负在“如何记住与如何遗忘”</h2>
+      <p class="body-copy" style="max-width:88ch">新增报告指出：单纯扩大到 1M+ tokens 会带来 KV 缓存压力、注意力衰减和推理成本。主流智能体正在用适应性压缩、工具结果清理和分层记忆维持长程任务质量。</p>
+    </div>
+    <div class="grid-12" style="margin-top:4vh;align-items:start">
+      <div class="span-5 dense-grid dense-2" data-anim>
+        <div class="mini-card red"><div class="mini-title">Adaptive Compaction</div><p class="mini-body">对话接近限制时，把历史对话、工具结果和中间推理压缩成高保真摘要，再开启新会话。</p></div>
+        <div class="mini-card"><div class="mini-title">Tool-result Clearing</div><p class="mini-body">冗长构建日志和可再生成输出被替换为占位摘要，回收空间但保留关键推理依据。</p></div>
+        <div class="mini-card"><div class="mini-title">Hierarchical Memory</div><p class="mini-body">短期记忆承载当前任务流，长期记忆沉淀用户偏好、项目事实和架构模式。</p></div>
+        <div class="mini-card"><div class="mini-title">Project Constitution</div><p class="mini-body">Claude 的 CLAUDE.md 代表一种团队规范外化方式，防止智能体长期运行中的指令偏移。</p></div>
+      </div>
+      <div class="span-7" data-anim>
+        <table class="dense-table">
+          <thead><tr><th>方案</th><th>代表产品</th><th>实现机制</th><th>优势</th><th>约束</th></tr></thead>
+          <tbody>
+            <tr><td>Agentic Search</td><td>Claude Code</td><td>按需扫描、映射代码库，而不是全量加载。</td><td>精准度高，适合大型仓库架构理解。</td><td>延迟中等，依赖搜索策略质量。</td></tr>
+            <tr><td>1M Native Window</td><td>Antigravity</td><td>利用 Gemini 的物理长窗口承载大上下文。</td><td>容量大，适合全栈和多模态输入。</td><td>注意力衰减和 KV 成本压力明显。</td></tr>
+            <tr><td>Sandbox State</td><td>Codex</td><td>在受控云沙盒中保持文件系统和执行状态。</td><td>状态最接近真实工程环境。</td><td>跨会话迁移和企业合规成本较高。</td></tr>
+            <tr><td>LSP Feedback Loop</td><td>OpenCode</td><td>利用语言服务器实时注入诊断信息。</td><td>纠错快，编辑器生态适配能力强。</td><td>动态语言和复杂运行时反馈仍有限。</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-layout="H24" data-animate="arrow-timeline">
+  <div class="chrome">
+    <div class="l"><span class="square"></span><span>能力提升路径</span></div>
+    <div></div>
+  </div>
+  <div class="brand-lockup">
+    <span class="brand-mark" aria-hidden="true"></span>
+    <span>HUAWEI</span>
+  </div>
+
+  <div style="padding-top:8vh">
+    <div class="content-stack" data-anim>
+      <div class="kicker">PERFORMANCE ROADMAP</div>
+      <h2 class="h-xl">标准基准会收敛，专业任务与效率指标会分化</h2>
+      <p class="body-copy" style="max-width:86ch">当前功能正确率已经较高，但“高效执行率”仍是短板。未来三年评价体系会从单点代码正确，转向专业场景、终端任务、安全编码、性能优化和遗留系统处理。</p>
+    </div>
+    <div class="arrow-timeline" style="--line-left:8%;--line-right:10%;--line-h:.52vh;--head-right:7.8%;--head-w:2.5vw;--head-h:3.6vh;height:42vh;margin-top:4vh" data-anim>
+      <div class="arrow-timeline-line"></div>
+      <span class="arrow-timeline-node" style="left:16%"></span>
+      <span class="arrow-timeline-node" style="left:39%"></span>
+      <span class="arrow-timeline-node" style="left:62%"></span>
+      <span class="arrow-timeline-node" style="left:82%"></span>
+      <div class="arrow-timeline-head"></div>
+      <div class="card flat arrow-timeline-card top" style="left:1%;width:20vw"><div class="num-pill">2026</div><div class="card-title">分数收敛</div><p class="card-body">SWE-bench Verified 前列差距接近 0.8 分，标准任务逐步接近天花板。</p></div>
+      <div class="card flat arrow-timeline-card bottom" style="left:25%;width:20vw"><div class="num-pill">2027</div><div class="card-title">效率修复</div><p class="card-body">高效执行率目标提升至 60-70%，强调算法优化、缓存和成本控制。</p></div>
+      <div class="card flat arrow-timeline-card top" style="left:49%;width:20vw"><div class="num-pill">2028</div><div class="card-title">环境感知</div><p class="card-body">生成代码开始面向运行环境、性能约束、安全规则和团队规范自适应。</p></div>
+      <div class="card flat arrow-timeline-card bottom" style="left:72%;width:20vw"><div class="num-pill">2029</div><div class="card-title">语义生成</div><p class="card-body">从代码片段输出转向架构意图、业务逻辑和跨服务变更的一体化生成。</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-layout="H22" data-animate="staircase">
+  <div class="chrome">
+    <div class="l"><span class="square"></span><span>用户与信任增长</span></div>
+    <div></div>
+  </div>
+  <div class="brand-lockup">
+    <span class="brand-mark" aria-hidden="true"></span>
+    <span>HUAWEI</span>
+  </div>
+
+  <div style="padding-top:8vh">
+    <div class="content-stack" data-anim>
+      <div class="kicker">USER FORECAST</div>
+      <h2 class="h-xl">市场增长来自“用户规模 × 信任度 × 团队渗透”</h2>
+    </div>
+    <div style="height:44vh;margin-top:5vh;display:flex;align-items:end;gap:1.15vw" data-anim>
+      <div class="card flat" style="height:40%;width:24%"><div class="flow-label">2026 END</div><div class="stat-big" style="font-size:2.9vw">1.5亿</div><div class="card-title">全球用户</div><p class="card-body">活跃用户占 60%，信任度约 33%，个人提效仍是主要入口。</p></div>
+      <div class="card flat" style="height:55%;width:24%"><div class="flow-label">2027 END</div><div class="stat-big" style="font-size:2.9vw">2.5亿</div><div class="card-title">信任度 45%</div><p class="card-body">视觉到代码、团队协作和企业试点推动活跃度提升。</p></div>
+      <div class="card flat" style="height:72%;width:25%"><div class="flow-label">2028 END</div><div class="stat-big" style="font-size:2.9vw">3.8亿</div><div class="card-title">信任度 60%</div><p class="card-body">多代理协作、插件生态和治理能力让组织级采用更常见。</p></div>
+      <div class="card flat" style="height:88%;width:27%"><div class="flow-label">2029 MAY</div><div class="stat-big" style="font-size:2.9vw">4.5亿</div><div class="card-title">信任度 70%</div><p class="card-body">用户指标从工具使用转向生态参与、团队协作和主动贡献。</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-layout="H16" data-animate="combo-chart">
+  <div class="chrome">
+    <div class="l"><span class="square"></span><span>产品规模预测</span></div>
+    <div></div>
+  </div>
+  <div class="brand-lockup">
+    <span class="brand-mark" aria-hidden="true"></span>
+    <span>HUAWEI</span>
+  </div>
+
+  <div style="padding-top:8vh">
+    <div class="content-stack" data-anim>
+      <div class="kicker">PRODUCT SCALE FORECAST</div>
+      <h2 class="h-xl">四类产品的增长逻辑并不相同</h2>
+    </div>
+    <div class="grid-12" style="margin-top:4.4vh;align-items:start">
+      <div class="span-7" data-anim>
+        <table class="dense-table">
+          <thead>
+            <tr><th>产品</th><th>2026 年 5 月</th><th>2027 年底</th><th>2028 年底</th><th>2029 年 5 月</th><th>增长逻辑</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Codex</td><td>400 万+ WAU</td><td>1200 万 MAU</td><td>2500 万 MAU</td><td>3500 万 MAU</td><td>OpenAI 生态、云沙盒、异步委托、企业版和自动化任务。</td></tr>
+            <tr><td>Claude Code</td><td>63% 份额</td><td>55-60%</td><td>50-55%</td><td>45-50%</td><td>高满意度维持领先，但份额会被开源和平台型工具稀释。</td></tr>
+            <tr><td>OpenCode</td><td>750 万 MAU</td><td>1500 万 MAU</td><td>2800 万 MAU</td><td>3800 万 MAU</td><td>开源、BYOK、ACP、多模型灵活性和低成本服务驱动扩散。</td></tr>
+            <tr><td>Antigravity</td><td>2.0 预览</td><td>1000 万 MAU</td><td>2000 万 MAU</td><td>3000 万 MAU</td><td>任务指挥部、Gemini、AI Studio、Firebase 和 Google Cloud 闭环。</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="span-5 dense-grid dense-2" data-anim>
+        <div class="mini-card red"><div class="mini-title">闭源模型阵营</div><p class="mini-body">Codex、Claude Code、Antigravity 依靠模型、平台、沙盒和企业能力形成高端付费带。</p></div>
+        <div class="mini-card"><div class="mini-title">开源灵活阵营</div><p class="mini-body">OpenCode、Cline、Aider 等将用 ACP、本地模型、低成本和模型可切换冲击闭源定价。</p></div>
+        <div class="mini-card"><div class="mini-title">团队协作迁移</div><p class="mini-body">用户活跃度将从个人工具使用，转向团队流程、插件开发和最佳实践分享。</p></div>
+        <div class="mini-card"><div class="mini-title">平台入口争夺</div><p class="mini-body">IDE、CLI、GitHub、云平台和聊天系统都可能成为代理任务入口。</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-layout="H23" data-animate="gear-process">
+  <div class="chrome">
+    <div class="l"><span class="square"></span><span>社区生态</span></div>
+    <div></div>
+  </div>
+  <div class="brand-lockup">
+    <span class="brand-mark" aria-hidden="true"></span>
+    <span>HUAWEI</span>
+  </div>
+
+  <div style="padding-top:8vh">
+    <div class="content-stack" data-anim>
+      <div class="kicker">ECOSYSTEM MECHANICS</div>
+      <h2 class="h-xl">生态竞争会从“用户数”升级为“贡献与集成能力”</h2>
+    </div>
+    <div class="grid-4" style="margin-top:4.8vh" data-anim>
+      <div class="card">
+        <div class="icon-disc"><i data-lucide="git-fork"></i></div>
+        <div class="card-title">开源生态繁荣</div>
+        <p class="card-body">2026-2027 年开源项目预计占 30-40% 份额，2027-2028 年提升至 45-50%，2028-2029 年形成核心开源 + 增值服务混合模式。</p>
+      </div>
+      <div class="card">
+        <div class="icon-disc"><i data-lucide="plug"></i></div>
+        <div class="card-title">插件市场成熟</div>
+        <p class="card-body">平台会推动标准化插件接口、专业插件市场、AI 辅助插件开发和质量认证，插件将成为产品粘性和行业扩展的核心。</p>
+      </div>
+      <div class="card">
+        <div class="icon-disc"><i data-lucide="building-2"></i></div>
+        <div class="card-title">企业伙伴关系</div>
+        <p class="card-body">GitHub、GitLab、Jira、AWS、Azure、GCP 与行业 ISV 的深度集成，会决定工具能否从个人扩散到企业流程。</p>
+      </div>
+      <div class="card">
+        <div class="icon-disc"><i data-lucide="users"></i></div>
+        <div class="card-title">社区文化变化</div>
+        <p class="card-body">开发者从被动使用变成主动贡献：贡献插件、代码片段、教程、工作流模板，并围绕工具形成身份认同和实践共同体。</p>
+      </div>
+    </div>
+    <div class="quote-band" style="margin-top:4vh;font-size:1.65vw" data-anim>未来的强产品不是只会生成代码，而是能组织模型、工具、社区和企业权限一起完成任务。</div>
+  </div>
+</section>
+
+<section class="slide" data-layout="H26" data-animate="metaphor">
+  <div class="chrome">
+    <div class="l"><span class="square"></span><span>协议之战</span></div>
+    <div></div>
+  </div>
+  <div class="brand-lockup">
+    <span class="brand-mark" aria-hidden="true"></span>
+    <span>HUAWEI</span>
+  </div>
+
+  <div style="padding-top:8vh">
+    <div class="content-stack" data-anim>
+      <div class="kicker">MCP VS ACP</div>
+      <h2 class="h-xl">竞争已经进入协议层：谁定义连接方式，谁定义工具边界</h2>
+      <p class="body-copy" style="max-width:88ch">新增报告把 MCP 与 ACP 视为下一阶段核心战场。MCP 解决“智能体如何连接外部工具”，ACP 解决“编辑器如何驱动和切换智能体”。两者共同决定开发者能否摆脱平台锁定。</p>
+    </div>
+    <div class="grid-12" style="margin-top:4.8vh;align-items:stretch">
+      <div class="span-6 card flat" data-anim>
+        <div class="flow-label">MODEL CONTEXT PROTOCOL</div>
+        <div class="card-title" style="font-size:1.55vw;margin-top:1vh">MCP：工具连接层</div>
+        <p class="body-copy">由 Anthropic 主导，侧重让智能体以统一方式连接外部工具、数据源和企业系统。报告给出的信号是截至 2026 年下载量达 9700 万次，说明工具服务器生态已经形成规模化网络效应。</p>
+        <div class="dense-grid dense-2" style="margin-top:2.4vh">
+          <div class="mini-card gray"><div class="mini-title">关键价值</div><p class="mini-body">一次编写工具服务器，可在多种支持 MCP 的智能体中复用。</p></div>
+          <div class="mini-card gray"><div class="mini-title">竞争含义</div><p class="mini-body">工具生态越丰富，Claude 系产品越容易成为企业上下文入口。</p></div>
+        </div>
+      </div>
+      <div class="span-6 card flat" data-anim>
+        <div class="flow-label">AGENT CLIENT PROTOCOL</div>
+        <div class="card-title" style="font-size:1.55vw;margin-top:1vh">ACP：编辑器驱动层</div>
+        <p class="body-copy">由 JetBrains 和 Zed 联合发起，侧重让编辑器用统一协议驱动不同后端智能体。它解决 1:1 耦合问题，使开发者能够在同一界面下从 Claude Code 切换到 Codex 或 OpenCode。</p>
+        <div class="dense-grid dense-2" style="margin-top:2.4vh">
+          <div class="mini-card gray"><div class="mini-title">关键价值</div><p class="mini-body">前端体验与后端模型解耦，降低用户迁移和试错成本。</p></div>
+          <div class="mini-card gray"><div class="mini-title">竞争含义</div><p class="mini-body">OpenCode 等开放工具可借 ACP 进入多编辑器生态，削弱单一 IDE 锁定。</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="slide dark" data-layout="H34" data-animate="swot">
+  <div class="chrome">
+    <div class="l"><span class="square"></span><span>差异化优势</span></div>
+    <div></div>
+  </div>
+  <div class="brand-lockup">
+    <span class="brand-mark" aria-hidden="true"></span>
+    <span>HUAWEI</span>
+  </div>
+
+  <div style="padding-top:8vh">
+    <div class="content-stack" data-anim>
+      <div class="kicker">COMPETITIVE MOAT</div>
+      <h2 class="h-xl">2026-2029 的竞争不是单点能力，而是“四种护城河”的组合</h2>
+    </div>
+    <div class="grid-4" style="margin-top:5vh" data-anim>
+      <div class="dark-panel">
+        <div class="mini-title">Claude Code / 推理深度</div>
+        <p class="mini-body">复杂多文件任务、架构理解、终端优先和 1M 上下文支撑大型项目重构。到 2028 年仍可能保持复杂推理领先。</p>
+      </div>
+      <div class="dark-panel">
+        <div class="mini-title">Codex / 速度执行</div>
+        <p class="mini-body">Terminal-Bench 表现、异步委托、自动化任务执行和 OpenAI 工具生态适合快速反馈与后台工程任务。</p>
+      </div>
+      <div class="dark-panel">
+        <div class="mini-title">OpenCode / 开放灵活</div>
+        <p class="mini-body">75+ 模型提供商、BYOK、MIT 开源和 Docker 沙箱，天然适合成本敏感、隐私敏感和反锁定用户。</p>
+      </div>
+      <div class="dark-panel">
+        <div class="mini-title">Antigravity / 全栈整合</div>
+        <p class="mini-body">Google AI、Gemini、Cloud 和多模态能力，适合快速原型、全栈应用构建和云原生工作流。</p>
+      </div>
+    </div>
+    <div class="dense-grid dense-3" style="margin-top:3vh" data-anim>
+      <div class="dark-panel"><div class="mini-title">平台型威胁</div><p class="mini-body">GitHub Copilot、Cursor、JetBrains 与云平台拥有入口和组织采购优势。</p></div>
+      <div class="dark-panel"><div class="mini-title">开源价格压力</div><p class="mini-body">OpenCode、Cline、Aider 会持续挤压高价订阅，迫使闭源工具证明高端价值。</p></div>
+      <div class="dark-panel"><div class="mini-title">质量信任门槛</div><p class="mini-body">AI 辅助代码缺陷、误操作和权限风险，会限制无治理的大规模采用。</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-layout="H33" data-animate="pricing-table">
+  <div class="chrome">
+    <div class="l"><span class="square"></span><span>商业模式</span></div>
+    <div></div>
+  </div>
+  <div class="brand-lockup">
+    <span class="brand-mark" aria-hidden="true"></span>
+    <span>HUAWEI</span>
+  </div>
+
+  <div style="padding-top:8vh">
+    <div class="content-stack" data-anim>
+      <div class="kicker">BUSINESS MODEL</div>
+      <h2 class="h-xl">定价会极化：低成本开放网关 vs 高推理深度弹性计费</h2>
+    </div>
+    <div class="grid-12" style="margin-top:4.2vh;align-items:start">
+      <div class="span-7" data-anim>
+        <table class="dense-table">
+          <thead><tr><th>价格层级</th><th>代表产品</th><th>月费范围</th><th>目标用户</th><th>2029 份额预测</th></tr></thead>
+          <tbody>
+            <tr><td>免费 / 超低成本</td><td>OpenCode BYOK、Cline、本地模型</td><td>$0-5</td><td>个人开发者、学生、成本敏感团队</td><td><span class="red-text">35-40%</span></td></tr>
+            <tr><td>确定性订阅</td><td>GitHub Copilot、Antigravity Pro、OpenCode Go</td><td>$10-20</td><td>预算可控的专业开发者与普通团队</td><td><span class="red-text">25-30%</span></td></tr>
+            <tr><td>高端专业型</td><td>Cursor Pro、Claude Code、OpenCode Zen</td><td>$20-60+</td><td>高级开发者、先锋团队、长程任务</td><td><span class="red-text">20-25%</span></td></tr>
+            <tr><td>企业定制型</td><td>Factory AI、Codex 企业版、OpenCode Black</td><td>$100+/用户</td><td>大型企业、复杂治理、合规与 SLA 场景</td><td><span class="red-text">10-15%</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="span-5 dense-grid dense-2" data-anim>
+        <div class="mini-card red"><div class="mini-title">Fixed Subscription</div><p class="mini-body">预算可控，但高负载下可能遇到配额限制、限速和服务器忙。</p></div>
+        <div class="mini-card"><div class="mini-title">Usage-based Billing</div><p class="mini-body">起步价更高，复杂 PR 或事故修复可达 $15-$25，但能换取更深推理。</p></div>
+        <div class="mini-card"><div class="mini-title">OpenCode Go / Zen / Black</div><p class="mini-body">Go 面向低成本订阅，Zen 做顶级模型按需网关，Black 面向企业安全合规。</p></div>
+        <div class="mini-card"><div class="mini-title">成果与价值定价</div><p class="mini-body">长期会从席位和 token，转向按成功任务、节省时间和业务价值收费。</p></div>
+        <div class="mini-card gray" style="grid-column:span 2"><div class="mini-title">投资节奏</div><p class="mini-body">2026-2027 关注垂直专业工具，2027-2028 聚焦平台型公司，2028-2029 关注与企业软件、协议层和 Agentic SDLC 整合的成熟机会。</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-layout="H05" data-animate="cards">
+  <div class="chrome">
+    <div class="l"><span class="square"></span><span>风险与治理</span></div>
+    <div></div>
+  </div>
+  <div class="brand-lockup">
+    <span class="brand-mark" aria-hidden="true"></span>
+    <span>HUAWEI</span>
+  </div>
+
+  <div style="padding-top:8vh">
+    <div class="content-stack" data-anim>
+      <div class="kicker">RISK MANAGEMENT</div>
+      <h2 class="h-xl">代理越深入工程流程，安全与信任越成为采用前提</h2>
+    </div>
+    <div class="grid-3" style="margin-top:4.8vh" data-anim>
+      <div class="card">
+        <div class="icon-disc"><i data-lucide="bug"></i></div>
+        <div class="card-title">安全正确性不足</div>
+        <p class="card-body">新增报告提到 Agent Security League 中智能体漏洞修复最高得分仅 23.5%，说明功能正确不等于安全正确。硬编码密钥、越权、注入和认证边界漂移仍是高风险区。</p>
+      </div>
+      <div class="card">
+        <div class="icon-disc"><i data-lucide="lock-keyhole"></i></div>
+        <div class="card-title">自主权限扩大</div>
+        <p class="card-body">GTG-2002 一类攻击说明，智能体可被诱导攻击内部系统。企业必须把提示词限制、工具参数校验、运行时审批和沙盒隔离作为默认能力，而不是上线后的补丁。</p>
+      </div>
+      <div class="card">
+        <div class="icon-disc"><i data-lucide="shield-alert"></i></div>
+        <div class="card-title">平台锁定与合规压力</div>
+        <p class="card-body">Claude-only、Gemini-only、OpenAI-only 或 Google 强绑定会提高迁移成本。企业需要多模型抽象、配置迁移、审计日志、隐私边界和知识产权保护机制。</p>
+      </div>
+    </div>
+    <div class="dense-grid dense-4" style="margin-top:3vh" data-anim>
+      <div class="mini-card gray"><div class="mini-title">Prompt Guardrails</div><p class="mini-body">在系统提示中定义禁止行为与团队安全边界。</p></div>
+      <div class="mini-card gray"><div class="mini-title">Schema Gating</div><p class="mini-body">用 Plan/Build 等架构隔离限制危险工具访问。</p></div>
+      <div class="mini-card gray"><div class="mini-title">Runtime Approval</div><p class="mini-body">删除文件、改 Git 历史、生产访问必须人工批准。</p></div>
+      <div class="mini-card gray"><div class="mini-title">Lifecycle Hooks</div><p class="mini-body">行动前后插入审计脚本，形成可追溯治理链。</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="slide dark" data-layout="H10" data-animate="closing">
+  <div class="brand-lockup">
+    <span class="brand-mark" aria-hidden="true"></span>
+    <span>HUAWEI</span>
+  </div>
+  <div style="height:100%;display:grid;grid-template-rows:auto 1fr;gap:3.5vh;padding-top:5vh">
+    <div class="content-stack" data-anim style="text-align:center;align-items:center">
+      <div class="kicker">CHALLENGER STRATEGY</div>
+      <h2 class="h-hero" style="font-size:min(4.35vw,7.7vh)">后来者不要复制巨头<br>要选择非对称战场超越</h2>
+      <p class="lead" style="max-width:82ch;color:rgba(255,255,255,.84)">面对 Claude Code、Codex、OpenCode、Antigravity 的先发优势，后来竞争者不应正面拼模型榜单，而要在工作流楔子、协议开放、可信治理和行业深度上建立可迁移优势。</p>
+    </div>
+    <div class="dense-grid dense-3" data-anim>
+      <div class="dark-panel">
+        <div class="mini-title">01 先选楔子：避开通用编码红海</div>
+        <ul class="tight-list">
+          <li>不要从“更好的 Copilot / Claude Code”切入，优先选择高痛点、低替换阻力的场景：遗留系统迁移、CI 修复、安全修复、数据工程、DevOps/IaC。</li>
+          <li>把卖点从“会写代码”改成“能完成一个可验收任务”，用测试通过率、交付周期、缺陷回滚率和人工节省时间做证据。</li>
+          <li>先服务一个角色或流程，而不是一次性做通用 IDE：例如安全工程师、SRE、测试平台、企业代码迁移团队。</li>
+        </ul>
+      </div>
+      <div class="dark-panel">
+        <div class="mini-title">02 再建迁移能力：用开放协议反锁定</div>
+        <ul class="tight-list">
+          <li>默认支持 MCP / ACP / LSP / GitHub / GitLab / Jira / Slack，把自己做成可嵌入的执行层，而不是封闭入口。</li>
+          <li>提供从 Claude Code、Codex、Cursor、Gemini CLI 迁移的规则、记忆、命令和任务模板导入能力，降低团队试用成本。</li>
+          <li>坚持多模型路由和 BYOK：按任务自动选择快模型、深推理模型、本地模型或企业私有模型，避免被单一模型成本卡死。</li>
+        </ul>
+      </div>
+      <div class="dark-panel">
+        <div class="mini-title">03 最后超越：把信任做成护城河</div>
+        <ul class="tight-list">
+          <li>把权限审批、沙盒、审计、成本上限、密钥防护、自动化安全审查链做成产品默认能力，而不是企业版附加项。</li>
+          <li>建立“任务成功率 + 安全正确率 + 成本/PR + 可回滚性”的复合指标，用企业可采购的语言证明价值。</li>
+          <li>当巨头卖通用能力时，后来者要卖可落地的 Agentic SDLC 套件：需求到 PR、测试、安全、发布、运维闭环。</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+</div>
+
+<div id="nav"></div>
+<div id="overview"></div>
+
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js" defer onload="window.lucide&&window.lucide.createIcons()"></script>
+<script>
+(() => {
+  const deck = document.getElementById('deck');
+  const nav = document.getElementById('nav');
+  const overview = document.getElementById('overview');
+  const slides = [...document.querySelectorAll('.slide')];
+  const lowPowerKey = 'guizang-huawei-low-power';
+  let current = 0;
+  let wheelLock = false;
+
+  const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  window.__lowPowerMode = localStorage.getItem(lowPowerKey) === '1' || prefersReduced;
+  document.body.classList.toggle('low-power', window.__lowPowerMode);
+
+  function buildPageNumbers(){
+    const total = String(slides.length).padStart(2, '0');
+    slides.forEach((slide, i) => {
+      slide.querySelector('.page-no')?.remove();
+      const pageNo = document.createElement('div');
+      pageNo.className = 'page-no';
+      pageNo.textContent = `${String(i + 1).padStart(2, '0')} / ${total}`;
+      slide.appendChild(pageNo);
+    });
+  }
+
+  function buildNav(){
+    nav.innerHTML = '';
+    slides.forEach((_, i) => {
+      const dot = document.createElement('button');
+      dot.type = 'button';
+      dot.setAttribute('aria-label', `Go to slide ${i + 1}`);
+      dot.addEventListener('click', () => go(i));
+      nav.appendChild(dot);
+    });
+  }
+
+  function buildOverview(){
+    overview.innerHTML = '';
+    slides.forEach((slide, i) => {
+      const thumb = document.createElement('div');
+      thumb.className = 'thumb';
+      const clone = slide.cloneNode(true);
+      clone.classList.add('active');
+      thumb.appendChild(clone);
+      thumb.addEventListener('click', () => {
+        document.body.classList.remove('overview');
+        go(i);
+      });
+      overview.appendChild(thumb);
+    });
+  }
+
+  function updateTheme(){
+    document.body.classList.toggle('dark-bg', slides[current]?.classList.contains('dark'));
+  }
+
+  function go(i){
+    if (!slides.length) return;
+    current = Math.max(0, Math.min(i, slides.length - 1));
+    deck.style.transform = `translateX(${-current * 100}vw)`;
+    slides.forEach((slide, idx) => slide.classList.toggle('active', idx === current));
+    [...nav.children].forEach((dot, idx) => dot.classList.toggle('active', idx === current));
+    updateTheme();
+  }
+
+  function toggleLowPower(){
+    window.__lowPowerMode = !window.__lowPowerMode;
+    localStorage.setItem(lowPowerKey, window.__lowPowerMode ? '1' : '0');
+    document.body.classList.toggle('low-power', window.__lowPowerMode);
+  }
+
+  addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') {
+      event.preventDefault();
+      document.body.classList.toggle('overview');
+      return;
+    }
+    if (event.key === 'b' || event.key === 'B') {
+      event.preventDefault();
+      toggleLowPower();
+      return;
+    }
+    if (document.body.classList.contains('overview')) return;
+    if (event.key === 'ArrowRight' || event.key === 'PageDown' || event.key === ' ') {
+      event.preventDefault();
+      go(current + 1);
+    }
+    if (event.key === 'ArrowLeft' || event.key === 'PageUp') {
+      event.preventDefault();
+      go(current - 1);
+    }
+  });
+
+  addEventListener('wheel', (event) => {
+    if (document.body.classList.contains('overview') || wheelLock || Math.abs(event.deltaY) < 24) return;
+    wheelLock = true;
+    go(current + (event.deltaY > 0 ? 1 : -1));
+    setTimeout(() => { wheelLock = false; }, 620);
+  }, { passive: true });
+
+  let touchStartX = null;
+  addEventListener('touchstart', (event) => { touchStartX = event.touches[0]?.clientX ?? null; }, { passive: true });
+  addEventListener('touchend', (event) => {
+    if (touchStartX == null) return;
+    const dx = (event.changedTouches[0]?.clientX ?? touchStartX) - touchStartX;
+    if (Math.abs(dx) > 46) go(current + (dx < 0 ? 1 : -1));
+    touchStartX = null;
+  }, { passive: true });
+
+  buildPageNumbers();
+  buildNav();
+  buildOverview();
+  go(0);
+  if (window.lucide) window.lucide.createIcons();
+})();
+</script>
+</body>
+</html>

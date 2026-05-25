@@ -1,0 +1,1093 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>58 字理解大模型底层逻辑 · Huawei Corporate Deck</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    /* ============ Huawei corporate theme (default: classic red) ============
+       Switch theme: copy one :root block from references/themes-huawei.md and
+       replace the variables in this section only. */
+    --paper:#f7f8fa;
+    --paper-rgb:247,248,250;
+    --card:#ffffff;
+    --ink:#22252b;
+    --ink-rgb:34,37,43;
+    --muted:#6f7680;
+    --line:#dfe3e8;
+    --line-strong:#c7ccd4;
+    --brand-red:#c7000b;
+    --brand-red-rgb:199,0,11;
+    --brand-red-dark:#990008;
+    --brand-red-soft:#f5e5e7;
+    --brand-black:#111111;
+    --brand-grey:#f0f2f5;
+    --shadow:0 18px 46px rgba(15,23,42,.12);
+    --shadow-soft:0 10px 26px rgba(15,23,42,.10);
+
+    --sans:"Inter","Noto Sans SC","Microsoft YaHei UI",Arial,sans-serif;
+    --sans-zh:"Noto Sans SC","Microsoft YaHei UI",Arial,sans-serif;
+    --mono:"JetBrains Mono","SFMono-Regular",Consolas,monospace;
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{width:100%;height:100%;overflow:hidden}
+  body{
+    font-family:var(--sans);
+    color:var(--ink);
+    background:var(--paper);
+    -webkit-font-smoothing:antialiased;
+    text-rendering:geometricPrecision;
+  }
+  body.low-power *,body.low-power *::before,body.low-power *::after{
+    animation:none!important;
+    transition:none!important;
+    scroll-behavior:auto!important;
+  }
+
+  #deck{
+    display:flex;
+    width:100vw;
+    height:100vh;
+    transition:transform .72s cubic-bezier(.22,1,.36,1);
+  }
+  body.low-power #deck{transition:none!important}
+
+  .slide{
+    position:relative;
+    flex:0 0 100vw;
+    width:100vw;
+    height:100vh;
+    padding:7.2vh 7vw 7vh;
+    overflow:hidden;
+    background:
+      linear-gradient(180deg,rgba(255,255,255,.94),rgba(247,248,250,.96)),
+      radial-gradient(circle at 78% 12%,rgba(var(--brand-red-rgb),.08),transparent 22vw),
+      radial-gradient(circle at 12% 88%,rgba(17,17,17,.045),transparent 28vw);
+  }
+  .slide::before,
+  .slide::after{
+    content:"";
+    position:absolute;
+    pointer-events:none;
+    border-radius:999px;
+    z-index:0;
+  }
+  .slide::before{
+    width:13vw;
+    height:13vw;
+    right:6vw;
+    top:10vh;
+    background:linear-gradient(145deg,#fff,rgba(223,227,232,.95));
+    box-shadow:inset -12px -12px 22px rgba(255,255,255,.9),inset 10px 10px 26px rgba(111,118,128,.14),0 14px 28px rgba(15,23,42,.08);
+    opacity:.32;
+  }
+  .slide::after{
+    width:2.6vw;
+    height:2.6vw;
+    left:6.3vw;
+    bottom:8vh;
+    background:var(--brand-red);
+    box-shadow:13vw -72vh 0 -1.4vw rgba(var(--brand-red-rgb),.9),73vw -6vh 0 -1vw rgba(var(--brand-red-rgb),.85),82vw -78vh 0 -1.1vw rgba(var(--brand-red-rgb),.9);
+    opacity:.18;
+  }
+  .slide > *{position:relative;z-index:1}
+
+  .slide.dark{
+    color:#fff;
+    background:
+      linear-gradient(135deg,var(--brand-red-dark),var(--brand-red) 54%,#e34034),
+      radial-gradient(circle at 82% 18%,rgba(255,255,255,.22),transparent 22vw);
+  }
+  .slide.dark::before{
+    background:rgba(255,255,255,.14);
+    box-shadow:inset -10px -10px 18px rgba(255,255,255,.18),inset 10px 10px 26px rgba(0,0,0,.14);
+    opacity:.55;
+  }
+  .slide.dark::after{background:#fff;box-shadow:14vw -66vh 0 -1.5vw rgba(255,255,255,.72),72vw -7vh 0 -1vw rgba(255,255,255,.58);opacity:.24}
+
+  .brand-lockup{
+    position:absolute;
+    right:6.4vw;
+    top:4.6vh;
+    display:flex;
+    align-items:center;
+    gap:.58vw;
+    color:var(--brand-black);
+    font-weight:800;
+    letter-spacing:.01em;
+    font-size:1.08vw;
+    z-index:3;
+  }
+  .dark .brand-lockup{color:#fff}
+  .brand-mark{
+    width:1.62vw;
+    height:1.62vw;
+    flex:none;
+    color:var(--brand-red);
+    background:currentColor;
+    -webkit-mask:url("data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMjQgMjQiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTMuNjcgNi4xNFMxLjgyIDcuOTEgMS43MiA5Ljc4di4zNWMuMDggMS41MSAxLjIyIDIuNCAxLjIyIDIuNCAxLjgzIDEuNzkgNi4yNiA0LjA0IDcuMyA0LjU1IDAgMCAuMDYuMDMuMS0uMDFsLjAyLS4wNHYtLjA0QzcuNTIgMTAuOCAzLjY3IDYuMTQgMy42NyA2LjE0ek05LjY1IDE4LjZjLS4wMi0uMDgtLjEtLjA4LS4xLS4wOGwtNy4zOC4yNmMuOCAxLjQzIDIuMTUgMi41MyAzLjU2IDIuMi45Ni0uMjUgMy4xNi0xLjc4IDMuODgtMi4zLjA2LS4wNS4wNC0uMDkuMDQtLjA5em0uMDgtLjc4QzYuNDkgMTUuNjMuMjEgMTIuMjguMjEgMTIuMjhjLS4xNS40Ni0uMi45LS4yMSAxLjN2LjA3YzAgMS4wNy40IDEuODIuNCAxLjgyLjggMS42OSAyLjM0IDIuMiAyLjM0IDIuMi43LjMgMS40LjMxIDEuNC4zMS4xMi4wMiA0LjQgMCA1LjU0IDAgLjA1IDAgLjA4LS4wNS4wOC0uMDV2LS4wNmMwLS4wMy0uMDMtLjA1LS4wMy0uMDV6TTkuMDYgMy4xOWEzLjQyIDMuNDIgMCAwMC0yLjU3IDMuMTV2LjQxYy4wMy42LjE2IDEuMDUuMTYgMS4wNS42NiAyLjkgMy44NiA3LjY1IDQuNTUgOC42NS4wNS4wNS4xLjAzLjEuMDNhLjEuMSAwIDAwLjA2LS4xYzEuMDYtMTAuNi0xLjExLTEzLjQyLTEuMTEtMTMuNDItLjMyLjAyLTEuMTkuMjMtMS4xOS4yM3ptOC4yOTkgMi4yN3MtLjQ5LTEuOC0yLjQ0LTIuMjhjMCAwLS41Ny0uMTQtMS4xNy0uMjIgMCAwLTIuMTggMi44MS0xLjEyIDEzLjQzLjAxLjA3LjA2LjA4LjA2LjA4LjA3LjAzLjEtLjAzLjEtLjAzLjcyLTEuMDMgMy45LTUuNzYgNC41NS04LjY0IDAgMCAuMzYtMS40LjAyLTIuMzR6bS0yLjkyIDEzLjA3cy0uMDcgMC0uMDkuMDVjMCAwLS4wMS4wNy4wMy4xLjcuNTEgMi44NSAyIDMuODggMi4zIDAgMCAuMTYuMDUuNDMuMDZoLjE0Yy42OS0uMDIgMS45LS4zNyAzLTIuMjZsLTcuNC0uMjV6bTcuODMtOC40MWMuMTQtMi4wNi0xLjk0LTMuOTctMS45NC0zLjk4IDAgMC0zLjg1IDQuNjYtNi42NyAxMC44IDAgMC0uMDMuMDguMDIuMTNsLjA0LjAxaC4wNmMxLjA2LS41MyA1LjQ2LTIuNzcgNy4yOC00LjU0IDAgMCAxLjE1LS45MyAxLjIxLTIuNDJ6bTEuNTIgMi4xNHMtNi4yOCAzLjM3LTkuNTIgNS41NWMwIDAtLjA1LjA0LS4wMy4xMSAwIDAgLjAzLjA2LjA3LjA2IDEuMTYgMCA1LjU2IDAgNS42Ny0uMDIgMCAwIC41Ny0uMDIgMS4yNy0uMjkgMCAwIDEuNTYtLjUgMi4zNy0yLjI3IDAgMCAuNzMtMS40NS4xNy0zLjE0eiIvPjwvc3ZnPg==") center/contain no-repeat;
+    mask:url("data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMjQgMjQiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTMuNjcgNi4xNFMxLjgyIDcuOTEgMS43MiA5Ljc4di4zNWMuMDggMS41MSAxLjIyIDIuNCAxLjIyIDIuNCAxLjgzIDEuNzkgNi4yNiA0LjA0IDcuMyA0LjU1IDAgMCAuMDYuMDMuMS0uMDFsLjAyLS4wNHYtLjA0QzcuNTIgMTAuOCAzLjY3IDYuMTQgMy42NyA2LjE0ek05LjY1IDE4LjZjLS4wMi0uMDgtLjEtLjA4LS4xLS4wOGwtNy4zOC4yNmMuOCAxLjQzIDIuMTUgMi41MyAzLjU2IDIuMi45Ni0uMjUgMy4xNi0xLjc4IDMuODgtMi4zLjA2LS4wNS4wNC0uMDkuMDQtLjA5em0uMDgtLjc4QzYuNDkgMTUuNjMuMjEgMTIuMjguMjEgMTIuMjhjLS4xNS40Ni0uMi45LS4yMSAxLjN2LjA3YzAgMS4wNy40IDEuODIuNCAxLjgyLjggMS42OSAyLjM0IDIuMiAyLjM0IDIuMi43LjMgMS40LjMxIDEuNC4zMS4xMi4wMiA0LjQgMCA1LjU0IDAgLjA1IDAgLjA4LS4wNS4wOC0uMDV2LS4wNmMwLS4wMy0uMDMtLjA1LS4wMy0uMDV6TTkuMDYgMy4xOWEzLjQyIDMuNDIgMCAwMC0yLjU3IDMuMTV2LjQxYy4wMy42LjE2IDEuMDUuMTYgMS4wNS42NiAyLjkgMy44NiA3LjY1IDQuNTUgOC42NS4wNS4wNS4xLjAzLjEuMDNhLjEuMSAwIDAwLjA2LS4xYzEuMDYtMTAuNi0xLjExLTEzLjQyLTEuMTEtMTMuNDItLjMyLjAyLTEuMTkuMjMtMS4xOS4yM3ptOC4yOTkgMi4yN3MtLjQ5LTEuOC0yLjQ0LTIuMjhjMCAwLS41Ny0uMTQtMS4xNy0uMjIgMCAwLTIuMTggMi44MS0xLjEyIDEzLjQzLjAxLjA3LjA2LjA4LjA2LjA4LjA3LjAzLjEtLjAzLjEtLjAzLjcyLTEuMDMgMy45LTUuNzYgNC41NS04LjY0IDAgMCAuMzYtMS40LjAyLTIuMzR6bS0yLjkyIDEzLjA3cy0uMDcgMC0uMDkuMDVjMCAwLS4wMS4wNy4wMy4xLjcuNTEgMi44NSAyIDMuODggMi4zIDAgMCAuMTYuMDUuNDMuMDZoLjE0Yy42OS0uMDIgMS45LS4zNyAzLTIuMjZsLTcuNC0uMjV6bTcuODMtOC40MWMuMTQtMi4wNi0xLjk0LTMuOTctMS45NC0zLjk4IDAgMC0zLjg1IDQuNjYtNi42NyAxMC44IDAgMC0uMDMuMDguMDIuMTNsLjA0LjAxaC4wNmMxLjA2LS41MyA1LjQ2LTIuNzcgNy4yOC00LjU0IDAgMCAxLjE1LS45MyAxLjIxLTIuNDJ6bTEuNTIgMi4xNHMtNi4yOCAzLjM3LTkuNTIgNS41NWMwIDAtLjA1LjA0LS4wMy4xMSAwIDAgLjAzLjA2LjA3LjA2IDEuMTYgMCA1LjU2IDAgNS42Ny0uMDIgMCAwIC41Ny0uMDIgMS4yNy0uMjkgMCAwIDEuNTYtLjUgMi4zNy0yLjI3IDAgMCAuNzMtMS40NS4xNy0zLjE0eiIvPjwvc3ZnPg==") center/contain no-repeat;
+  }
+  .dark .brand-mark{color:#fff}
+
+  .chrome{
+    position:absolute;
+    left:6.4vw;
+    right:6.4vw;
+    top:4.6vh;
+    min-height:3.2vh;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    border-bottom:1px solid var(--line);
+    padding-bottom:1.1vh;
+    color:var(--muted);
+    font-size:.78vw;
+    letter-spacing:.02em;
+    z-index:2;
+  }
+  .dark .chrome{border-color:rgba(255,255,255,.28);color:rgba(255,255,255,.78)}
+  .chrome .l{
+    display:flex;
+    align-items:center;
+    gap:.72vw;
+    font-weight:600;
+    color:var(--ink);
+  }
+  .dark .chrome .l{color:#fff}
+  .chrome .square{
+    width:.9vw;
+    height:.9vw;
+    background:var(--brand-red);
+    box-shadow:-.38vw -.38vw 0 0 rgba(var(--brand-red-rgb),.16);
+    flex:none;
+  }
+  .dark .chrome .square{background:#fff;box-shadow:-.38vw -.38vw 0 0 rgba(255,255,255,.22)}
+
+  .kicker{
+    font-family:var(--mono);
+    font-size:.78vw;
+    line-height:1;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+    color:var(--brand-red);
+    font-weight:600;
+  }
+  .dark .kicker{color:rgba(255,255,255,.82)}
+  .h-hero{
+    font-family:var(--sans-zh);
+    font-size:min(5.8vw,10.3vh);
+    line-height:1.02;
+    letter-spacing:0;
+    font-weight:900;
+  }
+  .h-xl{
+    font-family:var(--sans-zh);
+    font-size:min(4vw,7.4vh);
+    line-height:1.08;
+    font-weight:800;
+    letter-spacing:0;
+  }
+  .h-md{
+    font-family:var(--sans-zh);
+    font-size:min(2.1vw,4.1vh);
+    line-height:1.2;
+    font-weight:800;
+  }
+  .lead{
+    font-size:1.25vw;
+    line-height:1.72;
+    color:var(--muted);
+    font-weight:400;
+  }
+  .dark .lead{color:rgba(255,255,255,.84)}
+  .body-copy{
+    font-size:1vw;
+    line-height:1.82;
+    color:#444b55;
+  }
+  .dark .body-copy{color:rgba(255,255,255,.78)}
+  .meta{
+    font-family:var(--mono);
+    font-size:.76vw;
+    color:var(--muted);
+    letter-spacing:.04em;
+  }
+
+  .red-rule{height:.52vh;background:var(--brand-red);width:100%}
+  .hairline{height:1px;background:var(--line);width:100%}
+  .dark .hairline{background:rgba(255,255,255,.22)}
+
+  .red-panel{
+    background:linear-gradient(90deg,var(--brand-red),#ef4a3d);
+    color:#fff;
+    padding:4.2vh 3.4vw;
+    min-height:32vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    box-shadow:var(--shadow-soft);
+  }
+  .red-panel .en{
+    font-family:var(--mono);
+    border:1px solid rgba(255,255,255,.42);
+    color:rgba(255,255,255,.9);
+    padding:.5vh .72vw;
+    width:max-content;
+    font-size:.86vw;
+    letter-spacing:.08em;
+  }
+
+  .cover-shell{
+    height:100%;
+    display:grid;
+    grid-template-columns:1.05fr .95fr;
+    align-items:center;
+    gap:5vw;
+  }
+  .cover-badge{
+    width:10.4vw;
+    height:10.4vw;
+    border-radius:999px;
+    background:linear-gradient(145deg,#fff,#e9edf2);
+    box-shadow:inset -16px -16px 28px rgba(255,255,255,.95),inset 12px 12px 24px rgba(111,118,128,.14),0 22px 46px rgba(15,23,42,.14);
+    display:grid;
+    place-items:center;
+    margin-bottom:3.4vh;
+  }
+  .cover-badge .brand-mark{
+    width:5.8vw;
+    height:5.8vw;
+    color:var(--brand-red);
+  }
+  .cover-title-wrap{display:flex;flex-direction:column;gap:2.6vh}
+  .cover-subtitle{max-width:46ch}
+  .cover-wave{
+    position:absolute;
+    left:0;
+    right:0;
+    bottom:0;
+    height:19vh;
+    background:
+      linear-gradient(8deg,var(--brand-red) 0 45%,transparent 46%),
+      linear-gradient(6deg,rgba(17,17,17,.14) 0 51%,transparent 52%);
+    opacity:.96;
+  }
+  .cover-meta{
+    position:absolute;
+    left:7vw;
+    bottom:5vh;
+    color:#fff;
+    display:grid;
+    gap:.86vh;
+    font-size:.88vw;
+    z-index:2;
+  }
+  .cover-visual{
+    min-height:48vh;
+    position:relative;
+  }
+  .orb{
+    position:absolute;
+    border-radius:50%;
+    background:linear-gradient(145deg,#fff,#e6eaef);
+    box-shadow:inset -10px -10px 20px rgba(255,255,255,.95),inset 8px 8px 20px rgba(111,118,128,.18),0 16px 28px rgba(15,23,42,.10);
+  }
+  .orb.red{background:linear-gradient(145deg,#f83230,var(--brand-red));box-shadow:0 12px 24px rgba(var(--brand-red-rgb),.26)}
+
+  .agenda-layout{
+    height:100%;
+    display:grid;
+    grid-template-columns:.72fr 1.28fr;
+    gap:5vw;
+    align-items:center;
+  }
+  .agenda-list{display:flex;flex-direction:column;gap:1.25vh}
+  .agenda-item{
+    display:grid;
+    grid-template-columns:3.6vw 1fr;
+    align-items:center;
+    min-height:6.2vh;
+    background:#e6e9ed;
+    color:#505965;
+  }
+  .agenda-item .idx{
+    height:100%;
+    display:grid;
+    place-items:center;
+    background:var(--brand-red);
+    color:#fff;
+    font-family:var(--mono);
+    font-weight:700;
+  }
+  .agenda-item.active{background:#fff;box-shadow:var(--shadow-soft);color:var(--ink)}
+  .agenda-item.active::before{
+    content:"";
+    width:0;
+    height:0;
+    border-top:.72vw solid transparent;
+    border-bottom:.72vw solid transparent;
+    border-left:1.05vw solid var(--brand-red);
+    margin-left:-2.1vw;
+    grid-row:1;
+    grid-column:1;
+  }
+  .agenda-item .txt{padding:0 1.25vw;font-size:1.02vw;font-weight:700}
+
+  .section-layout{
+    height:100%;
+    display:grid;
+    grid-template-columns:.82fr 1.18fr;
+    gap:4.5vw;
+    align-items:center;
+  }
+  .section-no{
+    width:8vw;
+    height:8vw;
+    border-radius:999px;
+    background:#fff;
+    box-shadow:var(--shadow);
+    display:grid;
+    place-items:center;
+    color:var(--brand-red);
+    font-family:var(--mono);
+    font-size:2.2vw;
+    font-weight:800;
+    margin-bottom:2.6vh;
+  }
+
+  .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:3vw}
+  .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:2vw}
+  .grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:1.4vw}
+  .grid-12{display:grid;grid-template-columns:repeat(12,1fr);gap:1vw}
+  .span-4{grid-column:span 4}.span-5{grid-column:span 5}.span-6{grid-column:span 6}.span-7{grid-column:span 7}.span-8{grid-column:span 8}
+
+  .content-stack{display:flex;flex-direction:column;gap:2.2vh}
+  .card{
+    background:var(--card);
+    border:1px solid var(--line);
+    box-shadow:var(--shadow-soft);
+    padding:3vh 2vw;
+  }
+  .card.flat{box-shadow:none;background:#fff}
+  .card-title{
+    font-size:1.18vw;
+    line-height:1.28;
+    font-weight:800;
+    color:var(--ink);
+    margin-bottom:1.1vh;
+  }
+  .card-body{font-size:.9vw;line-height:1.65;color:var(--muted)}
+  .num-pill{
+    display:inline-grid;
+    place-items:center;
+    min-width:2.4vw;
+    height:2.4vw;
+    border-radius:999px;
+    background:var(--brand-red);
+    color:#fff;
+    font-family:var(--mono);
+    font-weight:800;
+    margin-bottom:1.4vh;
+  }
+  .icon-disc{
+    width:4.4vw;
+    height:4.4vw;
+    border-radius:999px;
+    background:var(--brand-red);
+    color:#fff;
+    display:grid;
+    place-items:center;
+    margin-bottom:1.5vh;
+    box-shadow:0 14px 28px rgba(var(--brand-red-rgb),.22);
+  }
+  .icon-disc .lucide{width:2vw;height:2vw;stroke-width:1.8}
+
+  .timeline-v{display:grid;grid-template-columns:1fr 3vw 1fr;gap:2vw;align-items:start}
+  .tl-axis{position:relative;min-height:58vh}
+  .tl-axis::before{content:"";position:absolute;left:50%;top:0;bottom:0;width:1px;background:var(--line-strong)}
+  .tl-dot{
+    width:2.6vw;
+    height:2.6vw;
+    border-radius:999px;
+    background:var(--brand-red);
+    color:#fff;
+    display:grid;
+    place-items:center;
+    font-family:var(--mono);
+    font-weight:800;
+    margin:0 auto 6.5vh;
+    position:relative;
+    z-index:1;
+  }
+  .tl-card{min-height:10vh;border-top:3px solid var(--brand-red);padding-top:1.3vh;margin-bottom:5.4vh}
+  .tl-card .year{font-family:var(--mono);color:var(--brand-red);font-weight:800;margin-bottom:.6vh}
+
+  .bar-chart{display:flex;flex-direction:column;gap:1.35vh}
+  .bar-row{display:grid;grid-template-columns:7vw 1fr 4vw;gap:1vw;align-items:center;font-size:.9vw;color:var(--muted)}
+  .bar-track{height:2.2vh;background:#e7eaee;position:relative;overflow:hidden}
+  .bar-fill{height:100%;background:linear-gradient(90deg,var(--brand-red-dark),var(--brand-red));width:var(--v,50%)}
+  .bar-row strong{font-family:var(--mono);color:var(--ink)}
+  .stat-big{font-family:var(--mono);font-size:min(5.2vw,9vh);line-height:1;color:var(--brand-red);font-weight:800}
+
+  .process{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:0;
+    align-items:stretch;
+  }
+  .process-step{
+    position:relative;
+    background:#fff;
+    border:1px solid var(--line);
+    padding:3vh 1.6vw;
+    min-height:30vh;
+  }
+  .process-step:not(:last-child)::after{
+    content:"";
+    position:absolute;
+    right:-1.2vw;
+    top:50%;
+    transform:translateY(-50%);
+    width:0;
+    height:0;
+    border-top:1.5vw solid transparent;
+    border-bottom:1.5vw solid transparent;
+    border-left:1.2vw solid var(--brand-red);
+    z-index:2;
+  }
+
+  .arrow-timeline{
+    --axis-y:50%;
+    --line-left:4%;
+    --line-right:6.4%;
+    --line-h:5.2vh;
+    --head-right:1.5%;
+    --head-w:5vw;
+    --head-h:8vh;
+    position:relative;
+    margin-top:7vh;
+    height:36vh;
+  }
+  .arrow-timeline-line{
+    position:absolute;
+    left:var(--line-left);
+    right:var(--line-right);
+    top:var(--axis-y);
+    height:var(--line-h);
+    background:var(--brand-red);
+    transform:translateY(-50%);
+  }
+  .arrow-timeline-head{
+    position:absolute;
+    right:var(--head-right);
+    top:var(--axis-y);
+    width:var(--head-w);
+    height:var(--head-h);
+    background:var(--brand-red);
+    clip-path:polygon(0 0,100% 50%,0 100%);
+    transform:translateY(-50%);
+  }
+  .arrow-timeline-node{
+    position:absolute;
+    top:var(--axis-y);
+    width:1.8vw;
+    height:1.8vw;
+    border-radius:999px;
+    background:var(--brand-red);
+    box-shadow:0 0 0 .8vw rgba(var(--brand-red-rgb),.10);
+    transform:translate(-50%,-50%);
+    z-index:2;
+  }
+  .arrow-timeline-card{
+    position:absolute;
+    width:18vw;
+    z-index:3;
+  }
+  .arrow-timeline-card.top{top:0}
+  .arrow-timeline-card.bottom{bottom:0}
+
+  .image-frame{
+    background:#fff;
+    border:1px solid var(--line);
+    padding:.7vw;
+    box-shadow:var(--shadow-soft);
+  }
+  .image-frame img{
+    display:block;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+  }
+  .r-16x9{aspect-ratio:16/9}
+  .r-16x10{aspect-ratio:16/10}
+  .r-4x3{aspect-ratio:4/3}
+  .fit-contain img{object-fit:contain;background:#fff}
+  .caption{
+    margin-top:1vh;
+    font-size:.76vw;
+    color:var(--muted);
+    line-height:1.5;
+  }
+
+  .quote-band{
+    background:linear-gradient(90deg,var(--brand-red),var(--brand-red-dark));
+    color:#fff;
+    padding:3.4vh 3vw;
+    font-family:var(--sans-zh);
+    font-size:2.4vw;
+    line-height:1.24;
+    font-weight:900;
+  }
+
+  [data-anim]{
+    opacity:0;
+    transform:translateY(16px);
+    transition:opacity .56s ease,transform .56s cubic-bezier(.22,1,.36,1);
+  }
+  .slide.active [data-anim]{opacity:1;transform:none}
+  .slide.active [data-anim]:nth-child(2){transition-delay:.06s}
+  .slide.active [data-anim]:nth-child(3){transition-delay:.12s}
+  .slide.active [data-anim]:nth-child(4){transition-delay:.18s}
+  body.low-power [data-anim],#overview [data-anim]{opacity:1!important;transform:none!important}
+
+  #hint{
+    position:fixed;
+    right:1.5vw;
+    bottom:1.8vh;
+    z-index:20;
+    color:rgba(34,37,43,.56);
+    font-size:.72vw;
+    font-family:var(--mono);
+    letter-spacing:.02em;
+    user-select:none;
+  }
+  body.low-power #hint{color:var(--brand-red)}
+  .page-no{
+    position:absolute;
+    left:2.2vw;
+    bottom:2.2vh;
+    z-index:4;
+    font-family:var(--mono);
+    font-size:.86vw;
+    line-height:1;
+    letter-spacing:.08em;
+    color:rgba(34,37,43,.42);
+    pointer-events:none;
+  }
+  .dark .page-no{color:rgba(255,255,255,.72)}
+  .hw-cover .page-no{color:rgba(255,255,255,.74)}
+  #nav{
+    position:fixed;
+    left:50%;
+    bottom:2.1vh;
+    transform:translateX(-50%);
+    display:flex;
+    gap:.55vw;
+    z-index:20;
+  }
+  #nav button{
+    width:.55vw;
+    height:.55vw;
+    border:0;
+    border-radius:50%;
+    background:rgba(34,37,43,.2);
+    cursor:pointer;
+    padding:0;
+  }
+  #nav button.active{background:var(--brand-red);transform:scale(1.35)}
+  #overview{
+    position:fixed;
+    inset:0;
+    background:rgba(10,10,10,.88);
+    z-index:30;
+    display:none;
+    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+    gap:18px;
+    padding:24px;
+    overflow:auto;
+  }
+  body.overview #overview{display:grid}
+  .thumb{
+    position:relative;
+    aspect-ratio:16/9;
+    background:#fff;
+    overflow:hidden;
+    cursor:pointer;
+    border:1px solid rgba(255,255,255,.18);
+  }
+  .thumb .slide{
+    transform:scale(.25);
+    transform-origin:top left;
+    pointer-events:none;
+  }
+
+  @media (max-width:900px){
+    .slide{padding:8vh 6vw 8vh}
+    .cover-shell,.agenda-layout,.section-layout,.grid-2{grid-template-columns:1fr;gap:3vh}
+    .grid-3,.grid-4,.process{grid-template-columns:1fr 1fr}
+    .brand-lockup{font-size:2.8vw}
+    .brand-mark{width:3.4vw;height:3.4vw}
+    .h-hero{font-size:12vw}
+    .h-xl{font-size:8.8vw}
+    .lead{font-size:3.5vw}
+    .body-copy,.card-body{font-size:2.8vw}
+    .chrome{font-size:2.2vw}
+    #hint{font-size:2vw}
+  }
+</style>
+</head>
+<body>
+<div id="hint">← → 翻页 · B 静态 · ESC 索引</div>
+
+<div id="deck">
+<!-- ============================================================
+     SLIDES 插入区 · 在此处填充所有 <section class="slide ..."> 页面
+     页面骨架参考 references/layouts-huawei.md
+     主题色配置参考 references/themes-huawei.md
+     ============================================================ -->
+
+<section class="slide hw-cover" data-layout="H01" data-animate="cover">
+  <div class="brand-lockup">
+    <span class="brand-mark" aria-hidden="true"></span>
+    <span>HUAWEI</span>
+  </div>
+
+  <div class="cover-shell">
+    <div class="cover-title-wrap">
+      <div class="cover-badge" data-anim>
+        <span class="brand-mark" aria-hidden="true"></span>
+      </div>
+      <div class="kicker" data-anim>TRANSFORMER CORE LOGIC</div>
+      <h1 class="h-hero" data-anim>58 字理解<br/>大模型底层逻辑</h1>
+      <p class="lead cover-subtitle" data-anim>基于《Agents, Code &amp; Parallel Worlds (VIII)》内容整理: 从自回归生成、注意力、QKV、多头、RoPE 到 KV Cache 的一页式知识体系。</p>
+    </div>
+
+    <div class="cover-visual" aria-hidden="true">
+      <span class="orb red" style="width:6vw;height:6vw;right:10vw;top:3vh"></span>
+      <span class="orb" style="width:12vw;height:12vw;right:0;top:16vh"></span>
+      <span class="orb red" style="width:2.6vw;height:2.6vw;right:18vw;top:34vh"></span>
+      <span class="orb" style="width:5vw;height:5vw;right:26vw;top:8vh"></span>
+    </div>
+  </div>
+
+  <div class="cover-wave" aria-hidden="true"></div>
+  <div class="cover-meta">
+    <div>主题: Transformer / LLM Inference</div>
+    <div>形式: 高密度技术解读</div>
+  </div>
+  <div class="page-no">01 / 16</div>
+</section>
+
+<section class="slide" data-layout="H02" data-animate="agenda">
+  <div class="brand-lockup"><span class="brand-mark" aria-hidden="true"></span><span>HUAWEI</span></div>
+
+  <div class="agenda-layout">
+    <div class="red-panel" data-anim>
+      <div class="kicker" style="color:rgba(255,255,255,.72)">CONTENT</div>
+      <h2 class="h-xl" style="margin-top:2vh">目录</h2>
+      <div class="en" style="margin-top:2vh">CORE MAP</div>
+    </div>
+
+    <div class="agenda-list">
+      <div class="agenda-item" data-anim><div class="idx">01</div><div class="txt">一句话本质: 按上下文逐字生成</div></div>
+      <div class="agenda-item" data-anim><div class="idx">02</div><div class="txt">语义读取: 注意力机制与 Q/K/V 检索</div></div>
+      <div class="agenda-item" data-anim><div class="idx">03</div><div class="txt">理解增强: 多头并行与 RoPE 位置旋转</div></div>
+      <div class="agenda-item" data-anim><div class="idx">04</div><div class="txt">推理加速: KV Cache 与 Q 不缓存的原因</div></div>
+      <div class="agenda-item" data-anim><div class="idx">05</div><div class="txt">最终串联: Transformer 推理闭环</div></div>
+    </div>
+  </div>
+  <div class="page-no">02 / 16</div>
+</section>
+
+<section class="slide" data-layout="H11" data-animate="foreword">
+  <div class="chrome"><div class="l"><span class="square"></span><span>核心摘要</span></div><div></div></div>
+  <div class="brand-lockup"><span class="brand-mark" aria-hidden="true"></span><span>HUAWEI</span></div>
+
+  <div style="padding-top:8vh">
+    <div class="grid-12" style="align-items:center">
+      <div class="span-5 content-stack" data-anim>
+        <div class="kicker">58-WORD SUMMARY</div>
+        <h2 class="h-xl">58 字其实覆盖了完整推理链路</h2>
+        <p class="lead">原文把大模型底层逻辑压缩成五句话,每句话对应 Transformer 推理中的一个关键机制。</p>
+      </div>
+      <div class="span-7 card" data-anim>
+        <div class="grid-2" style="gap:1.2vw">
+          <div><div class="num-pill">01</div><div class="card-title">按上下文逐字生成</div><p class="card-body">LLM 是自回归系统: 输出一个 token,拼回上下文,再预测下一个 token。</p></div>
+          <div><div class="num-pill">02</div><div class="card-title">注意力筛选语义</div><p class="card-body">不是平均阅读所有 token,而是动态给相关内容更高权重。</p></div>
+          <div><div class="num-pill">03</div><div class="card-title">QKV = 需求-标签-内容</div><p class="card-body">Q 提问,K 被匹配,V 提供语义;注意力就是检索与融合。</p></div>
+          <div><div class="num-pill">04</div><div class="card-title">RoPE 分清语序距离</div><p class="card-body">把位置编码为旋转角,让相对距离可以进入 QK 匹配。</p></div>
+          <div><div class="num-pill">05</div><div class="card-title">多头从多角度理解</div><p class="card-body">多个头并行学习语序、指代、搭配、长距离依赖和逻辑关系。</p></div>
+          <div><div class="num-pill">06</div><div class="card-title">缓存 KV 不缓存 Q</div><p class="card-body">历史标签和内容固定可复用;当前查询需求每步变化,必须实时计算。</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="page-no">03 / 16</div>
+</section>
+
+<section class="slide" data-layout="H08" data-animate="process">
+  <div class="chrome"><div class="l"><span class="square"></span><span>生成本质</span></div><div></div></div>
+  <div class="brand-lockup"><span class="brand-mark" aria-hidden="true"></span><span>HUAWEI</span></div>
+
+  <div style="padding-top:8vh">
+    <div class="content-stack" data-anim>
+      <div class="kicker">AUTOREGRESSIVE GENERATION</div>
+      <h2 class="h-xl">大模型不是一次性写答案,而是循环预测下一个字</h2>
+    </div>
+
+    <div class="process" style="margin-top:7vh">
+      <div class="process-step" data-anim><div class="num-pill">01</div><div class="card-title">读取上文</div><p class="card-body">输入 prompt 和历史回答共同构成当前上下文,所有后续判断都从这段上下文开始。</p></div>
+      <div class="process-step" data-anim><div class="num-pill">02</div><div class="card-title">预测下一个 Token</div><p class="card-body">模型根据上下文分布选择最合理的下一个 token,不是预先保存标准答案。</p></div>
+      <div class="process-step" data-anim><div class="num-pill">03</div><div class="card-title">拼回上下文</div><p class="card-body">新 token 立刻成为后续输入的一部分,影响下一步的查询需求和注意力分布。</p></div>
+      <div class="process-step" data-anim><div class="num-pill">04</div><div class="card-title">循环直到结束</div><p class="card-body">持续生成、持续回读、持续更新,形成流式输出和长对话的基本运行模式。</p></div>
+    </div>
+  </div>
+  <div class="page-no">04 / 16</div>
+</section>
+
+<section class="slide" data-layout="H27" data-animate="problem-overview">
+  <div class="chrome"><div class="l"><span class="square"></span><span>底层问题</span></div><div></div></div>
+  <div class="brand-lockup"><span class="brand-mark" aria-hidden="true"></span><span>HUAWEI</span></div>
+
+  <div style="padding-top:8vh">
+    <div class="content-stack" data-anim><div class="kicker">THREE PROBLEMS</div><h2 class="h-xl">所有机制都在解决三件小事</h2></div>
+    <div class="grid-3" style="margin-top:6vh">
+      <div class="card" data-anim><div class="num-pill">01</div><div class="card-title">怎么看懂语义</div><p class="card-body">注意力机制要判断哪些 token 与当前生成最相关,Q/K/V 把这种判断拆成查询、标签和内容三类向量。</p><div class="hairline" style="margin:2vh 0"></div><p class="card-body">对应能力: 指代消解、因果转折、上下文融合、多义词消歧。</p></div>
+      <div class="card" data-anim><div class="num-pill">02</div><div class="card-title">怎么看懂顺序</div><p class="card-body">Transformer 原生不认识顺序,必须额外注入位置关系;RoPE 用旋转角表达绝对位置和相对距离。</p><div class="hairline" style="margin:2vh 0"></div><p class="card-body">对应能力: 语序、远近、主谓宾、长文本引用。</p></div>
+      <div class="card" data-anim><div class="num-pill">03</div><div class="card-title">怎么跑得更快</div><p class="card-body">逐字生成会反复读同一段历史,如果每步都重算全文 KV,长上下文推理成本会爆炸。</p><div class="hairline" style="margin:2vh 0"></div><p class="card-body">对应能力: KV Cache、流式输出、长对话响应。</p></div>
+    </div>
+  </div>
+  <div class="page-no">05 / 16</div>
+</section>
+
+<section class="slide" data-layout="H08" data-animate="process">
+  <div class="chrome"><div class="l"><span class="square"></span><span>注意力机制</span></div><div></div></div>
+  <div class="brand-lockup"><span class="brand-mark" aria-hidden="true"></span><span>HUAWEI</span></div>
+
+  <div style="padding-top:8vh">
+    <div class="content-stack" data-anim>
+      <div class="kicker">ATTENTION</div>
+      <h2 class="h-xl">注意力的本质: 相似度匹配 + 加权求和</h2>
+    </div>
+    <div class="process" style="margin-top:7vh">
+      <div class="process-step" data-anim><div class="num-pill">01</div><div class="card-title">打分</div><p class="card-body">当前 token 与所有上文 token 计算相似度,相似度越高,代表语义关联越强。</p></div>
+      <div class="process-step" data-anim><div class="num-pill">02</div><div class="card-title">归一化</div><p class="card-body">通过 Softmax 把分数变成权重,让“关注谁、关注多少”变成可计算分布。</p></div>
+      <div class="process-step" data-anim><div class="num-pill">03</div><div class="card-title">融合</div><p class="card-body">用权重对上下文语义加权求和,把最相关的信息吸收到当前 token 表示里。</p></div>
+      <div class="process-step" data-anim><div class="num-pill">04</div><div class="card-title">输出</div><p class="card-body">得到上下文感知的新向量,再进入后续层继续抽象、组合和预测。</p></div>
+    </div>
+  </div>
+  <div class="page-no">06 / 16</div>
+</section>
+
+<section class="slide" data-layout="H26" data-animate="metaphor">
+  <div class="chrome"><div class="l"><span class="square"></span><span>QKV 解释</span></div><div></div></div>
+  <div class="brand-lockup"><span class="brand-mark" aria-hidden="true"></span><span>HUAWEI</span></div>
+
+  <div class="grid-12" style="padding-top:9vh;align-items:center">
+    <div class="span-5 content-stack" data-anim>
+      <div class="kicker">QUERY / KEY / VALUE</div>
+      <h2 class="h-xl">QKV 是注意力的“需求-标签-内容”检索系统</h2>
+      <p class="lead">绝大多数注意力理解卡点,都来自没有把 Q/K/V 的物理意义拆开。</p>
+    </div>
+    <div class="span-7" data-anim>
+      <div class="grid-3">
+        <div class="card"><div class="num-pill">Q</div><div class="card-title">Query 查询向量</div><p class="card-body">当前 token 的需求: 我现在想找什么信息、关注谁、需要哪类上下文。</p></div>
+        <div class="card"><div class="num-pill">K</div><div class="card-title">Key 键向量</div><p class="card-body">历史 token 的身份标签: 我是谁、有什么特征、是否值得被当前需求匹配。</p></div>
+        <div class="card"><div class="num-pill">V</div><div class="card-title">Value 值向量</div><p class="card-body">标签背后的真实语义内容: 被匹配上之后,真正被吸收和融合的信息。</p></div>
+      </div>
+      <div class="red-panel" style="margin-top:3vh;min-height:16vh;padding:2.4vh 2vw">
+        <div class="kicker" style="color:rgba(255,255,255,.72)">METAPHOR</div>
+        <p class="lead" style="color:#fff;margin-top:1vh">Q = 搜索框; K = 网页标题标签; V = 网页正文内容。搜索框匹配标题,再把匹配度最高的正文内容拿回来。</p>
+      </div>
+    </div>
+  </div>
+  <div class="page-no">07 / 16</div>
+</section>
+
+<section class="slide" data-layout="H23" data-animate="gear-process">
+  <div class="chrome"><div class="l"><span class="square"></span><span>QKV 工作流</span></div><div></div></div>
+  <div class="brand-lockup"><span class="brand-mark" aria-hidden="true"></span><span>HUAWEI</span></div>
+
+  <div style="padding-top:8vh">
+    <div class="content-stack" data-anim><div class="kicker">RETRIEVAL LOOP</div><h2 class="h-xl">QKV 的运转顺序决定了注意力如何“检索上下文”</h2></div>
+    <div class="grid-4" style="margin-top:6vh;align-items:stretch">
+      <div class="card" data-anim><div class="icon-disc"><i data-lucide="search"></i></div><div class="card-title">当前 Token 生成 Q</div><p class="card-body">每个新 token 都产生新的查询需求,代表当前一步要寻找的上下文线索。</p></div>
+      <div class="card" data-anim><div class="icon-disc"><i data-lucide="tags"></i></div><div class="card-title">历史 Token 提供 K</div><p class="card-body">所有历史 token 的标签被拿出来与 Q 匹配,计算谁更相关、谁更重要。</p></div>
+      <div class="card" data-anim><div class="icon-disc"><i data-lucide="sliders-horizontal"></i></div><div class="card-title">匹配分数变权重</div><p class="card-body">相似度经过归一化变成注意力权重,也就是“每个历史 token 贡献多少”。</p></div>
+      <div class="card" data-anim><div class="icon-disc"><i data-lucide="merge"></i></div><div class="card-title">加权累加 V</div><p class="card-body">权重越高,V 中语义贡献越大;最终得到融合上文后的新语义表示。</p></div>
+    </div>
+  </div>
+  <div class="page-no">08 / 16</div>
+</section>
+
+<section class="slide" data-layout="H20" data-animate="icon-matrix">
+  <div class="chrome"><div class="l"><span class="square"></span><span>多头注意力</span></div><div></div></div>
+  <div class="brand-lockup"><span class="brand-mark" aria-hidden="true"></span><span>HUAWEI</span></div>
+
+  <div style="padding-top:8vh">
+    <div class="content-stack" data-anim><div class="kicker">MULTI-HEAD ATTENTION</div><h2 class="h-xl">多头 = 多组 QKV 并行理解同一段上下文</h2></div>
+    <div class="grid-4" style="margin-top:4vh">
+      <div class="card" data-anim><div class="icon-disc"><i data-lucide="list-ordered"></i></div><div class="card-title">语序位置</div><p class="card-body">捕捉前后顺序、局部排列和短距离结构。</p></div>
+      <div class="card" data-anim><div class="icon-disc"><i data-lucide="link"></i></div><div class="card-title">固定搭配</div><p class="card-body">识别常见词组、术语组合和高频搭配。</p></div>
+      <div class="card" data-anim><div class="icon-disc"><i data-lucide="corner-down-right"></i></div><div class="card-title">代词指代</div><p class="card-body">处理“它、这、其”等跨句引用关系。</p></div>
+      <div class="card" data-anim><div class="icon-disc"><i data-lucide="route"></i></div><div class="card-title">远距离依赖</div><p class="card-body">把长文本前段事实带入后段推理。</p></div>
+      <div class="card" data-anim><div class="icon-disc"><i data-lucide="braces"></i></div><div class="card-title">语法结构</div><p class="card-body">学习主谓宾、修饰、并列、嵌套关系。</p></div>
+      <div class="card" data-anim><div class="icon-disc"><i data-lucide="git-compare"></i></div><div class="card-title">逻辑对比</div><p class="card-body">处理因果、转折、递进、条件和让步。</p></div>
+      <div class="card" data-anim><div class="icon-disc"><i data-lucide="brain"></i></div><div class="card-title">细粒语义</div><p class="card-body">补充情感、语气、隐含态度和语境。</p></div>
+      <div class="card" data-anim><div class="icon-disc"><i data-lucide="combine"></i></div><div class="card-title">拼接融合</div><p class="card-body">各头结果合并,形成更完整的全局认知。</p></div>
+    </div>
+  </div>
+  <div class="page-no">09 / 16</div>
+</section>
+
+<section class="slide" data-layout="H18" data-animate="diagonal-roadmap">
+  <div class="chrome"><div class="l"><span class="square"></span><span>RoPE 机制</span></div><div></div></div>
+  <div class="brand-lockup"><span class="brand-mark" aria-hidden="true"></span><span>HUAWEI</span></div>
+
+  <div style="padding-top:8vh">
+    <div class="content-stack" data-anim><div class="kicker">ROTARY POSITION EMBEDDING</div><h2 class="h-xl">RoPE 把 token 位置转成向量旋转角</h2></div>
+    <div style="position:relative;height:46vh;margin-top:5vh" data-anim>
+      <div style="position:absolute;left:9%;bottom:12%;right:9%;height:1px;background:var(--line-strong);transform:rotate(-12deg)"></div>
+      <div style="position:absolute;left:8%;bottom:8%;width:18vw"><div class="icon-disc"><i data-lucide="split"></i></div><div class="card-title">向量两两分组</div><p class="card-body">把向量维度拆成二维平面上的若干小组。</p></div>
+      <div style="position:absolute;left:31%;bottom:21%;width:18vw"><div class="icon-disc"><i data-lucide="rotate-cw"></i></div><div class="card-title">按位置旋转</div><p class="card-body">位置越靠后,旋转角度越大。</p></div>
+      <div style="position:absolute;left:55%;bottom:34%;width:18vw"><div class="icon-disc"><i data-lucide="ruler"></i></div><div class="card-title">夹角体现距离</div><p class="card-body">两个 token 的夹角自动体现相对远近。</p></div>
+      <div style="position:absolute;left:78%;bottom:47%;width:18vw"><div class="icon-disc"><i data-lucide="scan-search"></i></div><div class="card-title">进入 QK 匹配</div><p class="card-body">位置关系被纳入注意力相似度计算。</p></div>
+    </div>
+  </div>
+  <div class="page-no">10 / 16</div>
+</section>
+
+<section class="slide" data-layout="H05" data-animate="cards">
+  <div class="chrome"><div class="l"><span class="square"></span><span>RoPE 规则</span></div><div></div></div>
+  <div class="brand-lockup"><span class="brand-mark" aria-hidden="true"></span><span>HUAWEI</span></div>
+
+  <div style="padding-top:8vh">
+    <div class="content-stack" data-anim><div class="kicker">POSITION RULES</div><h2 class="h-xl">RoPE 同时解决绝对位置、相对距离和缓存兼容</h2></div>
+    <div class="grid-3" style="margin-top:6vh">
+      <div class="card" data-anim><div class="num-pill">01</div><div class="card-title">自带绝对位置</div><p class="card-body">旋转角度本身标记 token 是第几个位置,让模型能区分“我爱吃苹果”和“苹果吃我爱”。</p></div>
+      <div class="card" data-anim><div class="num-pill">02</div><div class="card-title">自带相对距离</div><p class="card-body">Q 与 K 的夹角可反映两者相隔多远,越近越容易形成稳定匹配模式。</p></div>
+      <div class="card" data-anim><div class="num-pill">03</div><div class="card-title">兼容 KV Cache</div><p class="card-body">历史 K 被旋转后位置固定,缓存后无需反复重算;新 Q 只需按当前位置旋转。</p></div>
+    </div>
+    <div class="red-panel" style="margin-top:3vh;min-height:15vh;padding:2.4vh 3vw" data-anim>
+      <div class="kicker" style="color:rgba(255,255,255,.72)">RULE OF THUMB</div>
+      <p class="lead" style="color:#fff;margin-top:1vh">RoPE 只旋转 Q、K,因为匹配关系需要位置;不旋转 V,因为 V 是纯语义内容,被取回时不需要再携带匹配角度。</p>
+    </div>
+  </div>
+  <div class="page-no">11 / 16</div>
+</section>
+
+<section class="slide" data-layout="H24" data-animate="arrow-timeline">
+  <div class="chrome"><div class="l"><span class="square"></span><span>KV Cache</span></div><div></div></div>
+  <div class="brand-lockup"><span class="brand-mark" aria-hidden="true"></span><span>HUAWEI</span></div>
+
+  <div style="padding-top:8vh">
+    <div class="content-stack" data-anim><div class="kicker">PREFILL TO DECODE</div><h2 class="h-xl">KV Cache 把长上下文推理拆成两阶段</h2></div>
+    <div class="arrow-timeline" style="--line-left:6%;--line-right:9%;--line-h:.62vh;--head-right:7%;--head-w:3vw;--head-h:4vh;height:42vh;margin-top:5vh" data-anim>
+      <div class="arrow-timeline-line"></div>
+      <span class="arrow-timeline-node" style="left:18%"></span>
+      <span class="arrow-timeline-node" style="left:47%"></span>
+      <span class="arrow-timeline-node" style="left:74%"></span>
+      <div class="arrow-timeline-head"></div>
+      <div class="card arrow-timeline-card top" style="left:3%;width:23vw"><div class="num-pill">01</div><div class="card-title">Prefill 预填充</div><p class="card-body">首次输入时一次性计算所有上文 token 的 K、V,写入显存缓存;最后一个 token 的 Q 用于启动首个输出。</p></div>
+      <div class="card arrow-timeline-card bottom" style="left:31%;width:23vw"><div class="num-pill">02</div><div class="card-title">Decode 逐字生成</div><p class="card-body">每生成一个新 token,只计算这个新 token 的 Q/K/V,历史 KV 直接从缓存读取。</p></div>
+      <div class="card arrow-timeline-card top" style="left:61%;width:25vw"><div class="num-pill">03</div><div class="card-title">拼接缓存继续匹配</div><p class="card-body">新 Q 匹配“历史 KV + 新 KV”,得到下一个 token;新 KV 再追加进缓存,循环迭代。</p></div>
+    </div>
+  </div>
+  <div class="page-no">12 / 16</div>
+</section>
+
+<section class="slide" data-layout="H26" data-animate="metaphor">
+  <div class="chrome"><div class="l"><span class="square"></span><span>缓存边界</span></div><div></div></div>
+  <div class="brand-lockup"><span class="brand-mark" aria-hidden="true"></span><span>HUAWEI</span></div>
+
+  <div class="grid-12" style="padding-top:9vh;align-items:center">
+    <div class="span-5 content-stack" data-anim>
+      <div class="kicker">WHY NOT CACHE Q</div>
+      <h2 class="h-xl">为什么缓存 KV,却不缓存 Q?</h2>
+      <p class="lead">答案不是工程习惯,而是三类向量的角色不同: 历史标签和内容稳定,当前查询需求持续变化。</p>
+    </div>
+    <div class="span-7 grid-2" data-anim>
+      <div class="card">
+        <div class="num-pill">KV</div>
+        <div class="card-title">可以缓存: 历史上下文已经固定</div>
+        <p class="card-body">K 是历史 token 的身份标签,V 是历史 token 的语义内容。上文已经说完,标签和内容不会因为未来生成改变,所以可以长期复用。</p>
+        <div class="hairline" style="margin:2vh 0"></div>
+        <p class="card-body">价值: 用显存保存历史计算结果,避免每步重算全文上下文。</p>
+      </div>
+      <div class="card">
+        <div class="num-pill">Q</div>
+        <div class="card-title">不能缓存: 当前需求每步都变</div>
+        <p class="card-body">Q 代表“我现在想关注谁”。每生成一个新 token,当前语义状态就变了,下一步查询目标也变了,过去 Q 对未来没有复用价值。</p>
+        <div class="hairline" style="margin:2vh 0"></div>
+        <p class="card-body">结论: 只用新 Q 匹配全局缓存 KV,才是推理加速的核心路径。</p>
+      </div>
+    </div>
+  </div>
+  <div class="page-no">13 / 16</div>
+</section>
+
+<section class="slide" data-layout="H17" data-animate="hub">
+  <div class="chrome"><div class="l"><span class="square"></span><span>完整闭环</span></div><div></div></div>
+  <div class="brand-lockup"><span class="brand-mark" aria-hidden="true"></span><span>HUAWEI</span></div>
+
+  <div style="padding-top:8vh">
+    <div class="content-stack" data-anim><div class="kicker">INFERENCE LOOP</div><h2 class="h-xl">Transformer 推理闭环可以压缩成一个中心动作</h2></div>
+    <div style="position:relative;height:52vh;margin-top:2vh" data-anim>
+      <div style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:12vw;height:12vw;border-radius:999px;background:var(--brand-red);color:#fff;display:grid;place-items:center;font-weight:900;text-align:center;line-height:1.25">NEXT<br/>TOKEN</div>
+      <div style="position:absolute;left:8%;top:6%;width:26vw" class="card"><div class="card-title">上下文进入模型</div><p class="card-body">prompt、历史输出和新增 token 共同形成当前输入,决定本轮需要关注的信息范围。</p></div>
+      <div style="position:absolute;right:8%;top:6%;width:26vw" class="card"><div class="card-title">注意力读取语义</div><p class="card-body">新 Q 与缓存 K 匹配,按权重吸收 V,并通过多头并行补全语法、指代和逻辑。</p></div>
+      <div style="position:absolute;left:8%;bottom:3%;width:26vw" class="card"><div class="card-title">RoPE 提供位置关系</div><p class="card-body">Q/K 中的旋转角让模型分清先后、远近和相对位置,避免把词序看成无关排列。</p></div>
+      <div style="position:absolute;right:8%;bottom:3%;width:26vw" class="card"><div class="card-title">KV Cache 支撑速度</div><p class="card-body">历史 K/V 复用,新 K/V 追加;下一步只需新 Q 继续检索全局缓存。</p></div>
+    </div>
+  </div>
+  <div class="page-no">14 / 16</div>
+</section>
+
+<section class="slide" data-layout="H05" data-animate="cards">
+  <div class="chrome"><div class="l"><span class="square"></span><span>学习总结</span></div><div></div></div>
+  <div class="brand-lockup"><span class="brand-mark" aria-hidden="true"></span><span>HUAWEI</span></div>
+
+  <div style="padding-top:8vh">
+    <div class="content-stack" data-anim><div class="kicker">FINAL FRAMEWORK</div><h2 class="h-xl">大模型复杂技术最终落回三个抽象问题</h2></div>
+    <div class="grid-3" style="margin-top:6vh">
+      <div class="card" data-anim><div class="icon-disc"><i data-lucide="eye"></i></div><div class="card-title">怎么看懂语义</div><p class="card-body">注意力负责筛选相关 token,QKV 把筛选拆成查询、标签、内容;多头进一步从多个维度并行理解。</p></div>
+      <div class="card" data-anim><div class="icon-disc"><i data-lucide="navigation"></i></div><div class="card-title">怎么看懂顺序</div><p class="card-body">RoPE 把位置写入 Q/K 的旋转角,让模型在语义相似之外,还能感知先后和距离。</p></div>
+      <div class="card" data-anim><div class="icon-disc"><i data-lucide="zap"></i></div><div class="card-title">怎么跑得更快</div><p class="card-body">KV Cache 把固定历史从重复计算里剥离出来,用空间换时间支撑实时对话和长上下文。</p></div>
+    </div>
+    <div class="card flat" style="margin-top:3vh" data-anim>
+      <p class="lead" style="font-size:1.08vw">掌握这条链路后,再看模型推理、量化加速、上下文扩展、长文本优化和 agent 工程,就能判断每项技术到底在优化“语义、顺序、速度”中的哪一环。</p>
+    </div>
+  </div>
+  <div class="page-no">15 / 16</div>
+</section>
+
+<section class="slide dark" data-layout="H10" data-animate="closing">
+  <div class="brand-lockup"><span class="brand-mark" aria-hidden="true"></span><span>HUAWEI</span></div>
+  <div style="height:100%;display:grid;place-items:center;text-align:center">
+    <div class="content-stack" data-anim style="align-items:center">
+      <div class="kicker" style="color:rgba(255,255,255,.74)">ONE SENTENCE</div>
+      <h2 class="h-hero">大模型的底层逻辑<br>就是反复“检索上下文”</h2>
+      <p class="lead" style="max-width:62ch;color:rgba(255,255,255,.84)">新 Q 带着当前需求,去匹配带位置的历史 K,取回历史 V,融合成下一个 token;多头让它理解更全面,KV Cache 让它跑得更快。</p>
+    </div>
+  </div>
+  <div class="page-no">16 / 16</div>
+</section>
+
+</div>
+
+<div id="nav"></div>
+<div id="overview"></div>
+
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js" defer onload="window.lucide&&window.lucide.createIcons()"></script>
+<script>
+(() => {
+  const deck = document.getElementById('deck');
+  const nav = document.getElementById('nav');
+  const overview = document.getElementById('overview');
+  const slides = [...document.querySelectorAll('.slide')];
+  const lowPowerKey = 'guizang-huawei-low-power';
+  let current = 0;
+  let wheelLock = false;
+
+  const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  window.__lowPowerMode = localStorage.getItem(lowPowerKey) === '1' || prefersReduced;
+  document.body.classList.toggle('low-power', window.__lowPowerMode);
+
+  function buildNav(){
+    nav.innerHTML = '';
+    slides.forEach((_, i) => {
+      const dot = document.createElement('button');
+      dot.type = 'button';
+      dot.setAttribute('aria-label', `Go to slide ${i + 1}`);
+      dot.addEventListener('click', () => go(i));
+      nav.appendChild(dot);
+    });
+  }
+
+  function buildOverview(){
+    overview.innerHTML = '';
+    slides.forEach((slide, i) => {
+      const thumb = document.createElement('div');
+      thumb.className = 'thumb';
+      const clone = slide.cloneNode(true);
+      clone.classList.add('active');
+      thumb.appendChild(clone);
+      thumb.addEventListener('click', () => {
+        document.body.classList.remove('overview');
+        go(i);
+      });
+      overview.appendChild(thumb);
+    });
+  }
+
+  function updateTheme(){
+    document.body.classList.toggle('dark-bg', slides[current]?.classList.contains('dark'));
+  }
+
+  function go(i){
+    if (!slides.length) return;
+    current = Math.max(0, Math.min(i, slides.length - 1));
+    deck.style.transform = `translateX(${-current * 100}vw)`;
+    slides.forEach((slide, idx) => slide.classList.toggle('active', idx === current));
+    [...nav.children].forEach((dot, idx) => dot.classList.toggle('active', idx === current));
+    updateTheme();
+  }
+
+  function toggleLowPower(){
+    window.__lowPowerMode = !window.__lowPowerMode;
+    localStorage.setItem(lowPowerKey, window.__lowPowerMode ? '1' : '0');
+    document.body.classList.toggle('low-power', window.__lowPowerMode);
+  }
+
+  addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') {
+      event.preventDefault();
+      document.body.classList.toggle('overview');
+      return;
+    }
+    if (event.key === 'b' || event.key === 'B') {
+      event.preventDefault();
+      toggleLowPower();
+      return;
+    }
+    if (document.body.classList.contains('overview')) return;
+    if (event.key === 'ArrowRight' || event.key === 'PageDown' || event.key === ' ') {
+      event.preventDefault();
+      go(current + 1);
+    }
+    if (event.key === 'ArrowLeft' || event.key === 'PageUp') {
+      event.preventDefault();
+      go(current - 1);
+    }
+  });
+
+  addEventListener('wheel', (event) => {
+    if (document.body.classList.contains('overview') || wheelLock || Math.abs(event.deltaY) < 24) return;
+    wheelLock = true;
+    go(current + (event.deltaY > 0 ? 1 : -1));
+    setTimeout(() => { wheelLock = false; }, 620);
+  }, { passive: true });
+
+  let touchStartX = null;
+  addEventListener('touchstart', (event) => { touchStartX = event.touches[0]?.clientX ?? null; }, { passive: true });
+  addEventListener('touchend', (event) => {
+    if (touchStartX == null) return;
+    const dx = (event.changedTouches[0]?.clientX ?? touchStartX) - touchStartX;
+    if (Math.abs(dx) > 46) go(current + (dx < 0 ? 1 : -1));
+    touchStartX = null;
+  }, { passive: true });
+
+  buildNav();
+  buildOverview();
+  go(0);
+  if (window.lucide) window.lucide.createIcons();
+})();
+</script>
+</body>
+</html>
