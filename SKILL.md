@@ -339,7 +339,7 @@ cp "<SKILL_ROOT>/assets/template-huawei.html" "项目/XXX/ppt/index.html"
 | Layout | 用途 |
 |---|---|
 | H01 Cover | 公司/项目封面 |
-| H02 Agenda | 目录 / 当前章节标记 |
+| H02 Agenda | 目录 |
 | H03 Section Divider | 章节幕封 |
 | H04 Title Body | 前言 / 背景 / 正文说明 |
 | H05 Three Cards | 三项能力 / 三阶段 / 三策略 |
@@ -357,6 +357,8 @@ cp "<SKILL_ROOT>/assets/template-huawei.html" "项目/XXX/ppt/index.html"
 **风格 C 版式硬规则**:
 - 每页 `<section class="slide">` 必须写 `data-layout="H01"` 到 `H36`。
 - 正文页保留左上 `.chrome` 标题条和右上 `.brand-lockup`;目录/章节/封面/结束页按骨架保留品牌位。
+- H02 目录页不要给条目添加 `active` 标记;目录只做章节列表,不表达当前进度。
+- 页码由模板自动生成在左下角 `.page-no`;不要把页码写进顶部 `.chrome`。
 - 只使用 Huawei red + 黑灰 + 白/浅灰,不要引入蓝、紫、橙等额外主色。
 - 目录页、章节页、结束页可以使用大面积红色;普通正文页不要做满屏红底。
 - 企业汇报页信息密度可以高,但每页主标题、正文、图表、图片仍要留出底部翻页安全区。

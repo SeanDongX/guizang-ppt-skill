@@ -99,7 +99,7 @@
 
 ## H02 · Agenda
 
-目录页。左侧红色目录块,右侧灰色条目,所有条目统一使用 `.agenda-item`。
+目录页。左侧红色目录块,右侧灰色条目,所有条目统一使用 `.agenda-item`,不要添加 `active` 标记。
 
 ```html
 <section class="slide" data-layout="H02" data-animate="agenda">
@@ -152,6 +152,10 @@
   </div>
 </section>
 ```
+
+## Page Number Rule
+
+页码由模板脚本自动生成在左下角 `.page-no`。不要在 `.chrome` 右侧手写页码;右侧保留空 `<div></div>` 或放简短元信息。
 
 ## H04 · Title Body
 
@@ -425,7 +429,7 @@
 
 ```html
 <section class="slide" data-layout="H11" data-animate="foreword">
-  <div class="chrome"><div class="l"><span class="square"></span><span>前言 / INTRODUCTION</span></div><div>01 / 12</div></div>
+  <div class="chrome"><div class="l"><span class="square"></span><span>前言 / INTRODUCTION</span></div><div></div></div>
   <div class="brand-lockup"><span class="brand-mark" aria-hidden="true"></span><span>HUAWEI</span></div>
 
   <div style="padding-top:9vh;display:grid;gap:4vh">
@@ -450,7 +454,7 @@
 
 ```html
 <section class="slide" data-layout="H12" data-animate="media-report">
-  <div class="chrome"><div class="l"><span class="square"></span><span>案例摘要</span></div><div>02 / 12</div></div>
+  <div class="chrome"><div class="l"><span class="square"></span><span>案例摘要</span></div><div></div></div>
   <div class="brand-lockup"><span class="brand-mark" aria-hidden="true"></span><span>HUAWEI</span></div>
 
   <div style="padding-top:8vh;display:grid;grid-template-columns:.92fr 1.08fr;gap:3vw;align-items:start">
@@ -478,7 +482,7 @@
 
 ```html
 <section class="slide" data-layout="H13" data-animate="image-strip">
-  <div class="chrome"><div class="l"><span class="square"></span><span>成果展示</span></div><div>03 / 12</div></div>
+  <div class="chrome"><div class="l"><span class="square"></span><span>成果展示</span></div><div></div></div>
   <div class="brand-lockup"><span class="brand-mark" aria-hidden="true"></span><span>HUAWEI</span></div>
 
   <div style="padding-top:8vh">
@@ -503,7 +507,7 @@
 
 ```html
 <section class="slide" data-layout="H14" data-animate="profiles">
-  <div class="chrome"><div class="l"><span class="square"></span><span>团队介绍</span></div><div>04 / 12</div></div>
+  <div class="chrome"><div class="l"><span class="square"></span><span>团队介绍</span></div><div></div></div>
   <div class="brand-lockup"><span class="brand-mark" aria-hidden="true"></span><span>HUAWEI</span></div>
 
   <div style="padding-top:8vh">
@@ -524,7 +528,7 @@
 
 ```html
 <section class="slide" data-layout="H15" data-animate="kpi-dashboard">
-  <div class="chrome"><div class="l"><span class="square"></span><span>关键数据</span></div><div>05 / 12</div></div>
+  <div class="chrome"><div class="l"><span class="square"></span><span>关键数据</span></div><div></div></div>
   <div class="brand-lockup"><span class="brand-mark" aria-hidden="true"></span><span>HUAWEI</span></div>
 
   <div class="grid-12" style="padding-top:9vh;align-items:end">
@@ -550,7 +554,7 @@
 
 ```html
 <section class="slide" data-layout="H16" data-animate="combo-chart">
-  <div class="chrome"><div class="l"><span class="square"></span><span>趋势分析</span></div><div>06 / 12</div></div>
+  <div class="chrome"><div class="l"><span class="square"></span><span>趋势分析</span></div><div></div></div>
   <div class="brand-lockup"><span class="brand-mark" aria-hidden="true"></span><span>HUAWEI</span></div>
 
   <div style="padding-top:8vh">
@@ -579,7 +583,7 @@
 
 ```html
 <section class="slide" data-layout="H17" data-animate="hub">
-  <div class="chrome"><div class="l"><span class="square"></span><span>能力模型</span></div><div>07 / 12</div></div>
+  <div class="chrome"><div class="l"><span class="square"></span><span>能力模型</span></div><div></div></div>
   <div class="brand-lockup"><span class="brand-mark" aria-hidden="true"></span><span>HUAWEI</span></div>
 
   <div style="padding-top:8vh">
@@ -601,7 +605,7 @@
 
 ```html
 <section class="slide" data-layout="H18" data-animate="diagonal-roadmap">
-  <div class="chrome"><div class="l"><span class="square"></span><span>推进路线</span></div><div>08 / 12</div></div>
+  <div class="chrome"><div class="l"><span class="square"></span><span>推进路线</span></div><div></div></div>
   <div class="brand-lockup"><span class="brand-mark" aria-hidden="true"></span><span>HUAWEI</span></div>
 
   <div style="padding-top:8vh">
@@ -623,7 +627,7 @@
 
 ```html
 <section class="slide" data-layout="H19" data-animate="case-cluster">
-  <div class="chrome"><div class="l"><span class="square"></span><span>案例集群</span></div><div>09 / 12</div></div>
+  <div class="chrome"><div class="l"><span class="square"></span><span>案例集群</span></div><div></div></div>
   <div class="brand-lockup"><span class="brand-mark" aria-hidden="true"></span><span>HUAWEI</span></div>
 
   <div style="padding-top:8vh">
@@ -645,7 +649,7 @@
 
 ```html
 <section class="slide" data-layout="H20" data-animate="icon-matrix">
-  <div class="chrome"><div class="l"><span class="square"></span><span>能力矩阵</span></div><div>10 / 12</div></div>
+  <div class="chrome"><div class="l"><span class="square"></span><span>能力矩阵</span></div><div></div></div>
   <div class="brand-lockup"><span class="brand-mark" aria-hidden="true"></span><span>HUAWEI</span></div>
 
   <div style="padding-top:8vh">
@@ -670,7 +674,7 @@
 
 ```html
 <section class="slide" data-layout="H21" data-animate="map">
-  <div class="chrome"><div class="l"><span class="square"></span><span>区域布局</span></div><div>11 / 12</div></div>
+  <div class="chrome"><div class="l"><span class="square"></span><span>区域布局</span></div><div></div></div>
   <div class="brand-lockup"><span class="brand-mark" aria-hidden="true"></span><span>HUAWEI</span></div>
 
   <div class="grid-12" style="padding-top:9vh;align-items:center">
@@ -698,7 +702,7 @@
 
 ```html
 <section class="slide" data-layout="H22" data-animate="staircase">
-  <div class="chrome"><div class="l"><span class="square"></span><span>增长路径</span></div><div>12 / 12</div></div>
+  <div class="chrome"><div class="l"><span class="square"></span><span>增长路径</span></div><div></div></div>
   <div class="brand-lockup"><span class="brand-mark" aria-hidden="true"></span><span>HUAWEI</span></div>
 
   <div style="padding-top:8vh">
@@ -720,7 +724,7 @@
 
 ```html
 <section class="slide" data-layout="H23" data-animate="gear-process">
-  <div class="chrome"><div class="l"><span class="square"></span><span>协同机制</span></div><div>13 / 16</div></div>
+  <div class="chrome"><div class="l"><span class="square"></span><span>协同机制</span></div><div></div></div>
   <div class="brand-lockup"><span class="brand-mark" aria-hidden="true"></span><span>HUAWEI</span></div>
 
   <div style="padding-top:8vh">
@@ -741,7 +745,7 @@
 
 ```html
 <section class="slide" data-layout="H24" data-animate="arrow-timeline">
-  <div class="chrome"><div class="l"><span class="square"></span><span>推进路径</span></div><div>14 / 16</div></div>
+  <div class="chrome"><div class="l"><span class="square"></span><span>推进路径</span></div><div></div></div>
   <div class="brand-lockup"><span class="brand-mark" aria-hidden="true"></span><span>HUAWEI</span></div>
 
   <div style="padding-top:8vh">
@@ -779,7 +783,7 @@
 
 ```html
 <section class="slide" data-layout="H26" data-animate="metaphor">
-  <div class="chrome"><div class="l"><span class="square"></span><span>方案对比</span></div><div>16 / 16</div></div>
+  <div class="chrome"><div class="l"><span class="square"></span><span>方案对比</span></div><div></div></div>
   <div class="brand-lockup"><span class="brand-mark" aria-hidden="true"></span><span>HUAWEI</span></div>
 
   <div style="padding-top:8vh">
@@ -798,7 +802,7 @@
 
 ```html
 <section class="slide" data-layout="H27" data-animate="problem-overview">
-  <div class="chrome"><div class="l"><span class="square"></span><span>问题概览</span></div><div>01 / 10</div></div>
+  <div class="chrome"><div class="l"><span class="square"></span><span>问题概览</span></div><div></div></div>
   <div class="brand-lockup"><span class="brand-mark" aria-hidden="true"></span><span>HUAWEI</span></div>
 
   <div style="padding-top:8vh">
@@ -818,7 +822,7 @@
 
 ```html
 <section class="slide" data-layout="H28" data-animate="market-size">
-  <div class="chrome"><div class="l"><span class="square"></span><span>市场规模</span></div><div>02 / 10</div></div>
+  <div class="chrome"><div class="l"><span class="square"></span><span>市场规模</span></div><div></div></div>
   <div class="brand-lockup"><span class="brand-mark" aria-hidden="true"></span><span>HUAWEI</span></div>
 
   <div class="grid-12" style="padding-top:9vh;align-items:center">
@@ -845,7 +849,7 @@
 
 ```html
 <section class="slide" data-layout="H29" data-animate="funding-use">
-  <div class="chrome"><div class="l"><span class="square"></span><span>资金用途</span></div><div>03 / 10</div></div>
+  <div class="chrome"><div class="l"><span class="square"></span><span>资金用途</span></div><div></div></div>
   <div class="brand-lockup"><span class="brand-mark" aria-hidden="true"></span><span>HUAWEI</span></div>
 
   <div class="grid-12" style="padding-top:9vh;align-items:center">
@@ -870,7 +874,7 @@
 
 ```html
 <section class="slide" data-layout="H30" data-animate="market-share">
-  <div class="chrome"><div class="l"><span class="square"></span><span>市场份额</span></div><div>04 / 10</div></div>
+  <div class="chrome"><div class="l"><span class="square"></span><span>市场份额</span></div><div></div></div>
   <div class="brand-lockup"><span class="brand-mark" aria-hidden="true"></span><span>HUAWEI</span></div>
 
   <div style="padding-top:8vh">
@@ -890,7 +894,7 @@
 
 ```html
 <section class="slide" data-layout="H31" data-animate="business-model">
-  <div class="chrome"><div class="l"><span class="square"></span><span>商业模式</span></div><div>05 / 10</div></div>
+  <div class="chrome"><div class="l"><span class="square"></span><span>商业模式</span></div><div></div></div>
   <div class="brand-lockup"><span class="brand-mark" aria-hidden="true"></span><span>HUAWEI</span></div>
 
   <div style="padding-top:8vh">
@@ -911,7 +915,7 @@
 
 ```html
 <section class="slide" data-layout="H32" data-animate="kpi-loop">
-  <div class="chrome"><div class="l"><span class="square"></span><span>关键数字</span></div><div>06 / 10</div></div>
+  <div class="chrome"><div class="l"><span class="square"></span><span>关键数字</span></div><div></div></div>
   <div class="brand-lockup"><span class="brand-mark" aria-hidden="true"></span><span>HUAWEI</span></div>
 
   <div class="grid-12" style="padding-top:9vh;align-items:center">
@@ -934,7 +938,7 @@
 
 ```html
 <section class="slide" data-layout="H33" data-animate="pricing-table">
-  <div class="chrome"><div class="l"><span class="square"></span><span>定价方案</span></div><div>07 / 10</div></div>
+  <div class="chrome"><div class="l"><span class="square"></span><span>定价方案</span></div><div></div></div>
   <div class="brand-lockup"><span class="brand-mark" aria-hidden="true"></span><span>HUAWEI</span></div>
 
   <div style="padding-top:8vh">
@@ -955,7 +959,7 @@
 
 ```html
 <section class="slide dark" data-layout="H34" data-animate="swot">
-  <div class="chrome"><div class="l"><span class="square"></span><span>SWOT</span></div><div>08 / 10</div></div>
+  <div class="chrome"><div class="l"><span class="square"></span><span>SWOT</span></div><div></div></div>
   <div class="brand-lockup"><span class="brand-mark" aria-hidden="true"></span><span>HUAWEI</span></div>
 
   <div style="padding-top:8vh">
@@ -976,7 +980,7 @@
 
 ```html
 <section class="slide" data-layout="H35" data-animate="gantt">
-  <div class="chrome"><div class="l"><span class="square"></span><span>里程碑</span></div><div>09 / 10</div></div>
+  <div class="chrome"><div class="l"><span class="square"></span><span>里程碑</span></div><div></div></div>
   <div class="brand-lockup"><span class="brand-mark" aria-hidden="true"></span><span>HUAWEI</span></div>
 
   <div style="padding-top:8vh">
@@ -999,7 +1003,7 @@
 
 ```html
 <section class="slide" data-layout="H36" data-animate="testimonials">
-  <div class="chrome"><div class="l"><span class="square"></span><span>客户证言</span></div><div>10 / 10</div></div>
+  <div class="chrome"><div class="l"><span class="square"></span><span>客户证言</span></div><div></div></div>
   <div class="brand-lockup"><span class="brand-mark" aria-hidden="true"></span><span>HUAWEI</span></div>
 
   <div style="padding-top:8vh">
