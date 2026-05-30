@@ -13,7 +13,7 @@ const htmlForSlides = html.replace(/<!--[\s\S]*?-->/g, '');
 const errors = [];
 const warnings = [];
 
-const allowedLayouts = new Set(Array.from({ length: 36 }, (_, i) => `H${String(i + 1).padStart(2, '0')}`));
+const allowedLayouts = new Set(Array.from({ length: 42 }, (_, i) => `H${String(i + 1).padStart(2, '0')}`));
 const slideRe = /<section\b[^>]*class="[^"]*\bslide\b[^"]*"[^>]*>[\s\S]*?<\/section>/g;
 const slides = [...htmlForSlides.matchAll(slideRe)].map((m, idx) => ({
   idx: idx + 1,

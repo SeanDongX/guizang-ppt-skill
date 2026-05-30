@@ -257,7 +257,7 @@ cp "<SKILL_ROOT>/assets/template-huawei.html" "项目/XXX/ppt/index.html"
 - spacing token:`--sp-3`...`--sp-13`(8/12/16/24/32/40/48/64/80/96/160 px)
 
 **风格 C 常见容易遗漏的类**:
-`brand-lockup` / `brand-mark` / `chrome` / `square` / `cover-shell` / `cover-badge` / `cover-wave` / `cover-meta` / `agenda-layout` / `agenda-list` / `agenda-item` / `red-panel` / `section-layout` / `section-no` / `grid-2` / `grid-3` / `grid-4` / `grid-12` / `span-N` / `card` / `card-title` / `card-body` / `num-pill` / `icon-disc` / `timeline-v` / `tl-axis` / `tl-dot` / `tl-card` / `bar-chart` / `bar-row` / `bar-track` / `bar-fill` / `stat-big` / `process` / `process-step` / `image-frame` / `r-16x9` / `r-16x10` / `r-4x3` / `fit-contain` / `caption` / `quote-band`
+`brand-lockup` / `brand-mark` / `chrome` / `square` / `cover-shell` / `cover-badge` / `cover-wave` / `cover-meta` / `agenda-layout` / `agenda-list` / `agenda-item` / `red-panel` / `section-layout` / `section-no` / `grid-2` / `grid-3` / `grid-4` / `grid-12` / `span-N` / `same-size` / `equal-children` / `card` / `mini-card` / `card-title` / `card-body` / `num-pill` / `icon-disc` / `timeline-v` / `tl-axis` / `tl-dot` / `tl-card` / `bar-chart` / `bar-row` / `bar-track` / `bar-fill` / `stat-big` / `process` / `process-step` / `image-frame` / `r-16x9` / `r-16x10` / `r-4x3` / `fit-contain` / `caption` / `quote-band` / `bullet-list` / `bullet-item` / `bullet-dot`
 
 #### 3.0.5 · 规划主题节奏（**和类预检同等重要**)
 
@@ -353,16 +353,18 @@ cp "<SKILL_ROOT>/assets/template-huawei.html" "项目/XXX/ppt/index.html"
 | H19-H22 Evidence & Region | 圆形案例 / 图标矩阵 / 地图定位 / 增长阶梯 |
 | H23-H26 Mechanism & Story | 齿轮协同 / 箭头时间线 / 照片引语 / 隐喻对比 |
 | H27-H36 Business Plan | 问题概览 / 市场规模 / 融资用途 / 份额图 / 商业模式 / 定价 / SWOT / 甘特 / 客户证言 |
+| H37-H42 AI Org & Operations | 人机闭环 / On-In 治理 / 组织协议 / 任务匹配 / 类比映射 / 前后案例 |
 
 **风格 C 版式硬规则**:
-- 每页 `<section class="slide">` 必须写 `data-layout="H01"` 到 `H36`。
+- 每页 `<section class="slide">` 必须写 `data-layout="H01"` 到 `H42`。
 - 正文页保留左上 `.chrome` 标题条和右上 `.brand-lockup`;目录/章节/封面/结束页按骨架保留品牌位。
 - H02 目录页不要给条目添加 `active` 标记;目录只做章节列表,不表达当前进度。
 - 页码由模板自动生成在左下角 `.page-no`;不要把页码写进顶部 `.chrome`。
 - 只使用 Huawei red + 黑灰 + 白/浅灰,不要引入蓝、紫、橙等额外主色。
 - 目录页、章节页、结束页可以使用大面积红色;普通正文页不要做满屏红底。
 - 企业汇报页信息密度可以高,但每页主标题、正文、图表、图片仍要留出底部翻页安全区。
-- 长图参考里的“看起来丰富”来自内容形状不同,不是装饰不同;先判断内容是前言、证据、数据、人物、地图、机制、路线图、市场、定价还是融资计划,再选 H11-H36。
+- 统一层级的子容器尽量 size 一致;同级卡片、步骤、角色、指标、标签用 `.grid-*` / `.same-size` / `.equal-children` / `.mini-card` 锁住宽高,不要按文字多少自然长短变化。
+- 长图参考里的“看起来丰富”来自内容形状不同,不是装饰不同;先判断内容是前言、证据、数据、人物、地图、机制、路线图、市场、定价、融资计划、人机协作、组织协议还是任务匹配,再选 H11-H42。
 - 生成后运行 `node <SKILL_ROOT>/scripts/validate-huawei-deck.mjs index.html`。
 
 **风格 B 版式多样性硬规则**:
@@ -567,6 +569,7 @@ guizang-ppt-skill/
 4. **企业汇报优先可读** — 标题、指标、流程、结论要一眼可扫;段落不要像 Word 文档一样铺满。
 5. **圆形和红方块承担模板记忆点** — 圆形用于编号/图标,红方块用于标题锚点;品牌标识使用内置 Huawei logo,不要再混入其他形状语言。
 6. **图表红灰双值即可** — 柱状图、进度条、对比图只用红与灰,避免多色商务图表。
+7. **同层子容器尽量等尺寸** — 同一组卡片、步骤、触发条件、角色、指标必须看起来来自同一套量尺;少量内容靠留白表达,不要缩小容器。
 
 ## 参考作品
 

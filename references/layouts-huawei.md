@@ -41,7 +41,7 @@
 | 09 | H05 | 能力/方案卡片 |
 | 10 | H10 | 收束 |
 
-12-18 页 deck 可以在 H04-H09 中间插入 H11-H36 扩展版式,让内容形状更贴近企业汇报场景:
+12-18 页 deck 可以在 H04-H09 中间插入 H11-H42 扩展版式,让内容形状更贴近企业汇报场景:
 
 | 内容形状 | 优先版式 |
 |---|---|
@@ -59,6 +59,15 @@
 | 齿轮协同 / 闭环流程 | H23 |
 | 隐喻表达 / 方案对比 | H26 |
 | 商业计划 / 市场 / 融资 / 定价 | H27-H36 |
+| 人机协作 / 组织机制 / 任务匹配 | H37-H42 |
+
+### D. 同层子容器尺寸规则
+
+- 统一层级的子容器尽量 size 一致:同一组卡片、步骤、指标、角色、触发条件必须共享同一宽度和高度,避免出现一高一矮、一宽一窄的漂移感。
+- 普通并列卡片优先用 `.grid-2` / `.grid-3` / `.grid-4`。模板已让直接 `.card` 子元素等高。
+- 如果同层子容器不是 `.card`,给父级加 `.same-size`;如果是嵌套小卡网格,给父级加 `.equal-children` 并让子项用 `.mini-card`。
+- 少量内容不要靠缩短容器高度表达层级,用留白、红色编号、标题粗细表达层级。并列项必须看起来属于同一套量尺。
+- 只有明确的主次结构可以破例,例如左侧 30% 输入卡 + 右侧 70% 主图;但每一列内部的同级子容器仍要保持等尺寸。
 
 ## H01 · Cover
 
@@ -165,7 +174,7 @@
 <section class="slide" data-layout="H04" data-animate="body">
   <div class="chrome">
     <div class="l"><span class="square"></span><span>添加标题文本</span></div>
-    <div>01 / 10</div>
+    <div></div>
   </div>
   <div class="brand-lockup">
     <span class="brand-mark" aria-hidden="true"></span>
@@ -200,7 +209,7 @@
 <section class="slide" data-layout="H05" data-animate="cards">
   <div class="chrome">
     <div class="l"><span class="square"></span><span>添加标题文本</span></div>
-    <div>02 / 10</div>
+    <div></div>
   </div>
   <div class="brand-lockup">
     <span class="brand-mark" aria-hidden="true"></span>
@@ -242,7 +251,7 @@
 <section class="slide" data-layout="H06" data-animate="timeline">
   <div class="chrome">
     <div class="l"><span class="square"></span><span>添加标题文本</span></div>
-    <div>03 / 10</div>
+    <div></div>
   </div>
   <div class="brand-lockup">
     <span class="brand-mark" aria-hidden="true"></span>
@@ -282,7 +291,7 @@
 <section class="slide" data-layout="H07" data-animate="data">
   <div class="chrome">
     <div class="l"><span class="square"></span><span>添加标题文本</span></div>
-    <div>04 / 10</div>
+    <div></div>
   </div>
   <div class="brand-lockup">
     <span class="brand-mark" aria-hidden="true"></span>
@@ -323,7 +332,7 @@
 <section class="slide" data-layout="H08" data-animate="process">
   <div class="chrome">
     <div class="l"><span class="square"></span><span>添加标题文本</span></div>
-    <div>05 / 10</div>
+    <div></div>
   </div>
   <div class="brand-lockup">
     <span class="brand-mark" aria-hidden="true"></span>
@@ -370,7 +379,7 @@
 <section class="slide" data-layout="H09" data-animate="images">
   <div class="chrome">
     <div class="l"><span class="square"></span><span>添加标题文本</span></div>
-    <div>06 / 10</div>
+    <div></div>
   </div>
   <div class="brand-lockup">
     <span class="brand-mark" aria-hidden="true"></span>
@@ -1017,6 +1026,272 @@
 </section>
 ```
 
+## H37 · Human Agent Loop
+
+人机协作闭环:上方治理、中心自动执行、下方人工门禁。适合 AI 流程、自动化平台、质量闭环、运营控制系统。右侧同级小节点使用 `.equal-children` + `.mini-card`,保持统一层级子容器等尺寸。
+
+```html
+<section class="slide" data-layout="H37" data-animate="human-agent-loop">
+  <div class="chrome"><div class="l"><span class="square"></span><span>人机协作闭环</span></div><div></div></div>
+  <div class="brand-lockup"><span class="brand-mark" aria-hidden="true"></span><span>HUAWEI</span></div>
+
+  <div class="grid-2 same-size" style="height:100%;padding-top:7vh;grid-template-columns:.92fr 1.08fr;gap:2.4vw;align-items:center">
+    <div class="content-stack" data-anim>
+      <div class="kicker">HUMAN + AGENT LOOP</div>
+      <h2 class="h-xl" style="color:var(--brand-red)">让人回到治理位,让 Agent 连续执行</h2>
+      <p class="lead">一页讲清楚人在环上定目标和边界,Agent 在中间推进,人在关键门禁进入判断。</p>
+      <div class="red-rule"></div>
+      <p class="body-copy">适合解释 AI 研发、自动化运营、风控审核、质量验证等“自动执行 + 人工治理”的场景。</p>
+    </div>
+
+    <div class="card" data-anim style="display:grid;grid-template-rows:auto 1fr auto;gap:1.4vh;padding:2vh 1.8vw">
+      <div style="border:2px solid var(--brand-red);background:#fff4f4;color:var(--brand-red);padding:1.6vh 1.4vw;text-align:center;font-weight:900">Human On the Loop · 治理 / 边界 / 发布</div>
+      <div style="display:grid;grid-template-columns:1fr 9vw 1fr;gap:1vw;align-items:center">
+        <div class="equal-children" style="grid-template-rows:repeat(4,minmax(0,1fr));gap:.8vh">
+          <div class="mini-card"><strong>规划</strong><p class="card-body">目标拆解</p></div>
+          <div class="mini-card"><strong>生成</strong><p class="card-body">方案输出</p></div>
+          <div class="mini-card"><strong>测试</strong><p class="card-body">自动验证</p></div>
+          <div class="mini-card"><strong>回归</strong><p class="card-body">质量确认</p></div>
+        </div>
+        <div style="width:9vw;height:9vw;border-radius:999px;background:var(--brand-red);color:#fff;display:grid;place-items:center;text-align:center;font-weight:900;box-shadow:var(--shadow-soft)">Agent<br/>自主执行</div>
+        <div class="equal-children" style="grid-template-rows:repeat(4,minmax(0,1fr));gap:.8vh">
+          <div class="mini-card"><strong>语义</strong><p class="card-body">理解偏差</p></div>
+          <div class="mini-card"><strong>架构</strong><p class="card-body">边界风险</p></div>
+          <div class="mini-card"><strong>性能</strong><p class="card-body">基准回归</p></div>
+          <div class="mini-card"><strong>安全</strong><p class="card-body">风险升级</p></div>
+        </div>
+      </div>
+      <div style="border:2px solid #1976d2;background:#f5faff;color:#1976d2;padding:1.4vh 1.4vw;text-align:center;font-weight:900">Human In the Loop · 关键节点判断</div>
+    </div>
+  </div>
+</section>
+```
+
+## H38 · On In Governance Split
+
+左侧大图/机制,右侧解释卡。适合把“治理位”和“裁决位”讲成一个统一操作系统,也适合组织分工、责任边界、风险门禁页。
+
+```html
+<section class="slide" data-layout="H38" data-animate="governance-split">
+  <div class="chrome"><div class="l"><span class="square"></span><span>治理与门禁</span></div><div></div></div>
+  <div class="brand-lockup"><span class="brand-mark" aria-hidden="true"></span><span>HUAWEI</span></div>
+
+  <div style="height:100%;display:grid;grid-template-rows:auto minmax(0,1fr);gap:2vh;padding-top:7vh">
+    <div class="content-stack" data-anim>
+      <div class="kicker">ON + IN, ONE OPERATING LOOP</div>
+      <h2 class="h-xl">一个闭环,两种人的位置</h2>
+      <p class="lead">On 定战法,In 校偏差;执行不被打断,风险有人背书。</p>
+    </div>
+
+    <div class="grid-12 same-size" style="align-items:stretch">
+      <div class="span-8 card" data-anim style="display:grid;grid-template-rows:auto 1fr auto;gap:1.4vh;padding:2vh 1.6vw">
+        <div style="background:#fff4f4;border:2px solid var(--brand-red);padding:1.5vh;text-align:center;color:var(--brand-red);font-weight:900">Human On the Loop · 指挥所</div>
+        <div style="display:grid;place-items:center">
+          <div style="width:20vw;height:12vw;border:3px dashed var(--brand-red);border-radius:999px;display:grid;place-items:center;background:#fff7f7">
+            <div style="width:8.5vw;height:8.5vw;border-radius:999px;background:var(--brand-red);color:#fff;display:grid;place-items:center;text-align:center;font-weight:900">Agent<br/>连续推进</div>
+          </div>
+        </div>
+        <div style="background:#f5faff;border:2px solid #1976d2;padding:1.5vh;text-align:center;color:#1976d2;font-weight:900">Human In the Loop · 前沿校射</div>
+      </div>
+      <div class="span-4" data-anim style="display:grid;grid-template-rows:auto auto 1fr;gap:1.1vh;min-height:0">
+        <div class="card" style="border-color:rgba(var(--brand-red-rgb),.24)"><div class="card-title" style="color:var(--brand-red)">一句比喻</div><p class="card-body">指挥所在环上定战法,前沿节点在环中校偏差。</p></div>
+        <div class="quote-band" style="font-size:1.02vw;line-height:1.5;padding:1.6vh 1.4vw">人不是退出链路,而是从每步执行上移到系统治理和关键裁决。</div>
+        <div class="equal-children" style="grid-template-rows:repeat(3,minmax(0,1fr));gap:.9vh">
+          <div class="mini-card"><strong style="color:var(--brand-red)">On: 系统治理</strong><p class="card-body">方向、边界、资源、发布节奏。</p></div>
+          <div class="mini-card"><strong style="color:#1976d2">In: 关键裁决</strong><p class="card-body">高风险、高不确定、高影响节点。</p></div>
+          <div class="mini-card"><strong>统一: 组织协议</strong><p class="card-body">规则前置、风险触发、结果沉淀。</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+```
+
+## H39 · Org Protocol Board
+
+组织落位 + 运行过程 + 触发矩阵。适合管理机制、项目治理、AI 落地流程、跨团队协作协议。此页信息密度高,必须用 `.same-size` 和 `.equal-children` 控制同层小卡尺寸。
+
+```html
+<section class="slide" data-layout="H39" data-animate="org-protocol">
+  <div class="chrome"><div class="l"><span class="square"></span><span>组织协议</span></div><div></div></div>
+  <div class="brand-lockup"><span class="brand-mark" aria-hidden="true"></span><span>HUAWEI</span></div>
+
+  <div style="height:100%;display:grid;grid-template-rows:auto minmax(0,1fr) auto;gap:1.2vh;padding-top:7vh;padding-bottom:4.5vh">
+    <div class="content-stack" data-anim style="gap:1vh">
+      <div class="kicker">ORG DESIGN + OPERATING PROCESS</div>
+      <h2 class="h-xl" style="font-size:min(3.35vw,5.7vh)">组织协议先行,流程才能稳定运转</h2>
+      <p class="lead" style="font-size:1.08vw;line-height:1.5">先明确谁治理、谁审查、谁编排、谁验证;再把任务进入到资产沉淀串成一条协议。</p>
+    </div>
+
+    <div class="grid-2 same-size" style="grid-template-columns:.86fr 1.14fr;gap:2vw;min-height:0">
+      <div class="card" data-anim style="display:grid;grid-template-rows:auto 1fr;gap:.8vh;padding:1.4vh 1.35vw;background:linear-gradient(135deg,#fff7f7,#fff)">
+        <div class="card-title" style="color:var(--brand-red)">角色落位</div>
+        <div class="equal-children" style="grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:repeat(2,minmax(0,1fr));gap:.7vh .8vw">
+          <div class="mini-card"><strong>系统架构师</strong><p class="card-body">On: 方向、边界、资源、发布。</p></div>
+          <div class="mini-card"><strong>领域骨干</strong><p class="card-body">In: 语义、架构、质量裁决。</p></div>
+          <div class="mini-card"><strong>编排工程师</strong><p class="card-body">Flow: 上下文、工具、Prompt、路由。</p></div>
+          <div class="mini-card"><strong>验证工程师</strong><p class="card-body">Gate: 测试、基准、日志、回归。</p></div>
+        </div>
+      </div>
+      <div class="card" data-anim style="display:grid;grid-template-rows:auto 1fr;gap:.8vh;padding:1.4vh 1.35vw;background:linear-gradient(135deg,#f7fbff,#fff)">
+        <div class="card-title" style="color:var(--brand-red)">运行过程</div>
+        <div class="equal-children" style="grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:repeat(2,minmax(0,1fr));gap:.7vh .8vw">
+          <div class="mini-card"><strong>01 任务进入</strong><p class="card-body">目标、优先级、风险级别。</p></div>
+          <div class="mini-card"><strong>02 人工定义</strong><p class="card-body">PRD、架构、验收标准。</p></div>
+          <div class="mini-card"><strong>03 自动迭代</strong><p class="card-body">拆解、生成、测试、回归。</p></div>
+          <div class="mini-card"><strong>04 自动验证</strong><p class="card-body">日志、基准、CI。</p></div>
+          <div class="mini-card"><strong>05 人审触发</strong><p class="card-body">方向错误、风险越界。</p></div>
+          <div class="mini-card"><strong>06 资产沉淀</strong><p class="card-body">Spec、测试、知识库。</p></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card flat" data-anim style="display:grid;grid-template-rows:auto minmax(0,1fr);gap:1vh;padding:1.05vh 1vw;border:1px solid var(--line);background:linear-gradient(135deg,#fff8f8,#fff 52%,#f7fbff)">
+      <div style="display:flex;align-items:center;justify-content:space-between"><strong style="color:var(--brand-red);font-size:1.12vw">三层协同触发矩阵</strong><span class="meta">TRIGGER MATRIX</span></div>
+      <div class="grid-3 same-size" style="gap:1vw">
+        <div class="mini-card"><strong>自动执行</strong><p class="card-body">测试通过、影响可解释、基准无异常。</p></div>
+        <div class="mini-card"><strong>Human In</strong><p class="card-body">破坏性变更、性能回归、质量争议。</p></div>
+        <div class="mini-card"><strong>Human On</strong><p class="card-body">发布决策、路线调整、资源协调。</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+```
+
+## H40 · Matching Engine
+
+任务池 - 匹配引擎 - 能力池。适合资源调度、人才盘点、Agent 编排、供需匹配、项目组队。左右两侧同级标签必须等高,不要按文字多少缩放。
+
+```html
+<section class="slide" data-layout="H40" data-animate="matching-engine">
+  <div class="chrome"><div class="l"><span class="square"></span><span>任务匹配引擎</span></div><div></div></div>
+  <div class="brand-lockup"><span class="brand-mark" aria-hidden="true"></span><span>HUAWEI</span></div>
+
+  <div style="height:100%;display:grid;grid-template-rows:auto 1fr auto;gap:2vh;padding-top:7vh;padding-bottom:5vh">
+    <div class="content-stack" data-anim style="gap:1vh">
+      <div class="kicker">MATCHING ENGINE</div>
+      <h2 class="h-xl">从固定分工,转向基于标签的动态编组</h2>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr .52fr 1fr;gap:1.4vw;align-items:stretch">
+      <div class="card" data-anim style="padding:2vh 1.7vw;display:grid;grid-template-rows:auto 1fr;gap:1.1vh">
+        <div class="card-title" style="color:var(--brand-red)">任务池 Task Pool</div>
+        <div class="equal-children" style="grid-template-rows:repeat(4,minmax(0,1fr));gap:.8vh">
+          <div class="quote-band" style="font-size:1vw;padding:1.5vh 1.4vw">P0 · 线上故障 · 标签: 风险 / 快速修复</div>
+          <div class="quote-band" style="font-size:1vw;padding:1.5vh 1.4vw">P1 · 性能 gap · 标签: 标准库 / 基准</div>
+          <div class="quote-band" style="font-size:1vw;padding:1.5vh 1.4vw">P1 · 新能力 · 标签: 架构 / 测试</div>
+          <div class="quote-band" style="font-size:1vw;padding:1.5vh 1.4vw">P2 · 文档补齐 · 标签: Spec / 示例</div>
+        </div>
+      </div>
+      <div data-anim style="display:grid;align-items:center;justify-items:center;gap:1vh">
+        <div style="width:100%;border:1px solid var(--brand-red);background:#fff;box-shadow:var(--shadow-soft);padding:2vh 1vw;text-align:center">
+          <div class="icon-disc" style="margin:0 auto 1vh"><i data-lucide="network"></i></div>
+          <div style="font-size:1.35vw;font-weight:900;color:var(--brand-red);line-height:1.15">匹配<br/>引擎</div>
+          <p class="meta" style="margin-top:1vh">优先级 · 标签覆盖 · 负载 · 风险</p>
+        </div>
+        <div class="meta">DYNAMIC TEAMING</div>
+      </div>
+      <div class="card" data-anim style="padding:2vh 1.7vw;display:grid;grid-template-rows:auto 1fr;gap:1.1vh">
+        <div class="card-title" style="color:var(--brand-red)">能力池 Capability Pool</div>
+        <div class="equal-children" style="grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:repeat(3,minmax(0,1fr));gap:.8vh">
+          <div class="quote-band" style="font-size:.96vw;padding:1.45vh 1.2vw">人 · 性能 / 标准库</div>
+          <div class="quote-band" style="font-size:.96vw;padding:1.45vh 1.2vw">人 · 编译器 / 语义</div>
+          <div class="quote-band" style="font-size:.96vw;padding:1.45vh 1.2vw">人 · 测试 / Fuzzing</div>
+          <div class="quote-band" style="font-size:.96vw;padding:1.45vh 1.2vw">人 · Agent 编排</div>
+          <div class="quote-band" style="font-size:.96vw;padding:1.45vh 1.2vw">Agent · 基准分析</div>
+          <div class="quote-band" style="font-size:.96vw;padding:1.45vh 1.2vw">Agent · 代码生成</div>
+        </div>
+      </div>
+    </div>
+    <div class="red-panel" data-anim style="padding:1.5vh 2vw;min-height:auto;display:flex;align-items:center;justify-content:space-between;gap:2vw">
+      <div style="font-size:1.45vw;font-weight:900">动态组织: 需求攻坚小队 + 自动化工作流 + 验证门禁</div>
+      <div class="en">OPTIMAL ALLOCATION</div>
+    </div>
+  </div>
+</section>
+```
+
+## H41 · Metaphor Mapping
+
+左侧讲一个历史/行业/业务类比,右侧映射到当前方案。适合把抽象机制讲得有记忆点。不要滥用,每份 deck 1 页足够。
+
+```html
+<section class="slide" data-layout="H41" data-animate="metaphor-mapping">
+  <div class="chrome"><div class="l"><span class="square"></span><span>机制类比</span></div><div></div></div>
+  <div class="brand-lockup"><span class="brand-mark" aria-hidden="true"></span><span>HUAWEI</span></div>
+
+  <div style="height:100%;display:grid;grid-template-rows:auto minmax(0,1fr) auto;gap:2.4vh;padding-top:7vh">
+    <div class="content-stack" data-anim>
+      <div class="kicker">METAPHOR TO MECHANISM</div>
+      <h2 class="h-xl">技术进步扩大供给,组织机制放大战力</h2>
+      <p class="lead">用一个熟悉类比解释新机制:真正的胜负手不是工具本身,而是把新的供给组织成可持续协同。</p>
+    </div>
+    <div class="grid-2 same-size" style="grid-template-columns:.95fr 1.05fr;gap:2vw;min-height:0">
+      <div class="card" data-anim style="background:linear-gradient(135deg,#fff7f7,#fff);display:grid;grid-template-rows:auto 1fr;gap:1.6vh">
+        <div><div class="card-title" style="color:var(--brand-red)">类比对象</div><p class="card-body">过去依赖少数专家,能力供给窄、训练周期长;技术和制度变化后,更多成员可以被快速组织进作战序列。</p></div>
+        <div style="display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:1vw;align-items:center;text-align:center">
+          <div class="mini-card"><strong>稀缺能力</strong><p class="card-body">小规模</p></div>
+          <div style="color:var(--brand-red);font-weight:900">→</div>
+          <div class="mini-card"><strong>技术 + 制度</strong><p class="card-body">门槛下降</p></div>
+          <div style="color:var(--brand-red);font-weight:900">→</div>
+          <div class="mini-card"><strong>能力池</strong><p class="card-body">可持续补充</p></div>
+        </div>
+      </div>
+      <div class="card" data-anim style="background:linear-gradient(135deg,#f7fbff,#fff);display:grid;grid-template-rows:auto 1fr;gap:1.6vh">
+        <div class="card-title">映射到当前方案</div>
+        <div class="grid-3 same-size" style="gap:1vw">
+          <div class="mini-card"><strong>01 降低门槛</strong><p class="card-body">工具让更多成员调用高阶能力。</p></div>
+          <div class="mini-card"><strong>02 标签检索</strong><p class="card-body">把“人在哪里”变成“能力在哪里”。</p></div>
+          <div class="mini-card"><strong>03 动态编组</strong><p class="card-body">围绕高优先级任务临时成军。</p></div>
+        </div>
+      </div>
+    </div>
+    <div class="quote-band" data-anim style="font-size:1.12vw;text-align:center">工具扩大可用供给;组织机制把能力池组织成面向任务的动态单元。</div>
+  </div>
+</section>
+```
+
+## H42 · Before After Case
+
+传统模式 vs 新模式 + 底部三项结果。适合改革收益、试点案例、效率提升、研发流程改造。两列和底部指标都必须保持同层尺寸一致。
+
+```html
+<section class="slide" data-layout="H42" data-animate="before-after-case">
+  <div class="chrome"><div class="l"><span class="square"></span><span>实践举例</span></div><div></div></div>
+  <div class="brand-lockup"><span class="brand-mark" aria-hidden="true"></span><span>HUAWEI</span></div>
+
+  <div style="height:100%;display:grid;grid-template-rows:auto 1fr auto;gap:2vh;padding-top:7vh;padding-bottom:5vh">
+    <div class="content-stack" data-anim style="gap:1vh">
+      <div class="kicker">CASE EXAMPLE</div>
+      <h2 class="h-xl">用一个试点案例说明机制带来的变化</h2>
+      <p class="lead">左侧写传统排期/等待/串行,右侧写标签匹配/自动先行/人工关键审查。</p>
+    </div>
+    <div class="grid-2 same-size" style="align-items:stretch">
+      <div class="card" data-anim>
+        <div class="card-title" style="color:var(--muted)">传统模式</div>
+        <div class="bullet-list" style="margin-top:2vh">
+          <div class="bullet-item"><div class="bullet-dot" style="background:var(--line-strong)"></div><div><strong>讨论排期</strong><p class="card-body">先判断职责归属,再等待专家空档。</p></div></div>
+          <div class="bullet-item"><div class="bullet-dot" style="background:var(--line-strong)"></div><div><strong>跨组等待</strong><p class="card-body">基准、根因和方案需要多轮同步。</p></div></div>
+          <div class="bullet-item"><div class="bullet-dot" style="background:var(--line-strong)"></div><div><strong>串行推进</strong><p class="card-body">实现、验证、回归依次排队。</p></div></div>
+        </div>
+      </div>
+      <div class="card" data-anim style="border-color:rgba(var(--brand-red-rgb),.34)">
+        <div class="card-title" style="color:var(--brand-red)">新模式</div>
+        <div class="bullet-list" style="margin-top:2vh">
+          <div class="bullet-item"><div class="bullet-dot"></div><div><strong>标签匹配成队</strong><p class="card-body">围绕任务标签快速形成攻坚小队。</p></div></div>
+          <div class="bullet-item"><div class="bullet-dot"></div><div><strong>自动先行分析</strong><p class="card-body">自动读取基准、定位瓶颈、生成候选方案。</p></div></div>
+          <div class="bullet-item"><div class="bullet-dot"></div><div><strong>人审关键判断</strong><p class="card-body">负责人审查架构、兼容性和质量背书。</p></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="grid-3 same-size">
+      <div class="card flat" data-anim style="text-align:center"><div class="stat-big" style="font-size:min(3.4vw,6vh)">标签</div><p class="meta">基于能力识别组队</p></div>
+      <div class="card flat" data-anim style="text-align:center"><div class="stat-big" style="font-size:min(3.4vw,6vh)">7 天</div><p class="meta">形成初步输出</p></div>
+      <div class="card flat" data-anim style="text-align:center"><div class="stat-big" style="font-size:min(3.4vw,6vh)">TTM</div><p class="meta">从排期驱动转向任务驱动</p></div>
+    </div>
+  </div>
+</section>
+```
+
 ## 选版式决策表
 
 | 你要表达 | 选 |
@@ -1047,6 +1322,11 @@
 | 问题概览、市场规模、融资用途 | H27 / H28 / H29 |
 | 市场份额、商业模式、KPI 闭环 | H30 / H31 / H32 |
 | 定价、SWOT、甘特计划、客户证言 | H33 / H34 / H35 / H36 |
+| 人机协作闭环、On/In 治理、人和 Agent 边界 | H37 / H38 |
+| 组织协议、角色落位、运行过程、触发矩阵 | H39 |
+| 任务池、能力池、动态组队、Agent 编排 | H40 |
+| 历史/业务类比映射到机制 | H41 |
+| 传统模式 vs 新模式的试点案例 | H42 |
 
 ## 常犯错误
 
@@ -1056,3 +1336,4 @@
 - 不要把正文塞满;Huawei 企业汇报的信息密度可以偏高,但网页 PPT 大屏展示仍要留白。
 - 不要在图片页混用不同宽高比。
 - 不要把目录页、章节页、正文页都做成同一版式;红色大块只适合封面、目录、章节和结尾。
+- 不要让同一层级的子容器按内容多少自然长短变化;用 `.same-size` / `.equal-children` / `.mini-card` 锁住同级尺寸。
