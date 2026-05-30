@@ -14,7 +14,7 @@ It ships with three visual systems:
 
 - **Style A: editorial magazine × electronic ink**. Picture *Monocle* with code stitched in. Best for narrative talks, opinions, salons, and personal voice.
 - **Style B: Swiss International Typographic Style**. Grid-first, one high-saturation anchor color, sharp rectangles, hairline rules, and extreme type contrast. Best for facts, products, analysis, and frameworks.
-- **Style C: Huawei Corporate**. White/grey canvas, Huawei red, top-right brand lockup, agenda red rail, process arrows, and data bars. Best for corporate summaries, work plans, and business reports.
+- **Style C: Huawei Corporate**. White/grey canvas, Huawei red, top-right brand lockup, agenda red rail, process arrows, data bars, and Human/Agent operation pages. Best for corporate summaries, work plans, business reports, and AI org-transformation decks.
 
 > Distilled by [Guizang](https://x.com/op7418) from offline talks like "One-Person Company: Organizations Folded by AI" and "A New Way of Working." Every pitfall hit during those decks is logged in `checklist.md`.
 
@@ -25,6 +25,15 @@ It ships with three visual systems:
 **New Theme · Style B Swiss International**
 
 ![Style B Swiss International preview](https://github.com/user-attachments/assets/8960e78c-69bb-4b7e-aa95-6fad64b70314)
+
+**New Theme · Style C Huawei Corporate**
+
+![Style C H01 Cover](screenshots/huawei-slide-1.png)
+![Style C H02 Agenda](screenshots/huawei-slide-2.png)
+![Style C H08 Process Arrow](screenshots/huawei-slide-4.png)
+![Style C H26 Metaphor Cards](screenshots/huawei-slide-7.png)
+![Style C H05 Three Cards](screenshots/huawei-slide-11.png)
+![Style C H10 Closing](screenshots/huawei-slide-15.png)
 
 ## 30-second start
 
@@ -61,11 +70,11 @@ Redesign this product screenshot as a 16:10 slide visual.
 
 ## What you get
 
-- 🖋 **Three visual systems**: editorial storytelling for Style A, factual Swiss structure for Style B, red/grey corporate reporting for Style C
+- 🖋 **Three visual systems**: editorial storytelling for Style A, factual Swiss structure for Style B, red/grey corporate reporting and AI-org material for Style C
 - 📐 **Horizontal swipe navigation**: ← → arrows / scroll wheel / touch swipe / bottom dots / ESC for index
 - 🧩 **Style A 10 layouts**: cover, divider, big numbers, image/text, image grid, pipeline, comparison, and more
 - 🧱 **Style B 22 locked layouts**: Cover, Statement, KPI Tower, Loop Diagram, Duo Compare, Image Hero, Closing Manifesto, and more
-- 🧾 **Style C 36 corporate-report / business-plan layouts**: Huawei Cover, Agenda, Section, Timeline, Data Bars, Process Arrow, Image Grid, KPI Dashboard, Map Locations, Photo Quote, Market Size, Pricing Table, SWOT, Gantt, and more
+- 🧾 **Style C 42 corporate-report / business-plan / AI-org layouts**: Huawei Cover, Agenda, Section, Timeline, Data Bars, Process Arrow, Image Grid, KPI Dashboard, Map Locations, Photo Quote, Market Size, Pricing Table, SWOT, Gantt, Human Agent Loop, Org Protocol, Matching Engine, Before/After Case, and more
 - 🎨 **Curated theme presets**: 5 electronic-ink themes for Style A, 4 Swiss anchor-color themes for Style B, 3 Huawei corporate red/grey themes for Style C
 - 🖼 **Optional Codex image flow**: generate documentary photos, infographics, flow diagrams, system maps, and UI scenes with GPT-Image 2.0 / GPT-M 2.0, then insert them at template-safe ratios
 - 📰 **Social covers**: generate 21:9 WeChat cover images, 1:1 share cards, 3:4 Xiaohongshu covers, video thumbnails, and related variants
@@ -84,7 +93,7 @@ Redesign this product screenshot as a 16:10 slide visual.
 |------|------------------|
 | Long article to talk deck | Extract the core argument, then build a 6-10 slide rhythm |
 | Framework / product analysis | Use Style B Swiss with locked layouts and 21:9 hero visuals |
-| Company summary / work plan / business report | Use Style C Huawei Corporate with H01-H36 corporate / business-plan layouts |
+| Company summary / work plan / business report / AI org transformation | Use Style C Huawei Corporate with H01-H42 corporate / business-plan / AI-org layouts |
 | Personal talk / opinion piece | Use Style A editorial magazine for stronger narrative rhythm |
 | Deck visuals | In Codex, generate photos, infographics, flow diagrams, system maps, or UI scenes |
 | Social covers | Generate 21:9 main covers, 1:1 share cards, 3:4 vertical covers, and video thumbnails from the same idea |
@@ -142,6 +151,7 @@ Once installed, Claude Code auto-detects the skill. Trigger phrases:
 - "Generate a horizontal swipe deck"
 - "Editorial magazine style presentation"
 - "Electronic ink slides for my talk"
+- "Create a company summary deck in Huawei corporate report style"
 - "Create a 21:9 WeChat cover from this article"
 - "Create a 1:1 share card from this deck"
 
@@ -176,6 +186,24 @@ Swiss validation:
 
 ```bash
 node scripts/validate-swiss-deck.mjs path/to/index.html
+```
+
+## Style C Huawei Corporate
+
+Huawei Corporate is a red/grey enterprise-report system, not just a red theme. It fits company summaries, work plans, business plans, and AI organization, Human/Agent collaboration, and operating-mechanism material.
+
+- **42 named layouts**: body slides should prefer `H01` to `H42`, covering cover/agenda/section slides, body content, data, process, proof, business plans, and H37-H42 AI-org pages
+- **New AI-org content shapes**: H37 Human Agent Loop, H38 On/In Governance Split, H39 Org Protocol Board, H40 Matching Engine, H41 Metaphor Mapping, H42 Before/After Case
+- **Equal-size sibling containers**: sibling cards, steps, roles, metrics, and triggers should stay as close as possible in width and height; prefer `.grid-*`, `.same-size`, `.equal-children`, and `.mini-card`
+- **Fixed brand and pagination**: use `.brand-lockup` in the top-right; page numbers are auto-generated at bottom-left as `.page-no`; do not handwrite page numbers inside `.chrome`
+- **Red/grey report feel**: on body slides, use red for anchors, numbers, arrows, and data emphasis; reserve large red fields for cover, agenda, section, and closing slides
+- **Hard validation**: template rules and deck rules are validated separately so layout extensions, docs, and validators stay in sync
+
+Huawei Corporate validation:
+
+```bash
+node scripts/validate-huawei-template.mjs
+node scripts/validate-huawei-deck.mjs path/to/index.html
 ```
 
 ## Codex Image Flow
@@ -235,6 +263,8 @@ guizang-ppt-skill/
 ├── SKILL.md              ← main skill file: workflow, principles, common mistakes
 ├── README.md             ← Chinese README
 ├── README.en.md          ← this file
+├── screenshots/
+│   └── huawei-slide-*.png ← Style C Huawei Corporate slide screenshots
 ├── assets/
 │   ├── template.html         ← Style A editorial magazine template
 │   ├── template-swiss.html   ← Style B Swiss template
@@ -242,12 +272,13 @@ guizang-ppt-skill/
 │   └── screenshot-backgrounds/ ← bundled WebP screenshot backgrounds: 5 style-a / 4 style-b
 ├── scripts/
 │   ├── validate-swiss-deck.mjs ← Swiss layout validator
-│   └── validate-huawei-deck.mjs ← Huawei Corporate layout validator
+│   ├── validate-huawei-template.mjs ← Huawei Corporate template validator
+│   └── validate-huawei-deck.mjs ← Huawei Corporate deck validator
 └── references/
     ├── components.md     ← component catalog (type, color, grid, icons, callout, stat, pipeline)
     ├── layouts.md        ← 10 layout skeletons (paste-ready)
     ├── layouts-swiss.md  ← 22 locked Swiss layouts
-    ├── layouts-huawei.md ← 36 Huawei Corporate / business-plan layouts
+    ├── layouts-huawei.md ← 42 Huawei Corporate / business-plan / AI-org layouts
     ├── swiss-layout-lock.md ← Swiss fidelity and layout hard rules
     ├── themes.md         ← 5 theme presets (pick, don't customize)
     ├── themes-swiss.md   ← 4 Swiss anchor-color themes
@@ -309,6 +340,7 @@ If the user asks for a "Huawei PPT" or a red/grey corporate template without spe
 7. **Terms stay consistent** — Skills is Skills; no mix-and-match translations
 8. **Swiss layouts stay locked** — Style B should restore and reuse the original 22-page layout system instead of inventing unrelated pages
 9. **Huawei Corporate stays red/grey and report-like** — Style C uses red, black, grey, and white as the primary visual system; body slides should not overuse full-screen red.
+10. **Huawei sibling containers should be equal-sized** — Style C sibling cards, steps, roles, and metrics should stay close in width and height, using the template's existing equal-size utilities first.
 
 ## Visual references
 
@@ -336,7 +368,7 @@ The main output is HTML. You can present it in a browser, screenshot it, or reco
 The skill is designed for stable visual output. Arbitrary colors often break the system, so decks must use curated presets.
 
 **Can I add my own layout?**
-Yes. Style A layouts can be extended in `references/layouts.md`. Style B is stricter: update `template-swiss.html`, `layouts-swiss.md`, `swiss-layout-lock.md`, and the validator together.
+Yes. Style A layouts can be extended in `references/layouts.md`. Style B is stricter: update `template-swiss.html`, `layouts-swiss.md`, `swiss-layout-lock.md`, and the validator together. Style C extensions must update `template-huawei.html`, `references/layouts-huawei.md`, and the `scripts/validate-huawei-*` validators together.
 
 **Is Codex image generation required?**
 No. Decks work without generated images. The image flow is only used when you need photos, infographics, UI scenes, or covers.
@@ -350,7 +382,9 @@ Bugs, layout issues, new layout requests — Issues and PRs welcome. Prioritize:
 
 - Add new classes to `template.html` first; don't let `layouts.md` reference undefined classes
 - When changing `template-swiss.html`, update `layouts-swiss.md` and `swiss-layout-lock.md` together
+- When changing `template-huawei.html`, update `layouts-huawei.md` and `scripts/validate-huawei-*` together
 - When adding Swiss rules, update `scripts/validate-swiss-deck.mjs`
+- When adding Huawei Corporate rules, update README, `SKILL.md`, `references/layouts-huawei.md`, and the validators together
 - Log pitfalls into `checklist.md` at the matching P0 / P1 / P2 / P3 tier
 - New theme colors go into the matching `themes*.md` file with a recommended use case
 

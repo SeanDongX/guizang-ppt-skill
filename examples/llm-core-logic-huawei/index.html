@@ -325,18 +325,6 @@
     font-family:var(--mono);
     font-weight:700;
   }
-  .agenda-item.active{background:#fff;box-shadow:var(--shadow-soft);color:var(--ink)}
-  .agenda-item.active::before{
-    content:"";
-    width:0;
-    height:0;
-    border-top:.72vw solid transparent;
-    border-bottom:.72vw solid transparent;
-    border-left:1.05vw solid var(--brand-red);
-    margin-left:-2.1vw;
-    grid-row:1;
-    grid-column:1;
-  }
   .agenda-item .txt{padding:0 1.25vw;font-size:1.02vw;font-weight:700}
 
   .section-layout{
@@ -361,6 +349,7 @@
     margin-bottom:2.6vh;
   }
 
+  .grid-2,.grid-3,.grid-4{align-items:stretch}
   .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:3vw}
   .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:2vw}
   .grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:1.4vw}
@@ -368,21 +357,70 @@
   .span-4{grid-column:span 4}.span-5{grid-column:span 5}.span-6{grid-column:span 6}.span-7{grid-column:span 7}.span-8{grid-column:span 8}
 
   .content-stack{display:flex;flex-direction:column;gap:2.2vh}
+  .same-size,
+  .equal-children{
+    align-items:stretch;
+  }
+  .same-size > *{
+    height:100%;
+    min-height:0;
+  }
+  .equal-children > *{
+    height:100%;
+    min-height:0;
+  }
+  .equal-children{
+    display:grid;
+  }
   .card{
     background:var(--card);
     border:1px solid var(--line);
     box-shadow:var(--shadow-soft);
     padding:3vh 2vw;
   }
+  .grid-2 > .card,.grid-3 > .card,.grid-4 > .card{
+    height:100%;
+    display:flex;
+    flex-direction:column;
+  }
+  .grid-2 > .image-frame,.grid-3 > .image-frame,.grid-4 > .image-frame{height:100%}
   .card.flat{box-shadow:none;background:#fff}
+  .mini-card{
+    min-height:0;
+    border:1px solid var(--line);
+    background:#fff;
+    padding:1.25vh 1vw;
+    display:grid;
+    grid-template-rows:auto 1fr;
+    gap:.45vh;
+  }
+  .mini-card strong{
+    color:var(--ink);
+    font-size:clamp(.84rem,.96vw,1.08rem);
+    line-height:1.22;
+    font-weight:800;
+  }
+  .mini-card .card-body{
+    font-size:clamp(.76rem,.84vw,.98rem);
+    line-height:1.34;
+  }
+  .card strong{
+    display:inline-block;
+    color:var(--ink);
+    font-weight:800;
+  }
   .card-title{
-    font-size:1.18vw;
-    line-height:1.28;
+    max-width:100%;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    font-size:clamp(1.08rem,1.34vw,1.56rem);
+    line-height:1.18;
     font-weight:800;
     color:var(--ink);
     margin-bottom:1.1vh;
   }
-  .card-body{font-size:.9vw;line-height:1.65;color:var(--muted)}
+  .card-body{font-size:clamp(.92rem,1.02vw,1.18rem);line-height:1.58;color:var(--muted)}
   .num-pill{
     display:inline-grid;
     place-items:center;
@@ -544,6 +582,23 @@
     line-height:1.24;
     font-weight:900;
   }
+  .bullet-list{
+    display:grid;
+    gap:1.15vh;
+  }
+  .bullet-item{
+    display:grid;
+    grid-template-columns:1.1vw 1fr;
+    gap:1vw;
+    align-items:start;
+  }
+  .bullet-dot{
+    width:.72vw;
+    height:.72vw;
+    border-radius:50%;
+    background:var(--brand-red);
+    margin-top:.5vh;
+  }
 
   [data-anim]{
     opacity:0;
@@ -636,8 +691,10 @@
     .h-hero{font-size:12vw}
     .h-xl{font-size:8.8vw}
     .lead{font-size:3.5vw}
+    .card-title{font-size:3.6vw;white-space:normal}
     .body-copy,.card-body{font-size:2.8vw}
     .chrome{font-size:2.2vw}
+    .page-no{font-size:2.2vw;left:3.5vw;bottom:2.8vh}
     #hint{font-size:2vw}
   }
 </style>
@@ -681,8 +738,7 @@
     <div>主题: Transformer / LLM Inference</div>
     <div>形式: 高密度技术解读</div>
   </div>
-  <div class="page-no">01 / 16</div>
-</section>
+  </section>
 
 <section class="slide" data-layout="H02" data-animate="agenda">
   <div class="brand-lockup"><span class="brand-mark" aria-hidden="true"></span><span>HUAWEI</span></div>
@@ -702,8 +758,7 @@
       <div class="agenda-item" data-anim><div class="idx">05</div><div class="txt">最终串联: Transformer 推理闭环</div></div>
     </div>
   </div>
-  <div class="page-no">02 / 16</div>
-</section>
+  </section>
 
 <section class="slide" data-layout="H11" data-animate="foreword">
   <div class="chrome"><div class="l"><span class="square"></span><span>核心摘要</span></div><div></div></div>
@@ -728,8 +783,7 @@
       </div>
     </div>
   </div>
-  <div class="page-no">03 / 16</div>
-</section>
+  </section>
 
 <section class="slide" data-layout="H08" data-animate="process">
   <div class="chrome"><div class="l"><span class="square"></span><span>生成本质</span></div><div></div></div>
@@ -748,8 +802,7 @@
       <div class="process-step" data-anim><div class="num-pill">04</div><div class="card-title">循环直到结束</div><p class="card-body">持续生成、持续回读、持续更新,形成流式输出和长对话的基本运行模式。</p></div>
     </div>
   </div>
-  <div class="page-no">04 / 16</div>
-</section>
+  </section>
 
 <section class="slide" data-layout="H27" data-animate="problem-overview">
   <div class="chrome"><div class="l"><span class="square"></span><span>底层问题</span></div><div></div></div>
@@ -758,13 +811,12 @@
   <div style="padding-top:8vh">
     <div class="content-stack" data-anim><div class="kicker">THREE PROBLEMS</div><h2 class="h-xl">所有机制都在解决三件小事</h2></div>
     <div class="grid-3" style="margin-top:6vh">
-      <div class="card" data-anim><div class="num-pill">01</div><div class="card-title">怎么看懂语义</div><p class="card-body">注意力机制要判断哪些 token 与当前生成最相关,Q/K/V 把这种判断拆成查询、标签和内容三类向量。</p><div class="hairline" style="margin:2vh 0"></div><p class="card-body">对应能力: 指代消解、因果转折、上下文融合、多义词消歧。</p></div>
-      <div class="card" data-anim><div class="num-pill">02</div><div class="card-title">怎么看懂顺序</div><p class="card-body">Transformer 原生不认识顺序,必须额外注入位置关系;RoPE 用旋转角表达绝对位置和相对距离。</p><div class="hairline" style="margin:2vh 0"></div><p class="card-body">对应能力: 语序、远近、主谓宾、长文本引用。</p></div>
-      <div class="card" data-anim><div class="num-pill">03</div><div class="card-title">怎么跑得更快</div><p class="card-body">逐字生成会反复读同一段历史,如果每步都重算全文 KV,长上下文推理成本会爆炸。</p><div class="hairline" style="margin:2vh 0"></div><p class="card-body">对应能力: KV Cache、流式输出、长对话响应。</p></div>
+      <div class="card flat" data-anim><div class="num-pill">01</div><div class="card-title">怎么看懂语义</div><p class="card-body">注意力机制要判断哪些 token 与当前生成最相关,Q/K/V 把这种判断拆成查询、标签和内容三类向量。</p><div class="hairline" style="margin:2vh 0"></div><p class="card-body">对应能力: 指代消解、因果转折、上下文融合、多义词消歧。</p></div>
+      <div class="card flat" data-anim><div class="num-pill">02</div><div class="card-title">怎么看懂顺序</div><p class="card-body">Transformer 原生不认识顺序,必须额外注入位置关系;RoPE 用旋转角表达绝对位置和相对距离。</p><div class="hairline" style="margin:2vh 0"></div><p class="card-body">对应能力: 语序、远近、主谓宾、长文本引用。</p></div>
+      <div class="card flat" data-anim><div class="num-pill">03</div><div class="card-title">怎么跑得更快</div><p class="card-body">逐字生成会反复读同一段历史,如果每步都重算全文 KV,长上下文推理成本会爆炸。</p><div class="hairline" style="margin:2vh 0"></div><p class="card-body">对应能力: KV Cache、流式输出、长对话响应。</p></div>
     </div>
   </div>
-  <div class="page-no">05 / 16</div>
-</section>
+  </section>
 
 <section class="slide" data-layout="H08" data-animate="process">
   <div class="chrome"><div class="l"><span class="square"></span><span>注意力机制</span></div><div></div></div>
@@ -782,8 +834,7 @@
       <div class="process-step" data-anim><div class="num-pill">04</div><div class="card-title">输出</div><p class="card-body">得到上下文感知的新向量,再进入后续层继续抽象、组合和预测。</p></div>
     </div>
   </div>
-  <div class="page-no">06 / 16</div>
-</section>
+  </section>
 
 <section class="slide" data-layout="H26" data-animate="metaphor">
   <div class="chrome"><div class="l"><span class="square"></span><span>QKV 解释</span></div><div></div></div>
@@ -807,8 +858,7 @@
       </div>
     </div>
   </div>
-  <div class="page-no">07 / 16</div>
-</section>
+  </section>
 
 <section class="slide" data-layout="H23" data-animate="gear-process">
   <div class="chrome"><div class="l"><span class="square"></span><span>QKV 工作流</span></div><div></div></div>
@@ -823,8 +873,7 @@
       <div class="card" data-anim><div class="icon-disc"><i data-lucide="merge"></i></div><div class="card-title">加权累加 V</div><p class="card-body">权重越高,V 中语义贡献越大;最终得到融合上文后的新语义表示。</p></div>
     </div>
   </div>
-  <div class="page-no">08 / 16</div>
-</section>
+  </section>
 
 <section class="slide" data-layout="H20" data-animate="icon-matrix">
   <div class="chrome"><div class="l"><span class="square"></span><span>多头注意力</span></div><div></div></div>
@@ -843,8 +892,7 @@
       <div class="card" data-anim><div class="icon-disc"><i data-lucide="combine"></i></div><div class="card-title">拼接融合</div><p class="card-body">各头结果合并,形成更完整的全局认知。</p></div>
     </div>
   </div>
-  <div class="page-no">09 / 16</div>
-</section>
+  </section>
 
 <section class="slide" data-layout="H18" data-animate="diagonal-roadmap">
   <div class="chrome"><div class="l"><span class="square"></span><span>RoPE 机制</span></div><div></div></div>
@@ -860,8 +908,7 @@
       <div style="position:absolute;left:78%;bottom:47%;width:18vw"><div class="icon-disc"><i data-lucide="scan-search"></i></div><div class="card-title">进入 QK 匹配</div><p class="card-body">位置关系被纳入注意力相似度计算。</p></div>
     </div>
   </div>
-  <div class="page-no">10 / 16</div>
-</section>
+  </section>
 
 <section class="slide" data-layout="H05" data-animate="cards">
   <div class="chrome"><div class="l"><span class="square"></span><span>RoPE 规则</span></div><div></div></div>
@@ -879,8 +926,7 @@
       <p class="lead" style="color:#fff;margin-top:1vh">RoPE 只旋转 Q、K,因为匹配关系需要位置;不旋转 V,因为 V 是纯语义内容,被取回时不需要再携带匹配角度。</p>
     </div>
   </div>
-  <div class="page-no">11 / 16</div>
-</section>
+  </section>
 
 <section class="slide" data-layout="H24" data-animate="arrow-timeline">
   <div class="chrome"><div class="l"><span class="square"></span><span>KV Cache</span></div><div></div></div>
@@ -899,8 +945,7 @@
       <div class="card arrow-timeline-card top" style="left:61%;width:25vw"><div class="num-pill">03</div><div class="card-title">拼接缓存继续匹配</div><p class="card-body">新 Q 匹配“历史 KV + 新 KV”,得到下一个 token;新 KV 再追加进缓存,循环迭代。</p></div>
     </div>
   </div>
-  <div class="page-no">12 / 16</div>
-</section>
+  </section>
 
 <section class="slide" data-layout="H26" data-animate="metaphor">
   <div class="chrome"><div class="l"><span class="square"></span><span>缓存边界</span></div><div></div></div>
@@ -929,8 +974,7 @@
       </div>
     </div>
   </div>
-  <div class="page-no">13 / 16</div>
-</section>
+  </section>
 
 <section class="slide" data-layout="H17" data-animate="hub">
   <div class="chrome"><div class="l"><span class="square"></span><span>完整闭环</span></div><div></div></div>
@@ -946,8 +990,7 @@
       <div style="position:absolute;right:8%;bottom:3%;width:26vw" class="card"><div class="card-title">KV Cache 支撑速度</div><p class="card-body">历史 K/V 复用,新 K/V 追加;下一步只需新 Q 继续检索全局缓存。</p></div>
     </div>
   </div>
-  <div class="page-no">14 / 16</div>
-</section>
+  </section>
 
 <section class="slide" data-layout="H05" data-animate="cards">
   <div class="chrome"><div class="l"><span class="square"></span><span>学习总结</span></div><div></div></div>
@@ -964,27 +1007,26 @@
       <p class="lead" style="font-size:1.08vw">掌握这条链路后,再看模型推理、量化加速、上下文扩展、长文本优化和 agent 工程,就能判断每项技术到底在优化“语义、顺序、速度”中的哪一环。</p>
     </div>
   </div>
-  <div class="page-no">15 / 16</div>
-</section>
+  </section>
 
-<section class="slide dark" data-layout="H10" data-animate="closing">
-  <div class="brand-lockup"><span class="brand-mark" aria-hidden="true"></span><span>HUAWEI</span></div>
-  <div style="height:100%;display:grid;place-items:center;text-align:center">
-    <div class="content-stack" data-anim style="align-items:center">
-      <div class="kicker" style="color:rgba(255,255,255,.74)">ONE SENTENCE</div>
-      <h2 class="h-hero">大模型的底层逻辑<br>就是反复“检索上下文”</h2>
-      <p class="lead" style="max-width:62ch;color:rgba(255,255,255,.84)">新 Q 带着当前需求,去匹配带位置的历史 K,取回历史 V,融合成下一个 token;多头让它理解更全面,KV Cache 让它跑得更快。</p>
+<section class=”slide dark” data-layout=”H10” data-animate=”closing”>
+  <div class=”brand-lockup”><span class=”brand-mark” aria-hidden=”true”></span><span>HUAWEI</span></div>
+  <div style=”height:100%;display:grid;align-content:center;gap:3vh;max-width:62vw”>
+    <div class=”cover-badge” data-anim style=”width:8vw;height:8vw;margin:0 auto”>
+      <span class=”brand-mark” style=”width:4.4vw;height:4.4vw;color:#fff” aria-hidden=”true”></span>
     </div>
+    <div class=”kicker” data-anim style=”color:rgba(255,255,255,.74);text-align:center”>ONE SENTENCE</div>
+    <h2 class=”h-hero” data-anim style=”text-align:center”>大模型的底层逻辑<br>就是反复”检索上下文”</h2>
+    <p class=”lead” data-anim style=”max-width:62ch;color:rgba(255,255,255,.84);text-align:center”>新 Q 带着当前需求,去匹配带位置的历史 K,取回历史 V,融合成下一个 token;多头让它理解更全面,KV Cache 让它跑得更快。</p>
   </div>
-  <div class="page-no">16 / 16</div>
-</section>
+  </section>
 
 </div>
 
 <div id="nav"></div>
 <div id="overview"></div>
 
-<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js" defer onload="window.lucide&&window.lucide.createIcons()"></script>
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
 <script>
 (() => {
   const deck = document.getElementById('deck');
@@ -998,6 +1040,17 @@
   const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   window.__lowPowerMode = localStorage.getItem(lowPowerKey) === '1' || prefersReduced;
   document.body.classList.toggle('low-power', window.__lowPowerMode);
+
+  function buildPageNumbers(){
+    const total = String(slides.length).padStart(2, '0');
+    slides.forEach((slide, i) => {
+      slide.querySelector('.page-no')?.remove();
+      const pageNo = document.createElement('div');
+      pageNo.className = 'page-no';
+      pageNo.textContent = `${String(i + 1).padStart(2, '0')} / ${total}`;
+      slide.appendChild(pageNo);
+    });
+  }
 
   function buildNav(){
     nav.innerHTML = '';
@@ -1083,6 +1136,7 @@
     touchStartX = null;
   }, { passive: true });
 
+  buildPageNumbers();
   buildNav();
   buildOverview();
   go(0);
