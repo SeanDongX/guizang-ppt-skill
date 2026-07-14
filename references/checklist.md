@@ -56,6 +56,32 @@ node <SKILL_ROOT>/scripts/validate-swiss-deck.mjs path/to/index.html
 - `grep -n "maplibregl.Map" index.html`
 - 浏览器实测 `+` 可放大,`DRAG` 可切换为 `DRAG ON`
 
+### 0-S-4. Swiss 演示字号不能小到看不清 + 字重阶梯必须遵守
+
+**现象**:瑞士风页面整体结构没问题,但图注、说明、时间线、KPI note、卡片小字在投屏时看不清;或者 16px 小字用了 weight 300 导致又小又细。
+
+**做法(字号下限)**:
+- 正文段落 / 主要说明 ≥ `18px`
+- 卡片描述 / 列表 / 时间线说明 / caption / 图注 ≥ `16px`
+- meta / kicker / mono label / 图表标签 ≥ `14px`
+- 内容超出时,先删减文案、拆页或换 Sxx 版式,不要用 10/11/12/13px 小字硬塞。
+
+**做法(字重阶梯 ⭐)**:
+瑞士风坚持"越大越细,越小越粗",字号与字重必须成反比阶梯:
+- ≥ 8vw → weight **200**(ExtraLight)
+- 4-7.9vw → weight **200-300**
+- 1.8-3.9vw → weight **300-400**
+- 1-1.7vw / 16-20px → weight **400-500**
+- 13-15px → weight **500-600**
+- 同一页内,字号小的元素字重必须 ≥ 字号大的元素。
+- **16px 左右小字禁止使用 weight 300**(太细不可读),最低 400,推荐 500。
+- 封面/IKB 反白大标题内强调字用 `italic + weight 300`,不要用 accent 色。
+
+**检查**:
+- `rg -n "font-size:(10px|11px|12px|13px)|max\\((9|10|11|12|13)px" index.html`
+- `rg -n "font-weight:(300)" index.html | rg -v "min\(|h-xl|h-hero|h-statement|num-mega|kpi-thin|name-mega|8vw|9vw|1[1-9]vw|cover-|\.multi"` —— 检查 weight 300 是否落在了小字号上
+- 浏览器以 100% 缩放查看,底部 note、caption、timeline label、卡片描述仍能一眼读清。
+
 ### 0-A. 瑞士风画布对齐法则(每一页必查 · 最常踩)
 
 **现象**:页眉 chrome-min 和底部 footer 都靠在 5vw 的边线上,但中间区域往内缩了一截,左右对不齐。

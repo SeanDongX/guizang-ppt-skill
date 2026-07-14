@@ -136,7 +136,7 @@
   .chrome{
     display:flex;justify-content:space-between;align-items:flex-start;
     font-family:var(--mono);
-    font-size:11px;letter-spacing:.16em;text-transform:uppercase;
+    font-size:14px;letter-spacing:.16em;text-transform:uppercase;
     opacity:.7;margin-bottom:auto
   }
   .chrome .l,.chrome .r{display:flex;gap:1.6em;align-items:center}
@@ -146,7 +146,7 @@
     margin-top:auto;
     display:flex;justify-content:space-between;align-items:flex-end;
     font-family:var(--mono);
-    font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+    font-size:14px;letter-spacing:.14em;text-transform:uppercase;
     opacity:.55;
     padding-top:2vh;
     border-top:1px solid currentColor;
@@ -157,7 +157,7 @@
   /* ============ Tag / Kicker / Meta 标签 ============ */
   .kicker{
     font-family:var(--mono);
-    font-size:11px;letter-spacing:.28em;text-transform:uppercase;
+    font-size:14px;letter-spacing:.24em;text-transform:uppercase;
     opacity:.65;margin-bottom:2.4vh;
     display:inline-flex;align-items:center;gap:.8em
   }
@@ -170,7 +170,7 @@
   .tag{
     display:inline-block;
     font-family:var(--mono);
-    font-size:10px;letter-spacing:.22em;text-transform:uppercase;
+    font-size:14px;letter-spacing:.18em;text-transform:uppercase;
     padding:5px 10px;border:1px solid currentColor;opacity:.85
   }
   .tag.solid{background:currentColor;color:var(--paper);border-color:transparent}
@@ -233,7 +233,7 @@
   .body{
     font-family:var(--sans),var(--sans-zh);
     font-weight:400;
-    font-size:max(13px,1.05vw);
+    font-size:max(18px,1.08vw);
     line-height:1.6;
     letter-spacing:0;
     opacity:.78;
@@ -241,20 +241,20 @@
   .body-sm{
     font-family:var(--sans),var(--sans-zh);
     font-weight:400;
-    font-size:max(11px,.84vw);
+    font-size:max(16px,.92vw);
     line-height:1.55;
     opacity:.7;
   }
   .meta{
     font-family:var(--mono);
-    font-size:max(10px,.78vw);
+    font-size:max(14px,.82vw);
     letter-spacing:.18em;text-transform:uppercase;
     opacity:.6;
   }
   .meta-row{
     display:flex;gap:1.4em;align-items:baseline;flex-wrap:wrap;
     font-family:var(--mono);
-    font-size:max(11px,.85vw);letter-spacing:.18em;text-transform:uppercase;
+    font-size:max(14px,.88vw);letter-spacing:.16em;text-transform:uppercase;
     opacity:.65;
   }
   .meta-row span:not(.dot){display:inline-block}
@@ -310,7 +310,7 @@
   .stat-card.accent-top{border-top-color:var(--accent);border-top-width:3px}
   .stat-card .stat-label{
     font-family:var(--mono);
-    font-size:max(10px,.78vw);
+    font-size:max(14px,.82vw);
     letter-spacing:.24em;text-transform:uppercase;
     opacity:.6;
   }
@@ -335,7 +335,7 @@
   .stat-card .stat-note{
     font-family:var(--sans),var(--sans-zh);
     font-weight:400;
-    font-size:max(12px,.95vw);
+    font-size:max(16px,.98vw);
     line-height:1.5;
     opacity:.7;
     margin-top:.6vh;
@@ -379,7 +379,7 @@
   .pipeline-section:first-of-type{border-top:0;padding-top:0;margin-top:2.4vh}
   .pipeline-label{
     font-family:var(--mono);
-    font-size:max(10px,.82vw);
+    font-size:max(14px,.84vw);
     letter-spacing:.24em;text-transform:uppercase;
     opacity:.6;margin-bottom:1.8vh;
   }
@@ -400,7 +400,7 @@
   .step-nb{
     font-family:var(--mono);
     font-weight:500;
-    font-size:1vw;
+    font-size:max(14px,1vw);
     opacity:.5;letter-spacing:.04em
   }
   .step-title{
@@ -413,7 +413,7 @@
   .step-desc{
     font-family:var(--sans),var(--sans-zh);
     font-weight:400;
-    font-size:max(11px,.88vw);
+    font-size:max(16px,.94vw);
     line-height:1.45;
     opacity:.7;
   }
@@ -480,7 +480,7 @@
     padding:2vh 2vw;
     border-left:3px solid var(--accent);
     font-family:var(--sans),var(--sans-zh);
-    font-size:max(13px,1vw);
+    font-size:max(14px,1vw);
     line-height:1.55;
     opacity:.9;
   }
@@ -488,7 +488,7 @@
   .callout .cite,.callout .callout-src{
     display:block;margin-top:1.2vh;
     font-family:var(--mono);
-    font-size:10px;letter-spacing:.2em;text-transform:uppercase;
+    font-size:14px;letter-spacing:.16em;text-transform:uppercase;
     opacity:.6;
   }
 
@@ -539,7 +539,7 @@
   .img-cap{
     display:block;margin-top:.8vh;
     font-family:var(--mono);
-    font-size:max(10px,.78vw);
+    font-size:max(14px,.82vw);
     letter-spacing:.2em;text-transform:uppercase;
     opacity:.6;
   }
@@ -567,23 +567,23 @@
   .swiss-img-caption{
     display:flex;justify-content:space-between;gap:var(--sp-5);
     margin-top:var(--sp-4);
-    font-family:var(--mono);font-size:max(9px,.68vw);
+    font-family:var(--mono);font-size:max(14px,.74vw);
     letter-spacing:.16em;text-transform:uppercase;color:var(--text-helper);
     border-top:1px solid var(--border-subtle);padding-top:var(--sp-4)
   }
   .swiss-img-caption strong{
-    font-family:var(--sans),var(--sans-zh);font-size:max(12px,.88vw);
+    font-family:var(--sans),var(--sans-zh);font-size:max(16px,.9vw);
     font-weight:600;letter-spacing:0;text-transform:none;color:var(--text-primary)
   }
 
   /* ============ Bar Chart (扁平几何图表) ============ */
   .bar-chart{display:flex;flex-direction:column;gap:1.4vh}
   .bar-row{display:grid;grid-template-columns:8em 1fr 4em;gap:1.4vw;align-items:center}
-  .bar-row .bar-label{font-family:var(--mono);font-size:max(10px,.82vw);letter-spacing:.16em;text-transform:uppercase;opacity:.7}
+  .bar-row .bar-label{font-family:var(--mono);font-size:max(14px,.84vw);letter-spacing:.14em;text-transform:uppercase;opacity:.7}
   .bar-row .bar-track{height:14px;background:rgba(127,127,127,.18);position:relative}
   .bar-row .bar-fill{height:100%;background:var(--accent);position:absolute;left:0;top:0}
   .bar-row .bar-fill.ink{background:currentColor}
-  .bar-row .bar-value{font-family:var(--sans);font-weight:700;font-size:max(13px,1.05vw);text-align:right;font-feature-settings:"tnum"}
+  .bar-row .bar-value{font-family:var(--sans);font-weight:700;font-size:max(16px,1.05vw);text-align:right;font-feature-settings:"tnum"}
 
   /* ============ 导航 ============ */
   /* 底部分页导航: 仅保留方块本身,无背景无描边 */
@@ -594,7 +594,7 @@
   body.dark-bg #nav .dot{background:rgba(255,255,255,.32)}
   body.dark-bg #nav .dot.active{background:var(--accent)}
 
-  #hint{position:fixed;bottom:2.4vh;right:2.5vw;z-index:30;font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;opacity:.4;color:var(--ink-tint, currentColor)}
+  #hint{position:fixed;bottom:2.4vh;right:2.5vw;z-index:30;font-family:var(--mono);font-size:14px;letter-spacing:.14em;text-transform:uppercase;opacity:.4;color:var(--ink-tint, currentColor)}
   body.dark-bg #hint{color:var(--paper);opacity:.4}
   body.low-power #hint{color:var(--accent);opacity:.72}
   body.dark-bg.low-power #hint{color:var(--paper);opacity:.72}
@@ -713,10 +713,10 @@
     border-left:1px solid var(--grey-2)
   }
   .kpi-row-4 > .kpi-cell:first-child{padding-left:0;border-left:none}
-  .kpi-cell .lbl{font-family:var(--mono);font-size:max(10px,.74vw);letter-spacing:.22em;text-transform:uppercase;opacity:.55;margin-bottom:1.2vh}
+  .kpi-cell .lbl{font-family:var(--mono);font-size:max(14px,.78vw);letter-spacing:.18em;text-transform:uppercase;opacity:.55;margin-bottom:1.2vh}
   .kpi-cell .nb{font-family:var(--sans);font-weight:250;font-size:3.2vw;line-height:1;letter-spacing:-.025em;font-feature-settings:"tnum"}
   .kpi-cell .nb .unit{font-size:.32em;font-weight:300;opacity:.6;margin-left:.1em;vertical-align:.4em}
-  .kpi-cell .note{font-family:var(--sans),var(--sans-zh);font-size:max(11px,.82vw);line-height:1.5;opacity:.7;margin-top:1.2vh}
+  .kpi-cell .note{font-family:var(--sans),var(--sans-zh);font-size:max(16px,.92vw);line-height:1.5;opacity:.7;margin-top:1.2vh}
 
   /* 时间线轴 — 通用 axis token, 横纵共享
      axis 列 = 24px 固定宽,dot 直径 8px,绝对居中在 axis 列中线 (12px)
@@ -754,7 +754,7 @@
   .tl-node.accent .dot{background:var(--accent)}
   .tl-node .yr{
     font-family:var(--mono);font-weight:500;
-    font-size:max(13px,1vw);letter-spacing:.04em
+    font-size:max(14px,1vw);letter-spacing:.04em
   }
   .tl-node .multi{
     font-family:var(--sans);font-weight:200;
@@ -773,7 +773,7 @@
   .tl-node.accent .multi{color:var(--accent)}
   .tl-node .desc{
     font-family:var(--sans),var(--sans-zh);
-    font-size:max(12px,.9vw);line-height:1.55;opacity:.78;
+    font-size:max(16px,.94vw);line-height:1.55;opacity:.78;
     min-width:0
   }
 
@@ -816,18 +816,18 @@
   .timeline-h .th-node.up .label{bottom:calc(50% + 22px)}
   .timeline-h .th-node.down .label{top:calc(50% + 22px)}
   .timeline-h .th-node .yr{
-    font-family:var(--mono);font-size:max(10px,.74vw);letter-spacing:.06em;
+    font-family:var(--mono);font-size:max(14px,.78vw);letter-spacing:.05em;
     color:var(--text-helper);font-weight:500
   }
   .timeline-h .th-node.accent .yr{color:var(--accent)}
   .timeline-h .th-node .name{
-    font-family:var(--sans);font-size:max(13px,1.05vw);font-weight:300;
+    font-family:var(--sans);font-size:max(16px,1.05vw);font-weight:400;
     color:var(--text-primary);line-height:1.2;letter-spacing:-.005em
   }
   .timeline-h .th-node.accent .name{color:var(--accent)}
   .timeline-h .th-node .desc{
-    font-family:var(--sans),var(--sans-zh);font-size:max(10px,.78vw);
-    color:var(--text-secondary);font-weight:300;line-height:1.4
+    font-family:var(--sans),var(--sans-zh);font-size:max(14px,.84vw);
+    color:var(--text-secondary);font-weight:400;line-height:1.4
   }
 
   /* 几何图示 (参考图 5) — SVG-friendly 容器 */
@@ -852,11 +852,11 @@
   .sub-card.ink{background:var(--ink);color:var(--paper)}
   .sub-card .nb-corner{
     position:absolute;top:1.6vh;right:1.4vw;
-    font-family:var(--mono);font-size:max(10px,.78vw);
-    letter-spacing:.18em;opacity:.55
+    font-family:var(--mono);font-size:max(14px,.8vw);
+    letter-spacing:.16em;opacity:.55
   }
-  .sub-card .ttl{font-family:var(--sans),var(--sans-zh);font-weight:500;font-size:max(15px,1.5vw);line-height:1.2;letter-spacing:-.015em;margin-bottom:1vh}
-  .sub-card .desc{font-family:var(--sans),var(--sans-zh);font-size:max(11px,.86vw);line-height:1.55;opacity:.78;margin-top:auto}
+  .sub-card .ttl{font-family:var(--sans),var(--sans-zh);font-weight:500;font-size:max(17px,1.5vw);line-height:1.2;letter-spacing:-.015em;margin-bottom:1vh}
+  .sub-card .desc{font-family:var(--sans),var(--sans-zh);font-size:max(16px,.94vw);line-height:1.55;opacity:.78;margin-top:auto}
   .sub-card .lucide{width:2.4vw;height:2.4vw;stroke-width:1.4;color:currentColor;margin-bottom:1.6vh;flex-shrink:0}
   .sub-card.accent .lucide{color:var(--accent-on)}
 
@@ -871,14 +871,14 @@
   .stack-block.b-accent{background:var(--accent);color:var(--accent-on)}
   .stack-block.b-grey{background:var(--grey-1);color:var(--ink)}
   .stack-block.b-ink{background:var(--ink);color:var(--paper)}
-  .stack-block .layer-nb{font-family:var(--mono);font-size:max(11px,.82vw);letter-spacing:.22em;opacity:.65;margin-bottom:auto}
+  .stack-block .layer-nb{font-family:var(--mono);font-size:max(14px,.84vw);letter-spacing:.18em;opacity:.65;margin-bottom:auto}
   .stack-block .layer-icon{margin-bottom:1.6vh}
   .stack-block .layer-icon svg{width:3vw;height:3vw}
   .stack-block .layer-icon .stroke{fill:none;stroke:currentColor;stroke-width:1.6}
   .stack-block .layer-ttl{font-family:var(--sans),var(--sans-zh);font-weight:400;font-size:max(17px,2vw);line-height:1.1;margin-top:1vh;letter-spacing:-.02em}
-  .stack-block .layer-desc{font-family:var(--sans),var(--sans-zh);font-weight:400;font-size:max(11px,.88vw);line-height:1.55;opacity:.88;margin-top:1.4vh}
+  .stack-block .layer-desc{font-family:var(--sans),var(--sans-zh);font-weight:400;font-size:max(16px,.94vw);line-height:1.55;opacity:.88;margin-top:1.4vh}
   .stack-block .lucide{width:2.6vw;height:2.6vw;stroke-width:1.4;margin-bottom:1.6vh;flex-shrink:0}
-  .stack-block .layer-tag{font-family:var(--mono);font-size:max(9px,.7vw);letter-spacing:.2em;text-transform:uppercase;opacity:.7;margin-top:1.6vh;border-top:1px solid currentColor;padding-top:1vh}
+  .stack-block .layer-tag{font-family:var(--mono);font-size:max(14px,.74vw);letter-spacing:.16em;text-transform:uppercase;opacity:.7;margin-top:1.6vh;border-top:1px solid currentColor;padding-top:1vh}
 
   /* 不等高柱状 KPI 塔 (参考图 6) */
   .bar-towers{
@@ -909,11 +909,11 @@
   /* 默认所有 KPI 塔统一为浅描边卡 — 不抢戏;只有 .b-accent 突出为 IKB */
   .bar-tower .body-block{background:var(--paper);color:var(--ink);border:1px solid var(--grey-2)}
   .bar-tower .body-block.b-accent{background:var(--accent);color:var(--accent-on);border-color:var(--accent)}
-  .bar-tower .lbl{font-family:var(--mono);font-size:max(10px,.78vw);letter-spacing:.2em;text-transform:uppercase;opacity:.65;margin-bottom:1vh}
+  .bar-tower .lbl{font-family:var(--mono);font-size:max(14px,.82vw);letter-spacing:.16em;text-transform:uppercase;opacity:.65;margin-bottom:1vh}
   .bar-tower .nb{font-family:var(--sans);font-weight:250;font-size:max(20px,2.8vw);line-height:1;letter-spacing:-.03em;font-feature-settings:"tnum"}
   .bar-tower .body-block.b-accent .nb{font-weight:300}
   .bar-tower .nb .unit{font-size:.36em;font-weight:300;opacity:.7;margin-left:.08em;vertical-align:.4em}
-  .bar-tower .sub{font-family:var(--sans),var(--sans-zh);font-size:max(11px,.84vw);opacity:.75;margin-top:1.2vh;line-height:1.5}
+  .bar-tower .sub{font-family:var(--sans),var(--sans-zh);font-size:max(16px,.92vw);opacity:.75;margin-top:1.2vh;line-height:1.5}
   .bar-tower .cap{background:var(--grey-1);color:var(--ink)}
   .bar-tower .lucide{width:1.6vw;height:1.6vw;stroke-width:1.4}
 
@@ -924,8 +924,8 @@
   /* category label / eyebrow / section tag — small, bold, uppercase */
   .t-cat{
     font-family:var(--mono);
-    font-size:11px;font-weight:600;
-    letter-spacing:.18em;text-transform:uppercase;
+    font-size:14px;font-weight:600;
+    letter-spacing:.15em;text-transform:uppercase;
     color:var(--text-helper);line-height:1.3
   }
   .t-cat.accent{color:var(--accent)}
@@ -934,15 +934,15 @@
   /* page chrome / breadcrumb / running header — extra-small mono */
   .t-meta{
     font-family:var(--mono);
-    font-size:11px;font-weight:500;
-    letter-spacing:.16em;text-transform:uppercase;
+    font-size:14px;font-weight:500;
+    letter-spacing:.14em;text-transform:uppercase;
     color:var(--text-helper);line-height:1.45
   }
 
-  /* helper / caption — tiny secondary text */
+  /* helper / caption — secondary text */
   .t-helper{
     font-family:var(--sans),var(--sans-zh);
-    font-size:12px;font-weight:400;
+    font-size:14px;font-weight:400;
     color:var(--text-helper);line-height:1.5;
     letter-spacing:.005em
   }
@@ -950,7 +950,7 @@
   /* body small — list items, table rows, captions */
   .t-body-sm{
     font-family:var(--sans),var(--sans-zh);
-    font-size:14px;font-weight:400;
+    font-size:16px;font-weight:400;
     color:var(--text-secondary);line-height:1.55;
     letter-spacing:0
   }
@@ -958,7 +958,7 @@
   /* body — paragraphs, descriptions */
   .t-body{
     font-family:var(--sans),var(--sans-zh);
-    font-size:16px;font-weight:400;
+    font-size:18px;font-weight:400;
     color:var(--text-primary);line-height:1.5;
     letter-spacing:-.005em
   }
@@ -966,7 +966,7 @@
   /* body emphasis — 强调正文 */
   .t-body-emp{
     font-family:var(--sans),var(--sans-zh);
-    font-size:16px;font-weight:600;       /* SemiBold per Carbon */
+    font-size:18px;font-weight:600;       /* SemiBold per Carbon */
     color:var(--text-primary);line-height:1.5;
     letter-spacing:-.005em
   }
@@ -974,7 +974,7 @@
   /* productive heading — section title within slide */
   .t-h-prod{
     font-family:var(--sans),var(--sans-zh);
-    font-size:20px;font-weight:600;
+    font-size:22px;font-weight:600;
     color:var(--text-primary);line-height:1.4;
     letter-spacing:-.01em
   }
@@ -1041,7 +1041,8 @@
   }
   .h-bar-chart .row-lbl{
     font-family:var(--sans),var(--sans-zh);
-    font-weight:500;font-size:max(13px,1vw);
+    font-weight:500;
+    font-size:max(14px,1vw);
     letter-spacing:-.005em;
     text-align:left
   }
@@ -1094,8 +1095,8 @@
     font-size:max(18px,1.6vw);letter-spacing:-.02em
   }
   .v-bar-chart .col-lbl{
-    font-family:var(--mono);font-size:max(10px,.74vw);
-    letter-spacing:.18em;text-transform:uppercase;opacity:.6;
+    font-family:var(--mono);font-size:max(14px,.78vw);
+    letter-spacing:.14em;text-transform:uppercase;opacity:.6;
     text-align:center;flex:0 0 auto
   }
 
@@ -1108,8 +1109,8 @@
   .duo-compare .vrule{background:var(--grey-2);width:1px;align-self:stretch}
   .duo-compare .col{display:flex;flex-direction:column;gap:1.6vh;padding:0 .4vw}
   .duo-compare .col-tag{
-    font-family:var(--mono);font-size:max(10px,.74vw);
-    letter-spacing:.22em;text-transform:uppercase;
+    font-family:var(--mono);font-size:max(14px,.78vw);
+    letter-spacing:.16em;text-transform:uppercase;
     color:var(--grey-3);
     display:flex;align-items:center;gap:.6vw
   }
@@ -1126,7 +1127,7 @@
   .duo-compare .col.accent .col-ttl{color:var(--accent)}
   .duo-compare .col-desc{
     font-family:var(--sans),var(--sans-zh);
-    font-size:max(13px,1.04vw);line-height:1.55;opacity:.78;
+    font-size:max(16px,1.04vw);line-height:1.55;opacity:.78;
     max-width:30vw
   }
   .duo-compare .col-list{
@@ -1135,7 +1136,7 @@
   }
   .duo-compare .col-list li{
     font-family:var(--sans),var(--sans-zh);
-    font-size:max(11px,.88vw);line-height:1.5;
+    font-size:max(16px,.94vw);line-height:1.5;
     padding-left:1.4em;position:relative
   }
   .duo-compare .col-list li::before{
@@ -1155,8 +1156,8 @@
   /* 极简页眉 — t-meta 风格 (Carbon productive label-01) */
   .canvas-card .chrome-min{
     display:flex;justify-content:space-between;align-items:flex-start;
-    font-family:var(--mono);font-size:11px;font-weight:500;
-    letter-spacing:.16em;text-transform:uppercase;
+    font-family:var(--mono);font-size:14px;font-weight:500;
+    letter-spacing:.14em;text-transform:uppercase;
     color:var(--text-helper);
     flex:0 0 auto;
     margin-bottom:var(--sp-9);   /* 48px */
@@ -1256,7 +1257,7 @@
       <h1 data-anim="title" style="align-self:center;font-family:var(--sans),var(--sans-zh);font-weight:200;font-size:min(11.6vw,19vh);line-height:.94;letter-spacing:-.025em;color:#fff">[必填] 中文主标题<br/>(≤ 12 字,可在某字加 <span style="font-style:italic;font-weight:300">italic</span> 微强调)</h1>
 
       <div data-anim="bottom" style="display:grid;grid-template-rows:auto auto;gap:1.6vh;border-top:1px solid rgba(255,255,255,.22);padding-top:2vh">
-        <div data-anim="lead" class="lead" style="max-width:52ch;color:rgba(255,255,255,.86);font-weight:300">[必填] 一段 1-2 行的副标 / 引子,定调全场.</div>
+        <div data-anim="lead" class="lead" style="max-width:52ch;color:rgba(255,255,255,.86)">[必填] 一段 1-2 行的副标 / 引子,定调全场.</div>
         <div style="display:flex;justify-content:space-between;align-items:end">
           <div class="t-meta" style="color:rgba(255,255,255,.6)">[选填] 作者 · 日期 · 出处</div>
           <div class="t-meta" style="color:rgba(255,255,255,.6)">→ swipe / arrow keys</div>
@@ -1283,7 +1284,7 @@
         <div data-anim="manifesto" style="display:flex;flex-direction:column;gap:2vh;position:relative;z-index:1">
           <div class="t-meta" style="color:rgba(255,255,255,.78);letter-spacing:.22em;margin-bottom:1.6vh">MANIFESTO</div>
           <h2 style="font-family:var(--sans),var(--sans-zh);font-size:min(8vw,14vh);line-height:.94;letter-spacing:-.025em;font-weight:200;color:#fff">[必填] Build a model.<br/>Run <span style="font-style:italic;font-weight:300">forever</span>.</h2>
-          <div style="font-family:var(--sans),var(--sans-zh);font-size:max(13px,1vw);line-height:1.6;color:rgba(255,255,255,.82);font-weight:300;max-width:36ch;margin-top:1.4vh">[必填] 一句 1-2 行的中文/英文注脚,把宣言落地.</div>
+          <div style="font-family:var(--sans),var(--sans-zh);font-size:max(14px,1vw);line-height:1.6;color:rgba(255,255,255,.82);font-weight:400;max-width:36ch;margin-top:1.4vh">[必填] 一句 1-2 行的中文/英文注脚,把宣言落地.</div>
         </div>
 
         <div data-anim="signature" style="display:flex;justify-content:space-between;align-items:end;border-top:1px solid rgba(255,255,255,.22);padding-top:2vh;position:relative;z-index:1">
@@ -1304,21 +1305,21 @@
             <div style="font-family:var(--sans);font-weight:200;font-size:min(4.4vw,7.8vh);line-height:.9;color:var(--text-primary)">01</div>
             <div>
               <h3 style="font-family:var(--sans),var(--sans-zh);font-weight:400;font-size:max(18px,1.8vw);line-height:1.2;letter-spacing:-.015em;color:var(--text-primary);margin-bottom:1vh">[必填] takeaway 标题 01</h3>
-              <p style="font-family:var(--sans),var(--sans-zh);font-size:max(12px,.92vw);line-height:1.6;color:var(--text-secondary);font-weight:300">[必填] 1-2 行展开说明.</p>
+              <p style="font-family:var(--sans),var(--sans-zh);font-size:max(16px,.94vw);line-height:1.6;color:var(--text-secondary);font-weight:400">[必填] 1-2 行展开说明.</p>
             </div>
           </div>
           <div style="display:grid;grid-template-columns:auto 1fr;gap:2vw;align-items:start;padding:2.6vh 0;border-top:1px solid var(--border-subtle)">
             <div style="font-family:var(--sans);font-weight:200;font-size:min(4.4vw,7.8vh);line-height:.9;color:var(--text-primary)">02</div>
             <div>
               <h3 style="font-family:var(--sans),var(--sans-zh);font-weight:400;font-size:max(18px,1.8vw);line-height:1.2;letter-spacing:-.015em;color:var(--text-primary);margin-bottom:1vh">[必填] takeaway 标题 02</h3>
-              <p style="font-family:var(--sans),var(--sans-zh);font-size:max(12px,.92vw);line-height:1.6;color:var(--text-secondary);font-weight:300">[必填] 1-2 行展开说明.</p>
+              <p style="font-family:var(--sans),var(--sans-zh);font-size:max(16px,.94vw);line-height:1.6;color:var(--text-secondary);font-weight:400">[必填] 1-2 行展开说明.</p>
             </div>
           </div>
           <div style="display:grid;grid-template-columns:auto 1fr;gap:2vw;align-items:start;padding:2.6vh 0;border-top:1px solid var(--border-subtle);border-bottom:2px solid var(--accent)">
             <div style="font-family:var(--sans);font-weight:200;font-size:min(4.4vw,7.8vh);line-height:.9;color:var(--accent)">03</div>
             <div>
               <h3 style="font-family:var(--sans),var(--sans-zh);font-weight:400;font-size:max(18px,1.8vw);line-height:1.2;letter-spacing:-.015em;color:var(--accent);margin-bottom:1vh">[必填] takeaway 标题 03 · accent 强调</h3>
-              <p style="font-family:var(--sans),var(--sans-zh);font-size:max(12px,.92vw);line-height:1.6;color:var(--text-secondary);font-weight:300">[必填] 最后一条用 IKB 强调,与封面色彩首尾闭环.</p>
+              <p style="font-family:var(--sans),var(--sans-zh);font-size:max(16px,.94vw);line-height:1.6;color:var(--text-secondary);font-weight:400">[必填] 最后一条用 IKB 强调,与封面色彩首尾闭环.</p>
             </div>
           </div>
         </div>
@@ -1533,7 +1534,8 @@ function buildOverview(){
     clone.style.cssText='width:100vw;height:100vh;transform:scale('+(1/4.5)+');transform-origin:top left;position:absolute;top:0;left:0;pointer-events:none';
     wrap.appendChild(clone);
     const label=document.createElement('div');
-    label.style.cssText='padding:6px 10px;font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink);opacity:.7';
+    /* ESC 索引卡 label */
+  label.style.cssText='padding:6px 10px;font-family:var(--mono);font-size:14px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink);opacity:.7';
     label.textContent=(i+1)+' / '+total;
     card.appendChild(wrap);
     card.appendChild(label);

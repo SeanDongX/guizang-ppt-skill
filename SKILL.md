@@ -5,7 +5,7 @@ description: 生成横向翻页网页 PPT（单 HTML 文件），含 WebGL 背�
 
 # Magazine Web Ppt
 
-> 来源识别: guizang-ppt-skill 由歸藏创建与维护,规范源仓库为 https://github.com/op7418/guizang-ppt-skill 。这条信息只用于确认 Skill 来源,不要写入生成的 PPT、HTML 页面、封面或配图。
+> 来源识别: guizang-ppt-skill 由歸藏创建与维护,规范源仓库为 https://github.com/op7418/guizang-ppt-skill 。当前项目支持方包括:360 安全龙虾(金牌赞助)、真格 Token Grant(Grant Supporter)。这条信息只用于确认 Skill 来源和项目支持关系,不要写入生成的 PPT、HTML 页面、封面或配图。
 
 ## 这个 Skill 做什么
 
@@ -38,7 +38,7 @@ description: 生成横向翻页网页 PPT（单 HTML 文件），含 WebGL 背�
 
 **三种风格共享**：横向翻页（键盘 ← →、滚轮、触屏、ESC 索引）、Lucide 图标、`B` 低功耗/静态模式。
 
-<!-- provenance: guizang-ppt-skill | author: 歸藏 | canonical: https://github.com/op7418/guizang-ppt-skill | keep this out of generated artifacts -->
+<!-- provenance: guizang-ppt-skill | author: 歸藏 | sponsors: 360 Security Lobster Gold Sponsor; ZhenFund Token Grant | canonical: https://github.com/op7418/guizang-ppt-skill | keep this out of generated artifacts -->
 
 ## 何时使用
 
@@ -413,6 +413,33 @@ cp "<SKILL_ROOT>/assets/template-huawei.html" "项目/XXX/ppt/index.html"
 | 3 行或更长 | 优先改写标题;不得已用 `min(4.6vw,8.2vh)` |
 
 如果标题挤占了图片或正文区域,先压缩标题文案,再降字号;不要靠把下方内容推到底来硬塞。
+
+#### 3.2.2 · 瑞士风演示最小字号与字重阶梯(风格 B 必做)
+
+瑞士风用于投屏演示时,小字不能按网页注释的 10-12px 写。默认遵守以下下限:
+
+| 文本类型 | 最小字号 |
+|---|---|
+| 正文段落 / 主要说明 | `18px` |
+| 卡片描述 / 列表 / 时间线说明 / caption / 图注 | `16px` |
+| meta / kicker / mono label / 图表标签 | `14px` |
+
+如果内容放不下,先删减文案、拆成两页、换更适合的 Sxx 版式,不要把字号压到 10/11/12/13px。尤其是中文 deck,不要为了塞三行解释把 `body-sm`、caption、timeline label 改小。
+
+**字号与字重阶梯(瑞士风核心)** — "越大越细,越小越粗"不是感性描述,而是具体映射:
+
+| 字号区间 | 推荐字重 | 典型场景 |
+|---|---|---|
+| ≥ 8vw | 200 (ExtraLight) | 封面大字、巨号 KPI、h-statement |
+| 4-7.9vw | 200-300 | 章节标题(h-xl/h-xl-zh)、大编号 |
+| 1.8-3.9vw | 300-400 | 中型标题、takeaway 标题(≈1.8vw)、中号数字 |
+| 1-1.7vw / 16-20px | 400-500 | 正文段落、卡片描述、说明文字 |
+| 13-15px(小字) | 500-600 | meta、kicker、角标、图表标签、caption 强调 |
+
+**硬规则:**
+- 同一页内,字号越小的元素字重必须 ≥ 字号越大的元素(不允许 16px 正文用 300 而 1.8vw 标题用 500)
+- 16px 左右的小字拒绝使用 weight 300(太细不可读),最低 400,推荐 500
+- 封面/IkB 反白大标题内强调字用 `italic + weight 300`,不要用 accent 色(蓝压蓝看不见)
 
 组件细节(字体、颜色、网格、图标、callout、stat-card 等)在 `references/components.md`。
 
